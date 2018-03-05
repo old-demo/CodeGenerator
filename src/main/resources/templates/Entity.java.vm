@@ -1,0 +1,43 @@
+package $!{classPackage}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * $!{comment}实体类
+ * 
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public class $!{className} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach ($!{field} in $!{fields})
+    /**
+	 * $!{field.entityName} $!{field.comment}
+	 */
+#if($!{field.type} == "Date")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+#end
+	private $!{field.type} $!{field.entityName};
+
+#end
+#foreach ($!{field} in $!{fields})
+	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+		this.$!{field.entityName} = $!{field.entityName};
+	}
+
+	public $!{field.type} get$!{field.filedName}() {
+	    return $!{field.entityName};
+	}
+
+#end
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
+    }
+}

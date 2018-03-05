@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heqing.dao.TableDao">
+
+    <!-- 表字段 -->
+    <sql id="tableFields">
+        `TABLE_SCHEMA`, `TABLE_NAME`, `TABLE_TYPE`, `ENGINE`, `ROW_FORMAT`, `TABLE_ROWS`, `CREATE_TIME`, `UPDATE_TIME`,
+        `TABLE_COLLATION`, `TABLE_COMMENT`, `AUTO_INCREMENT`, `INDEX_LENGTH`, `DATA_LENGTH`, `MAX_DATA_LENGTH`
+    </sql>
+
+    <!-- 表字段与对象属性映射 -->
+    <resultMap id="tableResultMap" type="com.heqing.entity.orm.TableEntity">
+        <result property="dbName" column="TABLE_SCHEMA" />
+        <result property="tableName" column="TABLE_NAME" />
+        <result property="type" column="TABLE_TYPE" />
+        <result property="engine" column="ENGINE" />
+        <result property="rowFormat" column="ROW_FORMAT" />
+        <result property="rowsNum" column="TABLE_ROWS" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="collation" column="TABLE_COLLATION" />
+        <result property="comment" column="TABLE_COMMENT" />
+        <result property="autoIncrement" column="AUTO_INCREMENT" />
+        <result property="indexLength" column="INDEX_LENGTH" />
+        <result property="dateLength" column="DATA_LENGTH" />
+        <result property="maxDateLength" column="MAX_DATA_LENGTH" />
+    </resultMap>
+
+    <!-- 根据表名查询 -->
+    <select id="getTableByName" parameterType="map" resultMap="tableResultMap">
+        SELECT
+        <include refid="tableFields"/>
+        FROM information_schema.tables
+        WHERE table_schema = (select database()) AND table_name = #{tableName}
+        LIMIT 1;
+    </select>
+
+    <!-- 查询所有表 -->
+    <select id="listTable" resultMap="tableResultMap">
+        SELECT
+        <include refid="tableFields"/>
+        FROM information_schema.tables
+        WHERE table_schema = (select database());
+    </select>
+
+    <!-- 根据表名模糊查询 -->
+    <select id="listTableByParamAndPage" parameterType="map" resultMap="tableResultMap">
+        SELECT
+        <include refid="tableFields"/>
+        FROM information_schema.tables
+        WHERE table_schema = (select database()) AND table_name like CONCAT('%', #{tableName,jdbcType=VARCHAR}, '%');
+    </select>
+
+    <!-- 根据表名模糊查询数量 -->
+    <select id="countTableByParamAndPage" parameterType="map" resultType="long">
+        SELECT
+            count(1)
+        FROM information_schema.tables
+        WHERE table_schema = (select database()) AND table_name like CONCAT('%', #{tableName,jdbcType=VARCHAR}, '%');
+    </select>
+</mapper>

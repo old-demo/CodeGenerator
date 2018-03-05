@@ -1,0 +1,30 @@
+# 数据源配置
+spring.datasource.druid.url=jdbc:MySQL://$!{datebase.url}:$!{datebase.port}/$!{datebase.dbName}?characterEncoding=utf8&allowMultiQueries=true&useSSL=false
+spring.datasource.druid.driver-class-name=$!{datebase.driver}
+spring.datasource.druid.username=$!{datebase.username}
+spring.datasource.druid.password=$!{datebase.password}
+# 初始化大小，最小，最大
+spring.datasource.druid.initial-size=5
+spring.datasource.druid.min-idle=5
+spring.datasource.druid.max-active=20
+# 配置获取连接等待超时的时间
+spring.datasource.druid.max-wait=60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+spring.datasource.druid.time-between-eviction-runs-millis=60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+spring.datasource.druid.min-evictable-idle-time-millis=300000
+
+mybatis.type-aliases-package=$!{packageName}.dao
+mybatis.mapper-locations=classpath*:$!{daoMapper}/dao/mapper/*.xml
+
+#pagehelper
+pagehelper.helperDialect=mysql
+pagehelper.reasonable=true
+pagehelper.supportMethodsArguments=true
+pagehelper.params=count=countSql
+
+#日志配置
+logging.level.$!{packageName}=debug
+logging.level.org.springframework.web=debug
+logging.level.org.springframework.transaction=debug
+logging.level.org.mybatis=debug

@@ -1,0 +1,20 @@
+package $!{packageName};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+ /**
+ * spring boot 启动类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@SpringBootApplication
+public class $!{projectName}Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run($!{projectName}Application.class, args);
+    }
+
+}

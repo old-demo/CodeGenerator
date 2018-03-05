@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF8">
+    <title></title>
+    <style type="text/css">
+        #container {
+            margin: 8px;
+        }
+
+        .param-table {
+            background: #E6E6E6;
+            border: 1px solid #FFF;
+            margin: 12px 0;
+            border-collapse: collapse;
+        }
+
+        .param-table th {
+            background: gray;
+            color: #FFF;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #FFF;
+            padding: 5px;
+        }
+
+        .param-table td {
+            border-collapse: collapse;
+            border: 1px solid #FFF;
+            font-size: 12px;
+            padding: 5px;
+        }
+
+        .param-table .th-name {
+            min-width: 140px;
+        }
+
+        .param-table .th-identifier {
+            min-width: 140px;
+        }
+
+        .param-table .th-type {
+            min-width: 100px;
+        }
+
+        .param-table .th-remark {
+            min-width: 200px;
+        }
+
+        .param-table .td-name {}
+
+        .param-table .td-identifier {}
+
+        .param-table .td-type   { color: #990000; }
+
+        .param-table .td-remark { color: #666; }
+
+        .param-table .tr-level-1 { background: #F5F5F5; }
+        .param-table .tr-level-1 .td-identifier { padding-left: 5px; }
+
+        .param-table .tr-level-2 { background: #E6E6E6; }
+        .param-table .tr-level-2 .td-identifier { padding-left: 15px; }
+
+        .param-table .tr-level-3 { background: #CCCCCC; }
+        .param-table .tr-level-3 .td-identifier { padding-left: 25px; }
+
+        .param-table .tr-level-4 { background: #E6E6E6; }
+        .param-table .tr-level-4 .td-identifier { padding-left: 35px; }
+
+        .param-table .tr-level-5 { background: #CCCCCC; }
+        .param-table .tr-level-5 .td-identifier { padding-left: 45px; }
+
+        .param-table .tr-level-6 { background: #E6E6E6; }
+        .param-table .tr-level-6 .td-identifier { padding-left: 55px; }
+
+        .param-table .tr-level-7 { background: #CCCCCC; }
+        .param-table .tr-level-7 .td-identifier { padding-left: 65px; }
+
+        .param-table .tr-level-8 { background: #E6E6E6; }
+        .param-table .tr-level-8 .td-identifier { padding-left: 75px; }
+
+        .param-table .tr-level-9 { background: #CCCCCC; }
+        .param-table .tr-level-9 .td-identifier { padding-left: 85px; }
+
+        .param-table .tr-level-10 { background: #E6E6E6; }
+        .param-table .tr-level-10 .td-identifier { padding-left: 95px; }
+
+        .param-table .tr-level-11 {
+            background: #CCCCCC;
+        }
+        .param-table .tr-level-11 .td-identifier { padding-left: 105px; }
+
+        .param-table .tr-level-12 {
+            background: #E6E6E6;
+        }
+        .param-table .tr-level-12 .td-identifier { padding-left: 115px; }
+
+        .param-table .tr-level-13 {
+            background: #CCCCCC;
+        }
+        .param-table .tr-level-13 .td-identifier { padding-left: 125px; }
+    </style>
+</head>
+<body>
+<div id="container">
+            <div class="module">
+            <h1>1&nbsp;信息展示</h1>
+                            <div class="page">
+                    <h2>1.1&nbsp;列</h2>
+                                            <div class="action">
+                            <h3>1.1.1&nbsp;查询表中列的信息</h3>
+
+                            <h3>URL</h3>
+                            <div>column/v1/listColumnByTable</div>
+
+                            <h3>Method</h3>
+                            <div>GET</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">表名</td><td class="td-identifier">tableName</td><td class="td-type">string</td><td class="td-remark">@mock=school</td></tr><tr class="tr-level-1"><td class="td-name">数据库id</td><td class="td-identifier">dbId</td><td class="td-type">number</td><td class="td-remark">@mock=24</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=ok</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data|4</td><td class="td-type">array&lt;object&gt;</td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---位置</td><td class="td-identifier">position</td><td class="td-type">number</td><td class="td-remark">@mock=$order(1,2,3,4)</td></tr><tr class="tr-level-2"><td class="td-name">---精度</td><td class="td-identifier">precision</td><td class="td-type">number</td><td class="td-remark">@mock=$order(10,,,)</td></tr><tr class="tr-level-2"><td class="td-name">---额外的</td><td class="td-identifier">extra</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;auto_increment&#39;,&#39;&#39;,&#39;&#39;,&#39;&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---长度</td><td class="td-identifier">maximumLength</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---约束</td><td class="td-identifier">key</td><td class="td-type">string</td><td class="td-remark">PRI主键约束； UNI唯一约束；MUL可以重复</td></tr><tr class="tr-level-2"><td class="td-name">---数据类型</td><td class="td-identifier">dateType</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;int&#39;,&#39;varchar&#39;,&#39;varchar&#39;,&#39;datetime&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---列类型</td><td class="td-identifier">type</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;int(11)&#39;,&#39;varchar(255)&#39;,&#39;varchar(255)&#39;,&#39;datetime&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;code_generator&#39;,&#39;code_generator&#39;,&#39;code_generator&#39;,&#39;code_generator&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---是否允许为null</td><td class="td-identifier">isNullAble</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;NO&#39;,&#39;YES&#39;,&#39;YES&#39;,&#39;YES&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---编码</td><td class="td-identifier">collation</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---注解</td><td class="td-identifier">comment</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;&#39;,&#39;学校名&#39;,&#39;地址&#39;,&#39;创建时间&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---表名</td><td class="td-identifier">tableName</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;school&#39;,&#39;school&#39;,&#39;school&#39;,&#39;school&#39;)</td></tr><tr class="tr-level-2"><td class="td-name">---列名</td><td class="td-identifier">columnName</td><td class="td-type">string</td><td class="td-remark">@mock=$order(&#39;id&#39;,&#39;name&#39;,&#39;address&#39;,&#39;create_time&#39;)</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr></table>
+                        </div>
+                                    </div>
+                            <div class="page">
+                    <h2>1.2&nbsp;库</h2>
+                                            <div class="action">
+                            <h3>1.2.1&nbsp;保存库连接信息</h3>
+
+                            <h3>URL</h3>
+                            <div>datebase/v1/saveDatebase</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">登陆用户</td><td class="td-identifier">username</td><td class="td-type">string</td><td class="td-remark">@mock=root</td></tr><tr class="tr-level-1"><td class="td-name">主机或ip地址</td><td class="td-identifier">url</td><td class="td-type">string</td><td class="td-remark">@mock=localhost</td></tr><tr class="tr-level-1"><td class="td-name">端口号</td><td class="td-identifier">port</td><td class="td-type">number</td><td class="td-remark">@mock=3306</td></tr><tr class="tr-level-1"><td class="td-name">模式</td><td class="td-identifier">schema</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-1"><td class="td-name">描述</td><td class="td-identifier">describe</td><td class="td-type">string</td><td class="td-remark">@mock=用来测试的数据库</td></tr><tr class="tr-level-1"><td class="td-name">数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=code_generator</td></tr><tr class="tr-level-1"><td class="td-name">连接名</td><td class="td-identifier">connectName</td><td class="td-type">string</td><td class="td-remark">@mock=test</td></tr><tr class="tr-level-1"><td class="td-name">（方言）数据库类型</td><td class="td-identifier">driver</td><td class="td-type">string</td><td class="td-remark">@mock=com.mysql.jdbc.Driver</td></tr><tr class="tr-level-1"><td class="td-name">登陆密码</td><td class="td-identifier">password</td><td class="td-type">string</td><td class="td-remark">@mock=246512</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=创建数据库连接信息成功！</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type"></td><td class="td-remark"></td></tr></table>
+                        </div>
+                                            <div class="action">
+                            <h3>1.2.2&nbsp;修改库连接信息</h3>
+
+                            <h3>URL</h3>
+                            <div>datebase/v1/modifyDatebaseByKey</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">登陆密码</td><td class="td-identifier">password</td><td class="td-type">string</td><td class="td-remark">@mock=246512</td></tr><tr class="tr-level-1"><td class="td-name">登陆用户</td><td class="td-identifier">username</td><td class="td-type">string</td><td class="td-remark">@mock=root</td></tr><tr class="tr-level-1"><td class="td-name">模式</td><td class="td-identifier">schema</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-1"><td class="td-name">数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=code_generator</td></tr><tr class="tr-level-1"><td class="td-name">主机或ip地址</td><td class="td-identifier">url</td><td class="td-type">string</td><td class="td-remark">@mock=localhost</td></tr><tr class="tr-level-1"><td class="td-name">端口号</td><td class="td-identifier">port</td><td class="td-type">number</td><td class="td-remark">@mock=3306</td></tr><tr class="tr-level-1"><td class="td-name">（方言）数据库类型</td><td class="td-identifier">driver</td><td class="td-type">string</td><td class="td-remark">@mock=com.mysql.jdbc.Driver</td></tr><tr class="tr-level-1"><td class="td-name">id</td><td class="td-identifier">id</td><td class="td-type">number</td><td class="td-remark">@mock=23</td></tr><tr class="tr-level-1"><td class="td-name">描述</td><td class="td-identifier">describe</td><td class="td-type">string</td><td class="td-remark">@mock=用来测试的数据库</td></tr><tr class="tr-level-1"><td class="td-name">连接名</td><td class="td-identifier">connectName</td><td class="td-type">string</td><td class="td-remark">@mock=testUpdate</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=修改数据库连接信息成功！</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type"></td><td class="td-remark"></td></tr></table>
+                        </div>
+                                            <div class="action">
+                            <h3>1.2.3&nbsp;删除库连接信息</h3>
+
+                            <h3>URL</h3>
+                            <div>datebase/v1/removeDatebaseByKey</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">id</td><td class="td-identifier">id</td><td class="td-type">number</td><td class="td-remark">@mock=23</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=删除数据库连接信息成功！</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type"></td><td class="td-remark"></td></tr></table>
+                        </div>
+                                            <div class="action">
+                            <h3>1.2.4&nbsp;查询库连接信息</h3>
+
+                            <h3>URL</h3>
+                            <div>datebase/v1/listDatebaseByParamAndPage</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">datebase</td><td class="td-type">object</td><td class="td-remark">不参与操作传空字符串</td></tr><tr class="tr-level-2"><td class="td-name">---登陆用户</td><td class="td-identifier">username</td><td class="td-type">string</td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---连接名</td><td class="td-identifier">connectName</td><td class="td-type">string</td><td class="td-remark">@mock=test</td></tr><tr class="tr-level-1"><td class="td-name">每页数量</td><td class="td-identifier">pageSize</td><td class="td-type">number</td><td class="td-remark">@mock=2</td></tr><tr class="tr-level-1"><td class="td-name">第几页</td><td class="td-identifier">pageIndex</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type">object</td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---</td><td class="td-identifier">page</td><td class="td-type">object</td><td class="td-remark"></td></tr><tr class="tr-level-3"><td class="td-name">------是否最后一页</td><td class="td-identifier">isLastPage</td><td class="td-type">boolean</td><td class="td-remark">@mock=true</td></tr><tr class="tr-level-3"><td class="td-name">------页码总数</td><td class="td-identifier">pages</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-3"><td class="td-name">------数据总条数</td><td class="td-identifier">total</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-3"><td class="td-name">------是否第一页</td><td class="td-identifier">isFirstPage</td><td class="td-type">boolean</td><td class="td-remark">@mock=true</td></tr><tr class="tr-level-3"><td class="td-name">------</td><td class="td-identifier">list</td><td class="td-type">array&lt;object&gt;</td><td class="td-remark"></td></tr><tr class="tr-level-4"><td class="td-name">---------数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=code_generator</td></tr><tr class="tr-level-4"><td class="td-name">---------连接名</td><td class="td-identifier">connectName</td><td class="td-type">string</td><td class="td-remark">@mock=test</td></tr><tr class="tr-level-4"><td class="td-name">---------端口号</td><td class="td-identifier">port</td><td class="td-type">number</td><td class="td-remark">@mock=3306</td></tr><tr class="tr-level-4"><td class="td-name">---------修改时间</td><td class="td-identifier">updateTime</td><td class="td-type">number</td><td class="td-remark">@mock=1516615260000</td></tr><tr class="tr-level-4"><td class="td-name">---------创建人</td><td class="td-identifier">createUser</td><td class="td-type">string</td><td class="td-remark">@mock=heqing</td></tr><tr class="tr-level-4"><td class="td-name">---------创建时间</td><td class="td-identifier">createTime</td><td class="td-type">number</td><td class="td-remark">@mock=1516615260000</td></tr><tr class="tr-level-4"><td class="td-name">---------模式</td><td class="td-identifier">schema</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-4"><td class="td-name">---------登陆用户</td><td class="td-identifier">username</td><td class="td-type">string</td><td class="td-remark">@mock=root</td></tr><tr class="tr-level-4"><td class="td-name">---------描述</td><td class="td-identifier">describe</td><td class="td-type">string</td><td class="td-remark">@mock=用来测试的数据库</td></tr><tr class="tr-level-4"><td class="td-name">---------主机或ip地址</td><td class="td-identifier">url</td><td class="td-type">string</td><td class="td-remark">@mock=localhost</td></tr><tr class="tr-level-4"><td class="td-name">---------id</td><td class="td-identifier">id</td><td class="td-type">number</td><td class="td-remark">@mock=25</td></tr><tr class="tr-level-4"><td class="td-name">---------（方言）数据库类型</td><td class="td-identifier">driver</td><td class="td-type">string</td><td class="td-remark">@mock=com.mysql.jdbc.Driver</td></tr><tr class="tr-level-4"><td class="td-name">---------登陆密码</td><td class="td-identifier">password</td><td class="td-type">string</td><td class="td-remark">@mock=246512</td></tr><tr class="tr-level-3"><td class="td-name">------每页数量</td><td class="td-identifier">pageSize</td><td class="td-type">number</td><td class="td-remark">@mock=2</td></tr><tr class="tr-level-3"><td class="td-name">------第几页</td><td class="td-identifier">pageNum</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr></table>
+                        </div>
+                                            <div class="action">
+                            <h3>1.2.5&nbsp;测试库连接</h3>
+
+                            <h3>URL</h3>
+                            <div>/datebase/v1/checkConnect</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">登陆用户</td><td class="td-identifier">username</td><td class="td-type">string</td><td class="td-remark">@mock=root</td></tr><tr class="tr-level-1"><td class="td-name">主机或ip地址</td><td class="td-identifier">url</td><td class="td-type">string</td><td class="td-remark">@mock=localhost</td></tr><tr class="tr-level-1"><td class="td-name">模式</td><td class="td-identifier">schema</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-1"><td class="td-name">描述</td><td class="td-identifier">describe</td><td class="td-type">string</td><td class="td-remark">@mock=用来测试的数据库</td></tr><tr class="tr-level-1"><td class="td-name">数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=code_generator</td></tr><tr class="tr-level-1"><td class="td-name">连接名</td><td class="td-identifier">connectName</td><td class="td-type">string</td><td class="td-remark">@mock=testInsert</td></tr><tr class="tr-level-1"><td class="td-name">（方言）数据库类型</td><td class="td-identifier">driver</td><td class="td-type">string</td><td class="td-remark">@mock=com.mysql.jdbc.Driver</td></tr><tr class="tr-level-1"><td class="td-name">登陆密码</td><td class="td-identifier">password</td><td class="td-type">string</td><td class="td-remark">@mock=246512</td></tr><tr class="tr-level-1"><td class="td-name">端口号</td><td class="td-identifier">port</td><td class="td-type">number</td><td class="td-remark">@mock=3306</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type"></td><td class="td-remark"></td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=数据库连接成功！</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr></table>
+                        </div>
+                                    </div>
+                            <div class="page">
+                    <h2>1.3&nbsp;表</h2>
+                                            <div class="action">
+                            <h3>1.3.1&nbsp;查询库中表的信息</h3>
+
+                            <h3>URL</h3>
+                            <div>table/v1/listTableByParamAndPage</div>
+
+                            <h3>Method</h3>
+                            <div>POST</div>
+
+                            <h3>Description</h3>
+                            <div></div>
+
+                            <h3>Request Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name">每页数量</td><td class="td-identifier">pageSize</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-1"><td class="td-name">数据库id</td><td class="td-identifier">dbId</td><td class="td-type">number</td><td class="td-remark">@mock=24</td></tr><tr class="tr-level-1"><td class="td-name">第几页</td><td class="td-identifier">pageIndex</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-1"><td class="td-name">表名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">可不填，查询用</td></tr></table>
+
+                            <h3>Response Param List</h3>
+                            <table class="param-table"><thead><th class="th-name">Name</th><th class="th-identifier">Identifier</th><th class="th-type">Type</th><th class="th-remark">Remark</th></thead><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">data</td><td class="td-type">object</td><td class="td-remark"></td></tr><tr class="tr-level-2"><td class="td-name">---是否第一页</td><td class="td-identifier">isFirstPage</td><td class="td-type">boolean</td><td class="td-remark">@mock=true</td></tr><tr class="tr-level-2"><td class="td-name">---每页数量</td><td class="td-identifier">pageSize</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-2"><td class="td-name">---是否最后一页</td><td class="td-identifier">isLastPage</td><td class="td-type">boolean</td><td class="td-remark">@mock=false</td></tr><tr class="tr-level-2"><td class="td-name">---第几页</td><td class="td-identifier">pageNum</td><td class="td-type">number</td><td class="td-remark">@mock=1</td></tr><tr class="tr-level-2"><td class="td-name">---</td><td class="td-identifier">list</td><td class="td-type">array&lt;object&gt;</td><td class="td-remark"></td></tr><tr class="tr-level-3"><td class="td-name">------行数</td><td class="td-identifier">rowsNum</td><td class="td-type">number</td><td class="td-remark">@mock=2</td></tr><tr class="tr-level-3"><td class="td-name">------表名</td><td class="td-identifier">tableName</td><td class="td-type">string</td><td class="td-remark">@mock=datebase</td></tr><tr class="tr-level-3"><td class="td-name">------数据库名</td><td class="td-identifier">dbName</td><td class="td-type">string</td><td class="td-remark">@mock=code_generator</td></tr><tr class="tr-level-3"><td class="td-name">------编码</td><td class="td-identifier">collation</td><td class="td-type">string</td><td class="td-remark">@mock=utf8_general_ci</td></tr><tr class="tr-level-3"><td class="td-name">------数据库引擎</td><td class="td-identifier">engine</td><td class="td-type">string</td><td class="td-remark">@mock=InnoDB</td></tr><tr class="tr-level-3"><td class="td-name">------最大数据长度</td><td class="td-identifier">maxDateLength</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-3"><td class="td-name">------注解</td><td class="td-identifier">comment</td><td class="td-type">string</td><td class="td-remark">@mock=数据库连接信息</td></tr><tr class="tr-level-3"><td class="td-name">------表类型</td><td class="td-identifier">type</td><td class="td-type">string</td><td class="td-remark">@mock=BASE TABLE</td></tr><tr class="tr-level-3"><td class="td-name">------索引长度</td><td class="td-identifier">indexLength</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr><tr class="tr-level-3"><td class="td-name">------修改时间</td><td class="td-identifier">updateTime</td><td class="td-type">number</td><td class="td-remark">@mock=1520245638000</td></tr><tr class="tr-level-3"><td class="td-name">------创建时间</td><td class="td-identifier">createTime</td><td class="td-type">number</td><td class="td-remark">@mock=1515236147000</td></tr><tr class="tr-level-3"><td class="td-name">------数据长度</td><td class="td-identifier">dateLength</td><td class="td-type">number</td><td class="td-remark">@mock=16384</td></tr><tr class="tr-level-3"><td class="td-name">------自动递增</td><td class="td-identifier">autoIncrement</td><td class="td-type">number</td><td class="td-remark">@mock=26</td></tr><tr class="tr-level-3"><td class="td-name">------行格式</td><td class="td-identifier">rowFormat</td><td class="td-type">string</td><td class="td-remark">@mock=Dynamic</td></tr><tr class="tr-level-2"><td class="td-name">---总共页数</td><td class="td-identifier">pages</td><td class="td-type">number</td><td class="td-remark">@mock=4</td></tr><tr class="tr-level-2"><td class="td-name">---数据总条数</td><td class="td-identifier">total</td><td class="td-type">number</td><td class="td-remark">@mock=4</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">msg</td><td class="td-type">string</td><td class="td-remark">@mock=OK</td></tr><tr class="tr-level-1"><td class="td-name"></td><td class="td-identifier">code</td><td class="td-type">number</td><td class="td-remark">@mock=0</td></tr></table>
+                        </div>
+                                    </div>
+                    </div>
+    </div>
+</body>
+</html>

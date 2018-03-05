@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heqing.dao.DatebaseDao">
+
+    <!-- 数据库字段 -->
+    <sql id="datebaseFields">
+        `schema`
+         ,`id`
+         ,`create_time`
+         ,`username`
+         ,`port`
+         ,`password`
+         ,`db_name`
+         ,`url`
+         ,`create_user`
+         ,`describe`
+         ,`driver`
+         ,`update_time`
+         ,`connect_name`
+    </sql>
+
+    <!--属性-->
+    <parameterMap id="datebaseParameterMap" type="com.heqing.entity.Datebase">
+        <parameter property="schema"/>
+        <parameter property="id"/>
+        <parameter property="createTime"/>
+        <parameter property="username"/>
+        <parameter property="port"/>
+        <parameter property="password"/>
+        <parameter property="dbName"/>
+        <parameter property="url"/>
+        <parameter property="createUser"/>
+        <parameter property="describe"/>
+        <parameter property="driver"/>
+        <parameter property="updateTime"/>
+        <parameter property="connectName"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="datebaseResultMap" type="com.heqing.entity.Datebase">
+        <result property="schema" column="schema" />
+        <result property="id" column="id" />
+        <result property="createTime" column="create_time" />
+        <result property="username" column="username" />
+        <result property="port" column="port" />
+        <result property="password" column="password" />
+        <result property="dbName" column="db_name" />
+        <result property="url" column="url" />
+        <result property="createUser" column="create_user" />
+        <result property="describe" column="describe" />
+        <result property="driver" column="driver" />
+        <result property="updateTime" column="update_time" />
+        <result property="connectName" column="connect_name" />
+    </resultMap>
+
+    <!--新增-->
+    <insert id="insertDatebase" parameterMap="datebaseParameterMap" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+          datebase( <include refid="datebaseFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!--新增多个-->
+    <insert id="insertBatchDatebase" parameterType="java.util.List">
+        INSERT INTO
+          datebase( <include refid="datebaseFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+            #{item.schema}
+            ,#{item.id}
+            ,#{item.createTime}
+            ,#{item.username}
+            ,#{item.port}
+            ,#{item.password}
+            ,#{item.dbName}
+            ,#{item.url}
+            ,#{item.createUser}
+            ,#{item.describe}
+            ,#{item.driver}
+            ,#{item.updateTime}
+            ,#{item.connectName}
+        )
+        </foreach>
+        ;
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteDatebaseByKey" parameterType="java.util.Map">
+        DELETE FROM datebase
+        <where>
+            AND `id`=#{0}
+        </where>
+        ;
+    </delete>
+
+    <!--删除多个-->
+    <delete id="deleteBatchDatebaseByKey" parameterType="java.util.List">
+        DELETE FROM datebase
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
+
+    <!--删除多个-->
+    <delete id="deleteBatchDatebaseByParam" parameterMap="datebaseParameterMap">
+        DELETE FROM datebase
+        <where>
+            <if test="schema != null and schema != ''"> AND `schema`=#{schema} </if>
+            <if test="id != null and id != ''"> AND `id`=#{id} </if>
+            <if test="createTime != null"> AND date(`create_time`)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND `username`=#{username} </if>
+            <if test="port != null and port != ''"> AND `port`=#{port} </if>
+            <if test="password != null and password != ''"> AND `password`=#{password} </if>
+            <if test="dbName != null and dbName != ''"> AND `db_name`=#{dbName} </if>
+            <if test="url != null and url != ''"> AND `url`=#{url} </if>
+            <if test="createUser != null and createUser != ''"> AND `create_user`=#{createUser} </if>
+            <if test="describe != null and describe != ''"> AND `describe`=#{describe} </if>
+            <if test="driver != null and driver != ''"> AND `driver`=#{driver} </if>
+            <if test="updateTime != null"> AND date(`update_time`)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="connectName != null and connectName != ''"> AND `connect_name`=#{connectName} </if>
+        </where>
+        ;
+    </delete>
+
+    <!--更新-->
+    <update id="updateDatebaseByKey" parameterMap="datebaseParameterMap">
+        UPDATE
+          datebase
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="schema != null">, `schema`=#{schema}</if>
+            <if test="id != null">, `id`=#{id}</if>
+            <if test="createTime != null">, `create_time`=#{createTime}</if>
+            <if test="username != null">, `username`=#{username}</if>
+            <if test="port != null">, `port`=#{port}</if>
+            <if test="password != null">, `password`=#{password}</if>
+            <if test="dbName != null">, `db_name`=#{dbName}</if>
+            <if test="url != null">, `url`=#{url}</if>
+            <if test="createUser != null">, `create_user`=#{createUser}</if>
+            <if test="describe != null">, `describe`=#{describe}</if>
+            <if test="driver != null">, `driver`=#{driver}</if>
+            <if test="updateTime != null">, `update_time`=#{updateTime}</if>
+            <if test="connectName != null">, `connect_name`=#{connectName}</if>
+        </trim>
+        <where>
+            AND `id`=#{id}
+        </where>
+        ;
+    </update>
+
+    <update id="updateBatchDatebaseByKey"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE datebase
+            <trim prefix="SET" prefixOverrides=",">
+                <if test="item.schema != null ">, `schema`=#{item.schema}</if>
+                <if test="item.id != null ">, `id`=#{item.id}</if>
+                <if test="item.createTime != null ">, `create_time`=#{item.createTime}</if>
+                <if test="item.username != null ">, `username`=#{item.username}</if>
+                <if test="item.port != null ">, `port`=#{item.port}</if>
+                <if test="item.password != null ">, `password`=#{item.password}</if>
+                <if test="item.dbName != null ">, `db_name`=#{item.dbName}</if>
+                <if test="item.url != null ">, `url`=#{item.url}</if>
+                <if test="item.createUser != null ">, `create_user`=#{item.createUser}</if>
+                <if test="item.describe != null ">, `describe`=#{item.describe}</if>
+                <if test="item.driver != null ">, `driver`=#{item.driver}</if>
+                <if test="item.updateTime != null ">, `update_time`=#{item.updateTime}</if>
+                <if test="item.connectName != null ">, `connect_name`=#{item.connectName}</if>
+            </trim>
+            <where>
+                AND `id`=#{item.id}
+            </where>
+        </foreach>
+    </update>
+
+    <!--根据id查询-->
+    <select id="getDatebaseByKey" parameterType="java.util.Map" resultMap="datebaseResultMap">
+        SELECT <include refid="datebaseFields"/>
+        FROM datebase
+        <where>
+            AND `id`=#{0}
+        </where>
+        ;
+    </select>
+
+    <!--根据多个id查询-->
+    <select id="listDatebaseByKey" parameterType="java.util.List" resultMap="datebaseResultMap">
+        SELECT <include refid="datebaseFields"/>
+        FROM datebase
+        WHERE id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ;
+    </select>
+
+    <!--查询-->
+    <select id="listDatebase" resultMap="datebaseResultMap">
+        SELECT <include refid="datebaseFields"/>
+        FROM datebase
+    </select>
+
+    <!--查询-->
+    <select id="listDatebaseByParam" parameterType="java.util.Map" resultMap="datebaseResultMap">
+        SELECT <include refid="datebaseFields"/>
+        FROM datebase
+        <where>
+            <if test="schema != null and schema != ''"> AND `schema`=#{schema} </if>
+            <if test="id != null and id != ''"> AND `id`=#{id} </if>
+            <if test="createTime != null"> AND date(`create_time`)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND `username`=#{username} </if>
+            <if test="port != null and port != ''"> AND `port`=#{port} </if>
+            <if test="password != null and password != ''"> AND `password`=#{password} </if>
+            <if test="dbName != null and dbName != ''"> AND `db_name`=#{dbName} </if>
+            <if test="url != null and url != ''"> AND `url`=#{url} </if>
+            <if test="createUser != null and createUser != ''"> AND `create_user`=#{createUser} </if>
+            <if test="describe != null and describe != ''"> AND `describe`=#{describe} </if>
+            <if test="driver != null and driver != ''"> AND `driver`=#{driver} </if>
+            <if test="updateTime != null"> AND date(`update_time`)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="connectName != null and connectName != ''"> AND `connect_name`=#{connectName} </if>
+        </where>
+    </select>
+
+</mapper>

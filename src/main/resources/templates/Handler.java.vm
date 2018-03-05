@@ -1,0 +1,176 @@
+package $!{classPackage}.handler;
+
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.service.$!{className}Service;
+
+import com.github.pagehelper.Page;
+import com.heqing.util.PageInfoUtil;
+import com.heqing.util.ObjectUtil;
+import com.heqing.util.ResponseUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * $!{comment}对外接口层
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@RestController
+@RequestMapping("/$!{entityName}")
+public class $!{className}Handler {
+
+    @Autowired
+    $!{className}Service $!{entityName}Service;
+
+    @RequestMapping(value = "/save$!{className}", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil save$!{className}(@RequestBody $!{className} $!{entityName}) {
+        ResponseUtil response = new ResponseUtil();
+        int result = $!{entityName}Service.save$!{className}($!{entityName});
+        if(result == 1) {
+            response.setCode(0);
+            response.setMsg("创建$!{comment}成功！");
+        } else {
+            response.setCode(-1);
+            response.setMsg("创建$!{comment}失败！");
+        }
+        return response;
+    }
+#if($keyFields.size() > 0)
+
+    @RequestMapping(value = "/modify$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil modify$!{className}ByKey(@RequestBody $!{className} $!{entityName}) {
+        ResponseUtil response = new ResponseUtil();
+#if($notNullfields.size() > 0)
+#foreach ($!{field} in $!{notNullfields})
+        if($!{entityName}.get$!{field.filedName}() == null) {
+            response.setCode(-1);
+            response.setMsg("$!{field.comment}不能为null");
+            return response;
+        }
+#end
+#end
+        int result = $!{entityName}Service.modify$!{className}ByKey($!{entityName});
+        if(result == 1) {
+            response.setCode(0);
+            response.setMsg("修改$!{comment}成功！");
+        } else {
+            response.setCode(-1);
+            response.setMsg("修改$!{comment}失败！");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/remove$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil remove$!{className}ByKey(@RequestBody Map map) {
+        ResponseUtil response = new ResponseUtil();
+#if($keyFields.size() > 0)
+#foreach ($!{field} in $!{keyFields})
+        if(map.get("$!{field.entityName}") == null) {
+            response.setCode(-1);
+            response.setMsg("$!{field.comment}不能为null");
+            return response;
+        }
+#end
+#end
+        int result = $!{entityName}Service.remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)($!{field.type})map.get("$!{field.entityName}")#else, ($!{field.type})map.get("$!{field.entityName}")#end#end);
+        if(result > 0) {
+            response.setCode(0);
+            response.setMsg("删除$!{comment}成功！");
+        } else {
+            response.setCode(-1);
+            response.setMsg("删除$!{comment}失败！");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/get$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil get$!{className}ByKey(@RequestBody Map map) {
+        ResponseUtil response = new ResponseUtil();
+#if($keyFields.size() > 0)
+#foreach ($!{field} in $!{keyFields})
+        if(map.get("$!{field.entityName}") == null) {
+            response.setCode(-1);
+            response.setMsg("$!{field.comment}不能为null");
+            return response;
+        }
+#end
+#end
+        $!{className} $!{entityName} = $!{entityName}Service.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)($!{field.type})map.get("$!{field.entityName}")#else, ($!{field.type})map.get("$!{field.entityName}")#end#end);
+        response.setCode(0);
+        response.setData($!{entityName}.toString());
+        return response;
+    }
+
+#end
+    @RequestMapping(value = "/remove$!{className}ByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil removeBatch$!{className}ByParam(@RequestBody $!{className} $!{entityName}) {
+
+        ResponseUtil response = new ResponseUtil();
+        int result = $!{entityName}Service.removeBatch$!{className}ByParam($!{entityName});
+        if(result > 0) {
+            response.setCode(0);
+            response.setMsg("删除$!{comment}成功！");
+        } else {
+            response.setCode(-1);
+            response.setMsg("删除$!{comment}失败！");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/list$!{className}ByPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil list$!{className}ByPage(@RequestBody Map map) {
+        ResponseUtil response = new ResponseUtil();
+        if((map.get("pageIndex")==null) || (map.get("pageSize")==null)) {
+            response.setCode(-1);
+            response.setMsg("页码或每页数量不能为null");
+            return response;
+        }
+
+        int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+        int pageSize = Integer.parseInt(map.get("pageSize")+"");
+        Page<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
+        response.setCode(0);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("page", new PageInfoUtil<>($!{entityName}List));
+        response.setData(responseMap);
+        return response;
+    }
+
+    @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil list$!{className}ByParamAndPage(@RequestBody Map map) {
+        ResponseUtil response = new ResponseUtil();
+        if((map.get("pageIndex")==null) || (map.get("pageSize")==null)) {
+            response.setCode(-1);
+            response.setMsg("页码或每页数量不能为null");
+            return response;
+        }
+        if(map.get("$!{entityName}") == null) {
+            response.setCode(-1);
+            response.setMsg("查询条件不能为null");
+            return response;
+        }
+        $!{className} $!{entityName} = ObjectUtil.map2obj((Map<String, Object>)map.get("$!{entityName}"), $!{className}.class);
+        int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+        int pageSize = Integer.parseInt(map.get("pageSize")+"");
+        Page<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
+        response.setCode(0);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("page", new PageInfoUtil<>($!{entityName}List));
+        response.setData(responseMap);
+        return response;
+    }
+}

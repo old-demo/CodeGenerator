@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$!{classPackage}.dao.$!{className}Dao">
+
+    <!-- 数据库字段 -->
+    <sql id="$!{entityName}Fields">
+#foreach ($!{field} in $!{fields})
+        #if($velocityCount == 1)#else ,#end`$!{field.columnName}`
+#end
+    </sql>
+
+    <!--属性-->
+    <parameterMap id="$!{entityName}ParameterMap" type="$!{classPackage}.entity.$!{className}">
+#foreach ($!field in $!fields)
+        <parameter property="$!field.entityName"/>
+#end
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="$!{entityName}ResultMap" type="$!{classPackage}.entity.$!{className}">
+#foreach ($!{field} in $!{fields})
+        <result property="$!{field.entityName}" column="$!{field.columnName}" />
+#end
+    </resultMap>
+
+    <!--新增-->
+    <insert id="insert$!{className}" parameterMap="$!{entityName}ParameterMap" #if($keyFields.size()==1 && $!{keyFields.get(0).type}=="Integer")keyProperty="$!{keyFields.get(0).columnName}" useGeneratedKeys="true"#end>
+        INSERT INTO
+          $!{tableName}( <include refid="$!{entityName}Fields"/> )
+        VALUES (#foreach($!field in $!fields) #if($velocityCount == 1)?#else, ?#end#end);
+    </insert>
+
+    <!--新增多个-->
+    <insert id="insertBatch$!{className}" parameterType="java.util.List">
+        INSERT INTO
+          $!{tableName}( <include refid="$!{entityName}Fields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+#foreach ($!{field} in $!{fields})
+            #if($velocityCount == 1)#else,#end#{item.$!{field.entityName}}
+#end
+        )
+        </foreach>
+        ;
+    </insert>
+#if($keyFields.size() > 0)
+
+    <!--删除-->
+    <delete id="delete$!{className}ByKey" parameterType="java.util.Map">
+        DELETE FROM $!{tableName}
+        <where>
+#foreach(${field} in ${keyFields})
+            AND `$!{field.columnName}`=#{$!{field.entityName}}
+#end
+        </where>
+        ;
+    </delete>
+#end
+#if($keyFields.size() == 1)
+
+    <!--删除多个-->
+    <delete id="deleteBatch$!{className}ByKey" parameterType="java.util.List">
+        DELETE FROM $!{tableName}
+        WHERE #foreach(${field} in ${keyFields})$!{field.columnName}#end IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{#foreach(${field} in ${keyFields})$!{field.columnName}#end}
+        </foreach>
+        ;
+    </delete>
+#end
+
+    <!--删除多个-->
+    <delete id="deleteBatch$!{className}ByParam" parameterMap="$!{entityName}ParameterMap">
+        DELETE FROM $!{tableName}
+        <where>
+#foreach ($!{field} in $!{fields})
+#if($!{field.type} == "Date")
+            <if test="$!{field.entityName} != null"> AND date(`$!{field.columnName}`)=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+#else
+            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND `$!{field.columnName}`=#{$!{field.entityName}} </if>
+#end
+#end
+        </where>
+        ;
+    </delete>
+#if($keyFields.size() > 0)
+
+    <!--更新-->
+    <update id="update$!{className}ByKey" parameterMap="$!{entityName}ParameterMap">
+        UPDATE
+          $!{tableName}
+        <trim prefix="SET" prefixOverrides=",">
+#foreach ($!{field} in $!{fields})
+            <if test="$!{field.entityName} != null">, `$!{field.columnName}`=#{$!{field.entityName}}</if>
+#end
+        </trim>
+        <where>
+#foreach(${field} in ${keyFields})
+            AND `$!{field.columnName}`=#{$!{field.entityName}}
+#end
+        </where>
+        ;
+    </update>
+
+    <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE $!{tableName}
+        <trim prefix="SET" prefixOverrides=",">
+#foreach ($!{field} in $!{fields})
+                <if test="item.$!{field.entityName} != null ">, `$!{field.columnName}`=#{item.$!{field.entityName}}</if>
+#end
+            </trim>
+            <where>
+#foreach(${field} in ${keyFields})
+                AND `$!{field.columnName}`=#{item.$!{field.entityName}}
+#end
+            </where>
+        </foreach>
+    </update>
+
+    <!--根据id查询-->
+    <select id="get$!{className}ByKey" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
+        SELECT <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+        <where>
+#foreach(${field} in ${keyFields})
+            AND `$!{field.columnName}`=#{$!{field.entityName}}
+#end
+        </where>
+        ;
+    </select>
+
+    <!--根据多个id查询-->
+    <select id="list$!{className}ByKey" parameterType="java.util.List" resultMap="$!{entityName}ResultMap">
+        SELECT <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+        WHERE #foreach(${field} in ${keyFields})$!{field.columnName}#end IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{#foreach(${field} in ${keyFields})$!{field.columnName}#end}
+        </foreach>
+        ;
+    </select>
+#end
+
+    <!--查询-->
+    <select id="list$!{className}" resultMap="$!{entityName}ResultMap">
+        SELECT <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+    </select>
+
+    <!--查询-->
+    <select id="list$!{className}ByParam" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
+        SELECT <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+        <where>
+#foreach ($!{field} in $!{fields})
+#if($!{field.type} == "Date")
+            <if test="$!{field.entityName} != null"> AND date(`$!{field.columnName}`)=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+#else
+            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND `$!{field.columnName}`=#{$!{field.entityName}} </if>
+#end
+#end
+        </where>
+    </select>
+
+</mapper>

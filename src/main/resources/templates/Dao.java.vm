@@ -1,0 +1,117 @@
+package $!{classPackage}.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
+import $!{classPackage}.entity.$!{className};
+
+/**
+ * $!{comment}数据持久层接口
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Mapper
+public interface $!{className}Dao {
+
+    /**
+     * 增加$!{comment}列
+     *
+     * @param $!{entityName} $!{comment}列
+     * @return int 成功数量
+     */
+    int insert$!{className}($!{className} $!{entityName});
+
+    /**
+     * 增加多条$!{comment}列
+     *
+     * @param $!{entityName}List 多条$!{comment}列
+     * @return int 成功数量
+     */
+    int insertBatch$!{className}(List<$!{className}> $!{entityName}List);
+#if($keyFields.size() > 0)
+
+    /**
+     * 根据主键删除$!{comment}列
+     *
+#foreach(${field} in ${keyFields})
+     * @param $!{field.entityName} $!{field.comment}
+#end
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)@Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#else, @Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#end#end);
+#end
+#if($keyFields.size() == 1)
+
+    /**
+     * 根据主键删除多条$!{comment}列
+     *
+     * @param #foreach(${field} in ${keyFields})$!{field.entityName}s#end  $!{comment}列集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+#end
+    /**
+     * 根据条件删除多条$!{comment}列
+     *
+     * @param $!{entityName} $!{comment}列:做条件删除使用
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByParam($!{className} $!{entityName});
+#if($keyFields.size() > 0)
+
+    /**
+     * 修改$!{comment}列
+     *
+     * @param $!{entityName} $!{comment}列信息
+     * @return int 成功数量
+     */
+    int update$!{className}ByKey($!{className} $!{entityName});
+
+    /**
+     * 批量修改$!{comment}列
+     *
+     * @param $!{entityName}List 多条$!{comment}列信息
+     * @return int 是否成功
+     */
+    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+
+    /**
+     * 根据主键获取$!{comment}列信息
+     *
+#foreach(${field} in ${keyFields})
+     * @param $!{field.entityName} $!{field.comment}
+#end
+     * @return $!{className} $!{comment}信息
+     */
+    $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)@Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#else, @Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#end#end);
+#end
+#if($keyFields.size() == 1)
+
+    /**
+     * 根据Key获取$!{comment}列信息
+     *
+     * @param #foreach(${field} in ${keyFields})$!{field.entityName}s#end  $!{comment}列集合
+     * @return List<T> $!{comment}列实体信息
+     */
+    List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+#end
+
+    /**
+     * 获取所有$!{comment}列信息
+     *
+     * @return List<$!{className}> $!{comment}主键集合
+     */
+    List<$!{className}> list$!{className}();
+
+    /**
+     * 根据条件获取多条$!{comment}列
+     *
+     * @param $!{entityName} $!{comment}列:做条件查询使用
+     * @return List<$!{className}> $!{comment}列集合
+     */
+    List<$!{className}> list$!{className}ByParam($!{className} $!{entityName});
+
+}

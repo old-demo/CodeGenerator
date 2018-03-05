@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heqing.dao.ColumnDao">
+
+    <!-- 列字段 -->
+    <sql id="columnFields">
+        `TABLE_SCHEMA`, `TABLE_NAME`, `COLUMN_NAME`, `ORDINAL_POSITION`, `IS_NULLABLE`, `DATA_TYPE`, `CHARACTER_MAXIMUM_LENGTH`,
+        `NUMERIC_PRECISION`, `CHARACTER_SET_NAME`, `COLUMN_TYPE`, `COLUMN_KEY`, `COLUMN_COMMENT`, `EXTRA`
+    </sql>
+
+    <!-- 表字段与对象属性映射 -->
+    <resultMap id="columnResultMap" type="com.heqing.entity.orm.ColumnEntity">
+        <result property="dbName" column="TABLE_SCHEMA" />
+        <result property="tableName" column="TABLE_NAME" />
+        <result property="columnName" column="COLUMN_NAME" />
+        <result property="position" column="ORDINAL_POSITION" />
+        <result property="isNullAble" column="IS_NULLABLE" />
+        <result property="dateType" column="DATA_TYPE" />
+        <result property="maximumLength" column="CHARACTER_MAXIMUM_LENGTH" />
+        <result property="precision" column="NUMERIC_PRECISION" />
+        <result property="collation" column="CHARACTER_SET_NAME" />
+        <result property="type" column="COLUMN_TYPE" />
+        <result property="key" column="COLUMN_KEY" />
+        <result property="comment" column="COLUMN_COMMENT" />
+        <result property="extra" column="EXTRA" />
+    </resultMap>
+
+    <!-- 查询表中所有列 -->
+    <select id="listColumnByTable" parameterType="map" resultMap="columnResultMap">
+        SELECT
+        <include refid="columnFields"/>
+        FROM information_schema.columns
+        WHERE  table_schema = (select database()) AND table_name = #{tableName}
+        ORDER BY ordinal_position;
+    </select>
+
+</mapper>

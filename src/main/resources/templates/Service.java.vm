@@ -1,0 +1,135 @@
+package $!{classPackage}.service;
+
+import com.github.pagehelper.Page;
+import java.util.List;
+
+import $!{classPackage}.entity.$!{className};
+
+/**
+ * $!{comment}业务逻辑层接口
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public interface $!{className}Service {
+
+    /**
+     * 增加$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例
+     * @return int 成功数量
+     */
+    int save$!{className}($!{className} $!{entityName});
+
+    /**
+     * 增加多条$!{comment}实例
+     *
+     * @param $!{entityName}List 多条$!{comment}实例
+     * @return int 成功数量
+     */
+    int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
+#if($keyFields.size() > 0)
+
+    /**
+     * 根据主键删除$!{comment}实例
+     *
+#foreach(${field} in ${keyFields})
+     * @param $!{field.entityName} $!{field.comment}
+#end
+     * @return int 成功数量
+     */
+    int remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+#end
+#if($keyFields.size() == 1)
+
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{keyFields.get(0).entityName}s 主键ID集合
+     * @return int 成功数量
+     */
+    int removeBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+#end
+
+    /**
+     * 根据条件删除多条$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例:做条件删除使用
+     * @return int 成功数量
+     */
+    int removeBatch$!{className}ByParam($!{className} $!{entityName});
+
+#if($keyFields.size() > 0)
+    /**
+     * 修改$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例信息
+     * @return int 成功数量
+     */
+    int modify$!{className}ByKey($!{className} $!{entityName});
+
+    /**
+     * 批量修改$!{comment}实例
+     *
+     * @param $!{entityName}List 多条$!{comment}实例信息
+     * @return int 是否成功
+     */
+    int modifyBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+#foreach(${field} in ${keyFields})
+     * @param $!{field.entityName} $!{field.comment}
+#end
+     * @return $!{className} $!{comment}信息
+     */
+     $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+#end
+#if($keyFields.size() == 1)
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
+     * @return List<T> $!{comment}实例信息
+     */
+    List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+#end
+
+    /**
+     * 获取所有$!{comment}实例信息
+     *
+     * @return List<$!{className}> $!{comment}主键集合
+     */
+    List<$!{className}> list$!{className}();
+
+    /**
+     * 根据条件获取多条$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例:做条件查询使用
+     * @return List<$!{className}> $!{comment}实例集合
+     */
+    List<$!{className}> list$!{className}ByParam($!{className} $!{entityName});
+
+    /**
+     * 根据分页获取多条$!{comment}实例
+     *
+     * @param pageNo 第几页
+     * @param pageSize 每页数量
+     * @return Page<$!{className}> $!{comment}实例集合
+     */
+    Page<$!{className}> list$!{className}ByPage(int pageNo, int pageSize);
+
+    /**
+     * 根据分页及条件获取多条$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例:做条件查询使用
+     * @param pageNo 第几页
+     * @param pageSize 每页数量
+     * @return Page<$!{className}> $!{comment}实例集合
+     */
+    Page<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize);
+
+}

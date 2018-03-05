@@ -1,0 +1,123 @@
+package $!{classPackage}.service.impl;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import org.apache.log4j.Logger;
+
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.dao.$!{className}Dao;
+import $!{classPackage}.service.$!{className}Service;
+
+/**
+ * $!{comment}数据持久层实现类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Service("$!{entityName}Service")
+public class $!{className}ServiceImpl implements $!{className}Service {
+
+    private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
+
+	@Autowired
+	private $!{className}Dao $!{entityName}Dao;
+
+    @Override
+    public int save$!{className}($!{className} $!{entityName}) {
+        return $!{entityName}Dao.insert$!{className}($!{entityName});
+	}
+
+    @Override
+    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
+        return $!{entityName}Dao.insertBatch$!{className}($!{entityName}List);
+	}
+#if($keyFields.size() > 0)
+
+    @Override
+    public int remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
+        return $!{entityName}Dao.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
+	}
+#end
+#if($keyFields.size() == 1)
+
+    @Override
+    public int removeBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
+        return $!{entityName}Dao.deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
+	}
+#end
+
+    @Override
+    public int removeBatch$!{className}ByParam($!{className} $!{entityName}) {
+        return $!{entityName}Dao.deleteBatch$!{className}ByParam($!{entityName});
+    }
+#if($keyFields.size() > 0)
+
+    @Override
+    public int modify$!{className}ByKey($!{className} $!{entityName}) {
+#if($notNullfields.size() > 0)
+#foreach ($!{field} in $!{notNullfields})
+        if($!{entityName}.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{field.comment} 不能为null！" );
+            return 0;
+        }
+#end
+#end
+        return $!{entityName}Dao.update$!{className}ByKey($!{entityName});
+	}
+
+    @Override
+    public int modifyBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+#if($notNullfields.size() > 0)
+        for($!{className} $!{entityName} : $!{entityName}List) {
+#foreach ($!{field} in $!{notNullfields})
+            if($!{entityName}.get$!{field.filedName}() == null) {
+                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+                return 0;
+            }
+#end
+        }
+#end
+        return $!{entityName}Dao.updateBatch$!{className}ByKey($!{entityName}List);
+	}
+
+    @Override
+    public $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
+        return $!{entityName}Dao.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
+	}
+#end
+#if($keyFields.size() == 1)
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
+        return $!{entityName}Dao.list$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
+	}
+#end
+
+    @Override
+    public List<$!{className}> list$!{className}() {
+        return $!{entityName}Dao.list$!{className}();
+	}
+
+    @Override
+    public List<$!{className}> list$!{className}ByParam($!{className} $!{entityName}) {
+        return $!{entityName}Dao.list$!{className}ByParam($!{entityName});
+	}
+
+    @Override
+    public Page<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        return (Page<$!{className}>)$!{entityName}Dao.list$!{className}();
+	}
+
+    @Override
+    public Page<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        return (Page<$!{className}>)$!{entityName}Dao.list$!{className}ByParam($!{entityName});
+	}
+
+}
