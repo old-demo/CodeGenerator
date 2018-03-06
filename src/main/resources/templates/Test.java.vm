@@ -134,7 +134,7 @@ public class $!{className}Test {
 #end
         System.out.println("-->"+$!{entityName}Service.modify$!{className}ByKey($!{entityName}));
     }
-
+#if($!{serviceFrame} == "springboot")
     @Test
     public void testModifyBatch$!{className}ByKey() {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
@@ -155,6 +155,7 @@ public class $!{className}Test {
             $!{entityName}.set$!{field.filedName}((double)(i-5));
 #elseif($!{field.type} == "java.math.BigDecimal")
             $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(i-5));
+#end
 #end
 #end
 #foreach ($!{field} in $!{noKeyFields})
@@ -220,6 +221,7 @@ public class $!{className}Test {
         ));
     }
 #end
+
 #if($keyFields.size() == 1)
     @Test
     public void testList$!{className}ByKey() {
@@ -255,6 +257,7 @@ public class $!{className}Test {
         System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey(ids));
     }
  #end
+
     @Test
     public void testList$!{className}() {
         System.out.println("-->"+$!{entityName}Service.list$!{className}());
@@ -288,7 +291,7 @@ public class $!{className}Test {
     @Test
     public void testList$!{className}ByPage() {
         PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(1,2);
-        System.out.println("-->"+JSON.toJSONString(pageInfo));
+        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
     }
 
     @Test
@@ -314,7 +317,7 @@ public class $!{className}Test {
 #end
 #end
         PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, 1,2);
-        System.out.println("-->"+JSON.toJSONString(pageInfo));
+        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
     }
 #if($keyFields.size() > 0)
 

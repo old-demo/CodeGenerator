@@ -96,6 +96,7 @@ public class TaskTest {
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing.yyw");
+        taskEntity.setServiceFrame(MavenTaskEntity.SPRING);
         mavenTaskService.execute(taskEntity);
     }
 
