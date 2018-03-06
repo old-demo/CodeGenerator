@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/cache   http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射.自动扫描 Bean组件、自动搜索切面类-->
+    <context:component-scan base-package="$!{packageName}.*">
+        <context:include-filter type="annotation"
+                                expression="org.aspectj.lang.annotation.Aspect"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <!-- 创建spring cache bean -->
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"  p:name="default" />
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"  p:name="data" />
+            </set>
+        </property>
+    </bean>
+
+    <!-- 启动@AspectJ支持 -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 应用spring cache注解功能  -->
+    <cache:annotation-driven />
+
+</beans>

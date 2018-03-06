@@ -3,8 +3,6 @@ package $!{classPackage}.test;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +16,15 @@ import com.github.pagehelper.PageInfo;
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.$!{className}Service;
 
+#if($!{serviceFrame} == "springboot")
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+#elseif($!{serviceFrame} == "spring")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+#end
+
 /**
  * $!{comment}数据持久层接口
  *
@@ -25,8 +32,13 @@ import $!{classPackage}.service.$!{className}Service;
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
+#if($!{serviceFrame} == "springboot")
 @RunWith(SpringRunner.class)
 @SpringBootTest
+#elseif($!{serviceFrame} == "spring")
+@RunWith(SpringJUnit4ClassRunner.class)		// 表示继承了 SpringJUnit4ClassRunner 类
+@ContextConfiguration(locations = {"classpath*:spring_core.xml","classpath:spring_mybatis.xml"})
+#end
 public class $!{className}Test {
 
     @Autowired

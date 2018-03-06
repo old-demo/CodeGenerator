@@ -25,6 +25,8 @@ public class TemplatesUtil {
     public final static String POM = "Pom.xml.vm";
     public final static String APPLICATION = "Application.java.vm";
     public final static String APPLICATION_PROPERTIES = "Application.properties.vm";
+    public final static String SPRING_CONFIG = "Spring_core.xml.vm";
+    public final static String MYBATIS_CONFIG = "Spring_mybatis.xml.vm";
 
     public static String getFilePath(String projectName, String template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -62,6 +64,12 @@ public class TemplatesUtil {
         }
         if(template.contains(APPLICATION_PROPERTIES)){
             filePatch +=  "src/test/resources/application.properties";
+        }
+        if(template.contains(SPRING_CONFIG)){
+            filePatch +=  "src/test/resources/spring_core.xml";
+        }
+        if(template.contains(MYBATIS_CONFIG)){
+            filePatch +=  "src/test/resources/spring_mybatis.xml";
         }
         return filePatch;
     }

@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class TaskEntity {
 
+    public final static String SPRING = "spring";
+    public final static String SPRINGBOOT = "springboot";
+
     /**
      * datebase 数据操作
      */
@@ -54,6 +57,10 @@ public class TaskEntity {
      * projectName   项目名
      */
     private String projectName;
+
+    private String serviceFrame;
+
+    private String daoFrame;
 
     public Datebase getDatebase() {
         return datebase;
@@ -119,6 +126,22 @@ public class TaskEntity {
         this.projectName = projectName;
     }
 
+    public String getServiceFrame() {
+        return serviceFrame;
+    }
+
+    public void setServiceFrame(String serviceFrame) {
+        this.serviceFrame = serviceFrame;
+    }
+
+    public String getDaoFrame() {
+        return daoFrame;
+    }
+
+    public void setDaoFrame(String daoFrame) {
+        this.daoFrame = daoFrame;
+    }
+
     @Override
     public String toString() {
         StringBuilder tableNamesBuilder = new StringBuilder();
@@ -138,6 +161,7 @@ public class TaskEntity {
             templateBuilder.append("] ");
         }
         return "TaskEntity [ datebase = "+datebase +", tableNames = "+tableNamesBuilder.toString()+", packageName = "+packageName+", templates = "+templateBuilder.toString()+
-                ", zipPath = "+zipPath+", authorName = "+authorName+", authorEmail = "+authorEmail+", projectName = "+projectName+"]";
+                ", zipPath = "+zipPath+", authorName = "+authorName+", authorEmail = "+authorEmail+", projectName = "+projectName+", serviceFrame = "+serviceFrame+
+                ", daoFrame = "+daoFrame+"]";
     }
 }

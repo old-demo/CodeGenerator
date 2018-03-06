@@ -26,6 +26,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.heqing.entity.task.TaskEntity.SPRING;
+
 /**
  * 代码生成基础任务实现类
  *
@@ -101,6 +103,9 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             if (taskEntity.getZipPath() == null || "".equals(taskEntity.getZipPath())) {
                 throw new Exception("输出路径不能为空！");
             }
+            if (taskEntity.getServiceFrame() == null || "".equals(taskEntity.getServiceFrame())) {
+                throw new Exception("服务框架不能为空！");
+            }
             if (taskEntity.getDatebase() == null) {
                 throw new Exception("数据库信息不能为空！");
             } else {
@@ -123,8 +128,13 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskEntity.getTemplates().add(TemplatesUtil.SERVICEIMPL);
 
         taskEntity.getTemplates().add(TemplatesUtil.TEST);
-        taskEntity.getTemplates().add(TemplatesUtil.APPLICATION);
-        taskEntity.getTemplates().add(TemplatesUtil.APPLICATION_PROPERTIES);
+        if(TaskEntity.SPRING.equals(taskEntity.getServiceFrame())) {
+            taskEntity.getTemplates().add(TemplatesUtil.SPRING_CONFIG);
+            taskEntity.getTemplates().add(TemplatesUtil.MYBATIS_CONFIG);
+        } else if(TaskEntity.SPRINGBOOT.equals(taskEntity.getServiceFrame())) {
+            taskEntity.getTemplates().add(TemplatesUtil.APPLICATION);
+            taskEntity.getTemplates().add(TemplatesUtil.APPLICATION_PROPERTIES);
+        }
     }
 
     @Override
