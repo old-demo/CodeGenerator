@@ -94,22 +94,6 @@ public class TemplatesUtil {
     /**
      * 复制文件至另一个文件夹下
      *
-     * @param projectName 项目名称
-     */
-    public static void copyUtilFile(String projectName) {
-        String newPath = System.getProperty("user.dir")+"/code/maven/"+projectName+"/src/main/java/com/heqing/util";
-        List<String> utils = new ArrayList<>();
-        utils.add("PageInfoUtil");
-
-        for(String util : utils) {
-            String oldpath = System.getProperty("user.dir")+"/src/main/java/com/heqing/util/"+util+".java";
-            copyFile(oldpath, newPath);
-        }
-    }
-
-    /**
-     * 复制文件至另一个文件夹下
-     *
      * @param oldpath 文件旧地址
      * @param newPath 文件新地址
      */

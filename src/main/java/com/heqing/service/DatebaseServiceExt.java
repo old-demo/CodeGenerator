@@ -23,7 +23,7 @@ public interface DatebaseServiceExt extends DatebaseService {
      * @param password 数据库引擎
      * @return password 登录密码
      */
-    public Connection connect(String driverClass, String url, String userName, String password);
+    Connection connect(String driverClass, String url, String userName, String password);
 
     /**
      * 根据数据库id获取SqlSession
@@ -31,7 +31,7 @@ public interface DatebaseServiceExt extends DatebaseService {
      * @param dbId 连接信息id
      * @return password
      */
-    public SqlSession getSqlSession(Integer dbId);
+    SqlSession getSqlSession(Integer dbId);
 
     /**
      * 根据数据库信息获取SqlSession
@@ -39,5 +39,5 @@ public interface DatebaseServiceExt extends DatebaseService {
      * @param datebase 数据库信息
      * @return password
      */
-    public SqlSession getSqlSession(Datebase datebase);
+    SqlSession getSqlSession(Datebase datebase);
 }

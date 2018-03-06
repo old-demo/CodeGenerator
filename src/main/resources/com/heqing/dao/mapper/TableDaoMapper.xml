@@ -5,8 +5,8 @@
 
     <!-- 表字段 -->
     <sql id="tableFields">
-        `TABLE_SCHEMA`, `TABLE_NAME`, `TABLE_TYPE`, `ENGINE`, `ROW_FORMAT`, `TABLE_ROWS`, `CREATE_TIME`, `UPDATE_TIME`,
-        `TABLE_COLLATION`, `TABLE_COMMENT`, `AUTO_INCREMENT`, `INDEX_LENGTH`, `DATA_LENGTH`, `MAX_DATA_LENGTH`
+        TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE, ENGINE, ROW_FORMAT, TABLE_ROWS, CREATE_TIME, UPDATE_TIME,
+        TABLE_COLLATION, TABLE_COMMENT, AUTO_INCREMENT, INDEX_LENGTH, DATA_LENGTH, MAX_DATA_LENGTH
     </sql>
 
     <!-- 表字段与对象属性映射 -->
@@ -52,11 +52,4 @@
         WHERE table_schema = (select database()) AND table_name like CONCAT('%', #{tableName,jdbcType=VARCHAR}, '%');
     </select>
 
-    <!-- 根据表名模糊查询数量 -->
-    <select id="countTableByParamAndPage" parameterType="map" resultType="long">
-        SELECT
-            count(1)
-        FROM information_schema.tables
-        WHERE table_schema = (select database()) AND table_name like CONCAT('%', #{tableName,jdbcType=VARCHAR}, '%');
-    </select>
 </mapper>

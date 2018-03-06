@@ -2,7 +2,7 @@ package com.heqing.service;
 
 import java.util.List;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.Datebase;
 
 /**
@@ -108,7 +108,7 @@ public interface DatebaseService {
      * @param pageSize 每页数量
      * @return List<Datebase> 数据库连接信息实例集合
      */
-    Page<Datebase> listDatebaseByPage(int pageNo, int pageSize);
+    PageInfo<Datebase> listDatebaseByPage(int pageNo, int pageSize);
 
     /**
      * 根据分页及条件获取多条数据库连接信息实例
@@ -118,6 +118,6 @@ public interface DatebaseService {
      * @param pageSize 每页数量
      * @return List<Datebase> 数据库连接信息实例集合
      */
-    Page<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize);
+    PageInfo<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize);
 
 }

@@ -2,6 +2,7 @@ package com.heqing.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.Datebase;
 import com.heqing.entity.orm.TableEntity;
 import com.heqing.service.TableService;
@@ -32,13 +33,9 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public List<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
-        RowBounds row = new RowBounds((pageNo-1)*pageSize, pageSize);
-        return sqlSession.selectList("com.heqing.dao.TableDao.listTableByParamAndPage", tableName, row);
-    }
-
-    @Override
-    public Long countTableByParamAndPage(SqlSession sqlSession, String tableName) {
-        return (Long)sqlSession.selectOne("com.heqing.dao.TableDao.countTableByParamAndPage", tableName);
+    public PageInfo<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        List<TableEntity> tableList = sqlSession.selectList("com.heqing.dao.TableDao.listTableByParamAndPage", tableName);
+        return new PageInfo<TableEntity>(tableList);
     }
 }

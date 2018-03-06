@@ -1,5 +1,7 @@
 package com.heqing.datebase;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.TableEntity;
 import com.heqing.service.TableService;
 import com.heqing.util.DataSourceUtil;
@@ -49,6 +51,18 @@ public class TableTest {
             for(TableEntity table : tableList) {
                 System.out.println("-->"+table);
             }
+            sqlSession.clearCache();
+            sqlSession.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void listTableByParamAndPage() {
+        try {
+            PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage(sqlSession, "r", 1, 2);
+            System.out.println("-->"+ JSON.toJSONString(tableList));
             sqlSession.clearCache();
             sqlSession.close();
         } catch(Exception e) {

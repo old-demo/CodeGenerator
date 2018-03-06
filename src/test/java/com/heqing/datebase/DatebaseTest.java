@@ -2,7 +2,7 @@ package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
-import com.heqing.util.PageInfoUtil;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,18 +142,16 @@ public class DatebaseTest {
 
     @Test
     public void testListDatebaseByPage() {
-        Page<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,1);
-        PageInfoUtil<Datebase> pageInfo = new PageInfoUtil<>(datebaseList);
-        System.out.println("-->"+JSON.toJSONString(pageInfo));
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,1);
+        System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
     @Test
     public void testListDatebaseByParamAndPage() {
         Datebase datebase = new Datebase();
         datebase.setUrl("localhost");
-        Page<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
-        PageInfoUtil<Datebase> pageInfo = new PageInfoUtil<>(datebaseList);
-        System.out.println("-->"+JSON.toJSONString(pageInfo));
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
+        System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
     @Test

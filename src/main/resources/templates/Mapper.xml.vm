@@ -6,7 +6,7 @@
     <!-- 数据库字段 -->
     <sql id="$!{entityName}Fields">
 #foreach ($!{field} in $!{fields})
-        #if($velocityCount == 1)#else ,#end`$!{field.columnName}`
+        #if($velocityCount == 1)#else, #end$!{field.columnName}
 #end
     </sql>
 
@@ -52,7 +52,7 @@
         DELETE FROM $!{tableName}
         <where>
 #foreach(${field} in ${keyFields})
-            AND `$!{field.columnName}`=#{$!{field.entityName}}
+            AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
         ;
@@ -77,9 +77,9 @@
         <where>
 #foreach ($!{field} in $!{fields})
 #if($!{field.type} == "Date")
-            <if test="$!{field.entityName} != null"> AND date(`$!{field.columnName}`)=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+            <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
 #else
-            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND `$!{field.columnName}`=#{$!{field.entityName}} </if>
+            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
 #end
 #end
         </where>
@@ -93,12 +93,12 @@
           $!{tableName}
         <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-            <if test="$!{field.entityName} != null">, `$!{field.columnName}`=#{$!{field.entityName}}</if>
+            <if test="$!{field.entityName} != null">, $!{field.columnName}=#{$!{field.entityName}}</if>
 #end
         </trim>
         <where>
 #foreach(${field} in ${keyFields})
-            AND `$!{field.columnName}`=#{$!{field.entityName}}
+            AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
         ;
@@ -107,14 +107,14 @@
     <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE $!{tableName}
-        <trim prefix="SET" prefixOverrides=",">
+            <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-                <if test="item.$!{field.entityName} != null ">, `$!{field.columnName}`=#{item.$!{field.entityName}}</if>
+                <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
 #end
             </trim>
             <where>
 #foreach(${field} in ${keyFields})
-                AND `$!{field.columnName}`=#{item.$!{field.entityName}}
+                AND $!{field.columnName}=#{item.$!{field.entityName}}
 #end
             </where>
         </foreach>
@@ -126,7 +126,7 @@
         FROM $!{tableName}
         <where>
 #foreach(${field} in ${keyFields})
-            AND `$!{field.columnName}`=#{$!{field.entityName}}
+            AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
         ;
@@ -157,9 +157,9 @@
         <where>
 #foreach ($!{field} in $!{fields})
 #if($!{field.type} == "Date")
-            <if test="$!{field.entityName} != null"> AND date(`$!{field.columnName}`)=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+            <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
 #else
-            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND `$!{field.columnName}`=#{$!{field.entityName}} </if>
+            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
 #end
 #end
         </where>

@@ -1,6 +1,6 @@
 package $!{classPackage}.service;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 import $!{classPackage}.entity.$!{className};
@@ -120,7 +120,7 @@ public interface $!{className}Service {
      * @param pageSize 每页数量
      * @return Page<$!{className}> $!{comment}实例集合
      */
-    Page<$!{className}> list$!{className}ByPage(int pageNo, int pageSize);
+    PageInfo<$!{className}> list$!{className}ByPage(int pageNo, int pageSize);
 
     /**
      * 根据分页及条件获取多条$!{comment}实例
@@ -130,6 +130,6 @@ public interface $!{className}Service {
      * @param pageSize 每页数量
      * @return Page<$!{className}> $!{comment}实例集合
      */
-    Page<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize);
+    PageInfo<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize);
 
 }

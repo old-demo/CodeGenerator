@@ -1,6 +1,7 @@
 package com.heqing.service;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.TableEntity;
 import org.apache.ibatis.session.SqlSession;
 
@@ -41,14 +42,5 @@ public interface TableService {
      * @param pageSize 每页数量
      * @return List<TableEntity> 所有表信息
      */
-    List<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize);
-
-    /**
-     * 根据表名模糊匹配表信息数量
-     *
-     * @param sqlSession 操作数据库
-     * @param tableName 表名
-     * @return List<TableEntity> 所有表信息
-     */
-    Long countTableByParamAndPage(SqlSession sqlSession, String tableName);
+    PageInfo<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize);
 }

@@ -1,17 +1,16 @@
 package com.heqing.handler;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.Datebase;
 import com.heqing.service.DatebaseService;
 
 import com.heqing.util.ObjectUtil;
-import com.heqing.util.PageInfoUtil;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -126,10 +125,10 @@ public class DatebaseHandler {
 
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        Page<Datebase> datebaseList = datebaseService.listDatebaseByPage(pageIndex, pageSize);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(pageIndex, pageSize);
         response.setCode(0);
         Map<String, Object> responseMap = new HashMap<>(16);
-        responseMap.put("page", new PageInfoUtil<>(datebaseList));
+        responseMap.put("page", datebaseList);
         response.setData(responseMap);
         return response;
     }
@@ -151,10 +150,10 @@ public class DatebaseHandler {
         Datebase datebase =  ObjectUtil.map2obj((Map<String, Object>)map.get("datebase"),Datebase.class);
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        Page<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, pageIndex, pageSize);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, pageIndex, pageSize);
         response.setCode(0);
         Map<String, Object> responseMap = new HashMap<>(16);
-        responseMap.put("page", new PageInfoUtil<>(datebaseList));
+        responseMap.put("page", datebaseList);
         response.setData(responseMap);
         return response;
     }

@@ -1,7 +1,7 @@
 package $!{classPackage}.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,15 +109,17 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 	}
 
     @Override
-    public Page<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
+    public PageInfo<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return (Page<$!{className}>)$!{entityName}Dao.list$!{className}();
+        List<$!{className}> $!{entityName}List = $!{entityName}Dao.list$!{className}();
+        return new PageInfo<$!{className}>($!{entityName}List);
 	}
 
     @Override
-    public Page<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
+    public PageInfo<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return (Page<$!{className}>)$!{entityName}Dao.list$!{className}ByParam($!{entityName});
+        List<$!{className}> $!{entityName}List = $!{entityName}Dao.list$!{className}ByParam($!{entityName});
+        return new PageInfo<$!{className}>($!{entityName}List);
 	}
 
 }

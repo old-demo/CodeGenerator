@@ -3,8 +3,6 @@ package $!{classPackage}.handler;
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.$!{className}Service;
 
-import com.github.pagehelper.Page;
-import com.heqing.util.PageInfoUtil;
 import com.heqing.util.ObjectUtil;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,10 +139,10 @@ public class $!{className}Handler {
 
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        Page<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
+        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
         response.setCode(0);
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("page", new PageInfoUtil<>($!{entityName}List));
+        responseMap.put("page", $!{entityName}List);
         response.setData(responseMap);
         return response;
     }
@@ -166,10 +164,10 @@ public class $!{className}Handler {
         $!{className} $!{entityName} = ObjectUtil.map2obj((Map<String, Object>)map.get("$!{entityName}"), $!{className}.class);
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        Page<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
+        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
         response.setCode(0);
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("page", new PageInfoUtil<>($!{entityName}List));
+        responseMap.put("page", $!{entityName}List);
         response.setData(responseMap);
         return response;
     }

@@ -1,7 +1,8 @@
 package com.heqing.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import com.heqing.dao.DatebaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,15 +94,17 @@ public class DatebaseServiceImpl implements DatebaseService {
 	}
 
     @Override
-    public Page<Datebase> listDatebaseByPage(int pageNo, int pageSize) {
+    public PageInfo<Datebase> listDatebaseByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return (Page<Datebase>)datebaseDao.listDatebase();
+        List<Datebase> personList = datebaseDao.listDatebase();
+        return new PageInfo<Datebase>(personList);
 	}
 
     @Override
-    public Page<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize) {
+    public PageInfo<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return (Page<Datebase>)datebaseDao.listDatebaseByParam(datebase);
+        List<Datebase> personList = datebaseDao.listDatebaseByParam(datebase);
+        return new PageInfo<Datebase>(personList);
 	}
 
 }

@@ -1,19 +1,14 @@
 package com.heqing.handler;
 
-import com.github.pagehelper.Page;
-import com.heqing.entity.Datebase;
+import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.TableEntity;
-import com.heqing.service.DatebaseService;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
-import com.heqing.util.DataSourceUtil;
-import com.heqing.util.PageInfoUtil;
 import com.heqing.util.ResponseUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
@@ -121,12 +116,11 @@ public class TableHandler {
 
         SqlSession sqlSession = datebaseServiceExt.getSqlSession((Integer) map.get("dbId"));
         if(sqlSession != null) {
-            List<TableEntity> tableList = tableService.listTableByParamAndPage(sqlSession, dbName, pageIndex, pageSize);
-            if (tableList != null && tableList.size() > 0) {
+            PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage(sqlSession, dbName, pageIndex, pageSize);
+            if (tableList != null && tableList.getList().size() > 0) {
                 response.setCode(0);
                 response.setMsg("OK");
-                Long num = tableService.countTableByParamAndPage(sqlSession, dbName);
-                response.setData(new PageInfoUtil<>(tableList, pageIndex, pageSize, num));
+                response.setData(tableList);
             } else {
                 response.setCode(-1);
                 response.setMsg("获取数据库表信息失败！");

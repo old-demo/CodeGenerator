@@ -222,7 +222,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public void deploy(T taskEntity) {
-        TemplatesUtil.copyUtilFile(taskEntity.getProjectName());
         TemplatesUtil.zipFile(taskEntity.getProjectName());
     }
 
