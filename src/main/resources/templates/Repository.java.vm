@@ -22,7 +22,7 @@ public interface $!{className}Repository {
      * @param $!{entityName} $!{comment}列
      * @return int 成功数量
      */
-    int insert$!{className}($!{className} $!{entityName});
+    int save$!{className}($!{className} $!{entityName});
 
     /**
      * 增加多条$!{comment}列
@@ -30,7 +30,7 @@ public interface $!{className}Repository {
      * @param $!{entityName}List 多条$!{comment}列
      * @return int 成功数量
      */
-    int insertBatch$!{className}(List<$!{className}> $!{entityName}List);
+    int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
 #if($keyFields.size() > 0)
 
     /**

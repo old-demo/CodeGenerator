@@ -55,14 +55,14 @@
     </resultMap>
 
     <!--新增-->
-    <insert id="insertDatebase" parameterMap="datebaseParameterMap" keyProperty="id" useGeneratedKeys="true">
+    <insert id="saveDatebase" parameterMap="datebaseParameterMap" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
           datebase( <include refid="datebaseFields"/> )
         VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
     </insert>
 
     <!--新增多个-->
-    <insert id="insertBatchDatebase" parameterType="java.util.List">
+    <insert id="saveBatchDatebase" parameterType="java.util.List">
         INSERT INTO
           datebase( <include refid="datebaseFields"/> )
         VALUES

@@ -29,12 +29,12 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
-        return $!{entityName}Repository.insert$!{className}($!{entityName});
+        return $!{entityName}Repository.save$!{className}($!{entityName});
 	}
 
     @Override
     public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
-        return $!{entityName}Repository.insertBatch$!{className}($!{entityName}List);
+        return $!{entityName}Repository.saveBatch$!{className}($!{entityName}List);
 	}
 #if($keyFields.size() > 0)
 

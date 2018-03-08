@@ -25,14 +25,14 @@
     </resultMap>
 
     <!--新增-->
-    <insert id="insert$!{className}" parameterMap="$!{entityName}ParameterMap" #if($keyFields.size()==1 && $!{keyFields.get(0).type}=="Integer")keyProperty="$!{keyFields.get(0).columnName}" useGeneratedKeys="true"#end>
+    <insert id="save$!{className}" parameterMap="$!{entityName}ParameterMap" #if($keyFields.size()==1 && $!{keyFields.get(0).type}=="Integer")keyProperty="$!{keyFields.get(0).columnName}" useGeneratedKeys="true"#end>
         INSERT INTO
           $!{tableName}( <include refid="$!{entityName}Fields"/> )
         VALUES (#foreach($!field in $!fields) #if($velocityCount == 1)?#else, ?#end#end);
     </insert>
 
     <!--新增多个-->
-    <insert id="insertBatch$!{className}" parameterType="java.util.List">
+    <insert id="saveBatch$!{className}" parameterType="java.util.List">
         INSERT INTO
           $!{tableName}( <include refid="$!{entityName}Fields"/> )
         VALUES

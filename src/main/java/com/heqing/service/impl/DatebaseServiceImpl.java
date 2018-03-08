@@ -30,12 +30,12 @@ public class DatebaseServiceImpl implements DatebaseService {
 
     @Override
     public int saveDatebase(Datebase datebase) {
-        return datebaseRepository.insertDatebase(datebase);
+        return datebaseRepository.saveDatebase(datebase);
 	}
 
     @Override
     public int saveBatchDatebase(List<Datebase> datebaseList) {
-        return datebaseRepository.insertBatchDatebase(datebaseList);
+        return datebaseRepository.saveBatchDatebase(datebaseList);
 	}
 
     @Override

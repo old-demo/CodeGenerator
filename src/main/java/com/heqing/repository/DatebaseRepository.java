@@ -21,7 +21,7 @@ public interface DatebaseRepository {
      * @param datebase 数据库连接信息列
      * @return int 成功数量
      */
-    int insertDatebase(Datebase datebase);
+    int saveDatebase(Datebase datebase);
 
     /**
      * 增加多条数据库连接信息列
@@ -29,7 +29,7 @@ public interface DatebaseRepository {
      * @param datebaseList 多条数据库连接信息列
      * @return int 成功数量
      */
-    int insertBatchDatebase(List<Datebase> datebaseList);
+    int saveBatchDatebase(List<Datebase> datebaseList);
 
     /**
      * 根据主键删除数据库连接信息列
