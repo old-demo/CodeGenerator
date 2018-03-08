@@ -122,8 +122,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     @Override
     public void addMobile(T taskEntity) {
         taskEntity.getTemplates().add(TemplatesUtil.ENTITY);
-        taskEntity.getTemplates().add(TemplatesUtil.DAO);
-        taskEntity.getTemplates().add(TemplatesUtil.DAOMAPPER);
+        taskEntity.getTemplates().add(TemplatesUtil.REPOSITORY);
+        taskEntity.getTemplates().add(TemplatesUtil.REPOSITORYMAPPER);
         taskEntity.getTemplates().add(TemplatesUtil.SERVICE);
         taskEntity.getTemplates().add(TemplatesUtil.SERVICEIMPL);
 
@@ -194,7 +194,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskMap =  ObjectUtil.objToMap(taskEntity);
         taskMap.putAll(ObjectUtil.objToMap(classEntity));
         taskMap.put("tableName", tableName);
-        taskMap.put("daoMapper", taskEntity.getPackageName().replace(".","/"));
+        taskMap.put("repositoryMapper", taskEntity.getPackageName().replace(".","/"));
 
 //        System.out.println("------------------------------------------");
 //        Iterator entries = taskMap.entrySet().iterator();

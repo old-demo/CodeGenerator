@@ -39,7 +39,7 @@ public interface $!{className}Service {
 #end
      * @return int 成功数量
      */
-    int remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+    int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
 #end
 #if($keyFields.size() == 1)
 
@@ -49,7 +49,7 @@ public interface $!{className}Service {
      * @param $!{keyFields.get(0).entityName}s 主键ID集合
      * @return int 成功数量
      */
-    int removeBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+    int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
 #end
 
     /**
@@ -58,7 +58,7 @@ public interface $!{className}Service {
      * @param $!{entityName} $!{comment}实例:做条件删除使用
      * @return int 成功数量
      */
-    int removeBatch$!{className}ByParam($!{className} $!{entityName});
+    int deleteBatch$!{className}ByParam($!{className} $!{entityName});
 
 #if($keyFields.size() > 0)
     /**
@@ -67,15 +67,16 @@ public interface $!{className}Service {
      * @param $!{entityName} $!{comment}实例信息
      * @return int 成功数量
      */
-    int modify$!{className}ByKey($!{className} $!{entityName});
-
+    int update$!{className}ByKey($!{className} $!{entityName});
+#if($!{serviceFrame} == "springboot")
     /**
      * 批量修改$!{comment}实例
      *
      * @param $!{entityName}List 多条$!{comment}实例信息
      * @return int 是否成功
      */
-    int modifyBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+#end
 
     /**
      * 根据主键获取$!{comment}实例信息

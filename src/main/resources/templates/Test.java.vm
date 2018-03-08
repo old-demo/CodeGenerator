@@ -96,7 +96,7 @@ public class $!{className}Test {
 
 #if($keyFields.size() > 0)
     @Test
-    public void testModify$!{className}ByKey() {
+    public void testUpdate$!{className}ByKey() {
         $!{className} $!{entityName} = new $!{className}();
 #foreach ($!{field} in $!{keyFields})
 #if($!{field.type} == "String")
@@ -132,11 +132,11 @@ public class $!{className}Test {
         $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(6));
 #end
 #end
-        System.out.println("-->"+$!{entityName}Service.modify$!{className}ByKey($!{entityName}));
+        System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}));
     }
 #if($!{serviceFrame} == "springboot")
     @Test
-    public void testModifyBatch$!{className}ByKey() {
+    public void testUpdateBatch$!{className}ByKey() {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
         for(int i=7;i<10;i++) {
             $!{className} $!{entityName} = new $!{className}();
@@ -155,7 +155,6 @@ public class $!{className}Test {
             $!{entityName}.set$!{field.filedName}((double)(i-5));
 #elseif($!{field.type} == "java.math.BigDecimal")
             $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(i-5));
-#end
 #end
 #end
 #foreach ($!{field} in $!{noKeyFields})
@@ -177,8 +176,9 @@ public class $!{className}Test {
 #end
             $!{entityName}List.add($!{entityName});
         }
-        System.out.println("-->"+$!{entityName}Service.modifyBatch$!{className}ByKey($!{entityName}List));
+        System.out.println("-->"+$!{entityName}Service.updateBatch$!{className}ByKey($!{entityName}List));
     }
+#end
 
     @Test
     public void testGet$!{className}ByKey() {
@@ -322,8 +322,8 @@ public class $!{className}Test {
 #if($keyFields.size() > 0)
 
     @Test
-    public void testRemove$!{className}ByKey() {
-        System.out.println("-->"+$!{entityName}Service.remove$!{className}ByKey(
+    public void testDelete$!{className}ByKey() {
+        System.out.println("-->"+$!{entityName}Service.delete$!{className}ByKey(
 #foreach(${field} in ${keyFields})
 #if($velocityCount == 1)
 #if($!{field.type} == "String")
@@ -365,7 +365,7 @@ public class $!{className}Test {
 #if($keyFields.size() == 1)
 
     @Test
-    public void testRemoveBatch$!{className}ByKey() {
+    public void testDeleteBatch$!{className}ByKey() {
 #if($!{keyFields.get(0).type} == "String")
         List<String> ids = new ArrayList<>();
         ids.add("1");
@@ -395,12 +395,12 @@ public class $!{className}Test {
         ids.add( new java.math.BigDecimal(1));
         ids.add( new java.math.BigDecimal(2));
 #end
-        System.out.println("-->"+$!{entityName}Service.removeBatch$!{className}ByKey(ids));
+        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey(ids));
     }
  #end
 
     @Test
-    public void testRemoveBatch$!{className}ByParam() {
+    public void testDeleteBatch$!{className}ByParam() {
         $!{className} $!{entityName} = new $!{className}();
 #foreach ($!{field} in $!{fields})
 #if($velocityCount == 1)
@@ -421,6 +421,6 @@ public class $!{className}Test {
 #end
 #end
 #end
-        System.out.println("-->"+$!{entityName}Service.removeBatch$!{className}ByParam($!{entityName}));
+        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByParam($!{entityName}));
     }
 }

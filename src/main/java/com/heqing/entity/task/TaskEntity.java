@@ -60,7 +60,7 @@ public class TaskEntity {
 
     private String serviceFrame;
 
-    private String daoFrame;
+    private String repositoryFrame;
 
     public Datebase getDatebase() {
         return datebase;
@@ -134,12 +134,12 @@ public class TaskEntity {
         this.serviceFrame = serviceFrame;
     }
 
-    public String getDaoFrame() {
-        return daoFrame;
+    public String getRepositoryFrame() {
+        return repositoryFrame;
     }
 
-    public void setDaoFrame(String daoFrame) {
-        this.daoFrame = daoFrame;
+    public void setRepositoryFrame(String repositoryFrame) {
+        this.repositoryFrame = repositoryFrame;
     }
 
     @Override
@@ -162,6 +162,6 @@ public class TaskEntity {
         }
         return "TaskEntity [ datebase = "+datebase +", tableNames = "+tableNamesBuilder.toString()+", packageName = "+packageName+", templates = "+templateBuilder.toString()+
                 ", zipPath = "+zipPath+", authorName = "+authorName+", authorEmail = "+authorEmail+", projectName = "+projectName+", serviceFrame = "+serviceFrame+
-                ", daoFrame = "+daoFrame+"]";
+                ", repositoryFrame = "+repositoryFrame+"]";
     }
 }

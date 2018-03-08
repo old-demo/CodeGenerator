@@ -16,12 +16,12 @@ import java.util.List;
 public class TemplatesUtil {
 
     public final static String ENTITY = "Entity.java.vm";
-    public final static String DAO = "DAO.java.vm";
-    public final static String DAOMAPPER = "Mapper.xml.vm";
+    public final static String REPOSITORY = "Repository.java.vm";
+    public final static String REPOSITORYMAPPER = "Mapper.xml.vm";
     public final static String SERVICE = "Service.java.vm";
     public final static String SERVICEIMPL = "ServiceImpl.java.vm";
     public final static String TEST = "Test.java.vm";
-    public final static String HANDLER = "Handler.java.vm";
+    public final static String CONTROLLER = "Controller.java.vm";
     public final static String POM = "Pom.xml.vm";
     public final static String APPLICATION = "Application.java.vm";
     public final static String APPLICATION_PROPERTIES = "Application.properties.vm";
@@ -44,8 +44,8 @@ public class TemplatesUtil {
         if(template.contains(ENTITY)){
             filePatch += "src/main/java/" + packagePath + "/entity/" + className + ".java";
         }
-        if(template.contains(DAO)){
-            filePatch +=  "src/main/java/" + packagePath + "/dao/" + className + "Dao.java";
+        if(template.contains(REPOSITORY)){
+            filePatch +=  "src/main/java/" + packagePath + "/repository/" + className + "Repository.java";
         }
         if(template.contains(SERVICE)){
             filePatch +=  "src/main/java/" + packagePath + "/service/" + className + "Service.java";
@@ -53,11 +53,11 @@ public class TemplatesUtil {
         if(template.contains(SERVICEIMPL)){
             filePatch +=  "src/main/java/" + packagePath + "/service/impl/" + className + "ServiceImpl.java";
         }
-        if(template.contains(HANDLER)){
-            filePatch +=  "src/main/java/" + packagePath + "/hanler/" + className + "Handler.java";
+        if(template.contains(CONTROLLER)){
+            filePatch +=  "src/main/java/" + packagePath + "/controller/" + className + "Controller.java";
         }
-        if(template.contains(DAOMAPPER)){
-            filePatch +=  "src/main/resources/" +packagePath + "/dao/mapper/" + className + "DaoMapper.xml";
+        if(template.contains(REPOSITORYMAPPER)){
+            filePatch +=  "src/main/resources/" +packagePath + "/repository/mapper/" + className + "RepositoryMapper.xml";
         }
         if(template.contains(TEST)){
             filePatch +=  "src/test/java/" + packagePath + "/test/" + className + "Test.java";

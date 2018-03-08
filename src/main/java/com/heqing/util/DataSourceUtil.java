@@ -32,7 +32,7 @@ public class DataSourceUtil {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         try {
             bean.setDataSource(dataSource);
-            bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/heqing/dao/mapper/*.xml"));
+            bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/heqing/repository/mapper/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();

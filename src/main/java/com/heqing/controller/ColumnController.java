@@ -1,4 +1,4 @@
-package com.heqing.handler;
+package com.heqing.controller;
 
 import com.heqing.entity.orm.ColumnEntity;
 import com.heqing.service.ColumnService;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/column/v1")
-public class ColumnHandler {
+public class ColumnController {
 
     @Autowired
     DatebaseServiceExt datebaseServiceExt;

@@ -1,4 +1,4 @@
-package com.heqing.handler;
+package com.heqing.controller;
 
 import com.heqing.entity.Datebase;
 import com.heqing.service.impl.DatebaseServiceImplExt;
@@ -17,7 +17,7 @@ import java.sql.Connection;
  */
 @RestController
 @RequestMapping("/datebase/v1")
-public class DatebaseHandlerExt {
+public class DatebaseControllerExt {
 
     @Autowired
     DatebaseServiceImplExt datebaseServiceExt;

@@ -1,4 +1,4 @@
-package com.heqing.dao;
+package com.heqing.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.heqing.entity.Datebase;
  * @date   2018-02-02 10:37:53
  */
 @Mapper
-public interface DatebaseDao {
+public interface DatebaseRepository {
 
     /**
      * 增加数据库连接信息列

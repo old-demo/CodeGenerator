@@ -1,4 +1,4 @@
-package com.heqing.dao;
+package com.heqing.repository;
 
 import com.heqing.entity.orm.TableEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2018/01/03
  */
 @Mapper
-public interface TableDao {
+public interface TableRepository {
 
     /**
      * 获取所有表信息

@@ -24,18 +24,18 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public TableEntity getTableByName(SqlSession sqlSession, String tableName) {
-        return (TableEntity)sqlSession.selectOne("com.heqing.dao.TableDao.getTableByName", tableName);
+        return (TableEntity)sqlSession.selectOne("com.heqing.repository.TableRepository.getTableByName", tableName);
     }
 
     @Override
     public List<TableEntity> listTable(SqlSession sqlSession) {
-        return sqlSession.selectList("com.heqing.dao.TableDao.listTable");
+        return sqlSession.selectList("com.heqing.repository.TableRepository.listTable");
     }
 
     @Override
     public PageInfo<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<TableEntity> tableList = sqlSession.selectList("com.heqing.dao.TableDao.listTableByParamAndPage", tableName);
+        List<TableEntity> tableList = sqlSession.selectList("com.heqing.repository.TableRepository.listTableByParamAndPage", tableName);
         return new PageInfo<TableEntity>(tableList);
     }
 }

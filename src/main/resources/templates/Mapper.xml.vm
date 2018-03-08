@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="$!{classPackage}.dao.$!{className}Dao">
+<mapper namespace="$!{classPackage}.repository.$!{className}Repository">
 
     <!-- 数据库字段 -->
     <sql id="$!{entityName}Fields">
@@ -103,7 +103,7 @@
         </where>
         ;
     </update>
-
+#if($!{serviceFrame} == "springboot")
     <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE $!{tableName}
@@ -119,6 +119,7 @@
             </where>
         </foreach>
     </update>
+#end
 
     <!--根据id查询-->
     <select id="get$!{className}ByKey" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">

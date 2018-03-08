@@ -1,4 +1,4 @@
-package com.heqing.dao;
+package com.heqing.repository;
 
 import com.heqing.entity.orm.ColumnEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2018/01/03
  */
 @Mapper
-public interface ColumnDao {
+public interface ColumnRepository {
 
     /**
      * 获取表中所有列信息

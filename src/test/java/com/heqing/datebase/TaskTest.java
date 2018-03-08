@@ -86,11 +86,11 @@ public class TaskTest {
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("test");
+        taskEntity.setArtifactId("SpringTest");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("this is test");
         taskEntity.setDatebase(datebase);
-        taskEntity.setProjectName("Test");
+        taskEntity.setProjectName("SpringTest");
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
         taskEntity.setAuthorName("heqing");

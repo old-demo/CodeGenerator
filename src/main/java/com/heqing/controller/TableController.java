@@ -1,4 +1,4 @@
-package com.heqing.handler;
+package com.heqing.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.TableEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/table/v1")
-public class TableHandler {
+public class TableController {
 
     @Autowired
     DatebaseServiceExt datebaseServiceExt;

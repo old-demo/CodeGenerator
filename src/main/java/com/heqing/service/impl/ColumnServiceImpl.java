@@ -19,6 +19,6 @@ public class ColumnServiceImpl implements ColumnService {
 
     @Override
     public List<ColumnEntity> listColumnByTable(SqlSession sqlSession, String tableName) {
-        return sqlSession.selectList("com.heqing.dao.ColumnDao.listColumnByTable",tableName);
+        return sqlSession.selectList("com.heqing.repository.ColumnRepository.listColumnByTable",tableName);
     }
 }

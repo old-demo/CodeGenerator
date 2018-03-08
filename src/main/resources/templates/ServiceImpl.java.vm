@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import $!{classPackage}.entity.$!{className};
-import $!{classPackage}.dao.$!{className}Dao;
+import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.service.$!{className}Service;
 
 /**
@@ -25,40 +25,40 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
 
 	@Autowired
-	private $!{className}Dao $!{entityName}Dao;
+	private $!{className}Repository $!{entityName}Repository;
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
-        return $!{entityName}Dao.insert$!{className}($!{entityName});
+        return $!{entityName}Repository.insert$!{className}($!{entityName});
 	}
 
     @Override
     public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
-        return $!{entityName}Dao.insertBatch$!{className}($!{entityName}List);
+        return $!{entityName}Repository.insertBatch$!{className}($!{entityName}List);
 	}
 #if($keyFields.size() > 0)
 
     @Override
-    public int remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
-        return $!{entityName}Dao.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
+    public int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
+        return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
 	}
 #end
 #if($keyFields.size() == 1)
 
     @Override
-    public int removeBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
-        return $!{entityName}Dao.deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
+    public int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
+        return $!{entityName}Repository.deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
 	}
 #end
 
     @Override
-    public int removeBatch$!{className}ByParam($!{className} $!{entityName}) {
-        return $!{entityName}Dao.deleteBatch$!{className}ByParam($!{entityName});
+    public int deleteBatch$!{className}ByParam($!{className} $!{entityName}) {
+        return $!{entityName}Repository.deleteBatch$!{className}ByParam($!{entityName});
     }
 #if($keyFields.size() > 0)
 
     @Override
-    public int modify$!{className}ByKey($!{className} $!{entityName}) {
+    public int update$!{className}ByKey($!{className} $!{entityName}) {
 #if($notNullfields.size() > 0)
 #foreach ($!{field} in $!{notNullfields})
         if($!{entityName}.get$!{field.filedName}() == null) {
@@ -67,11 +67,12 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         }
 #end
 #end
-        return $!{entityName}Dao.update$!{className}ByKey($!{entityName});
+        return $!{entityName}Repository.update$!{className}ByKey($!{entityName});
 	}
 
+#if($!{serviceFrame} == "springboot")
     @Override
-    public int modifyBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
 #if($notNullfields.size() > 0)
         for($!{className} $!{entityName} : $!{entityName}List) {
 #foreach ($!{field} in $!{notNullfields})
@@ -82,43 +83,44 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #end
         }
 #end
-        return $!{entityName}Dao.updateBatch$!{className}ByKey($!{entityName}List);
+        return $!{entityName}Repository.updateBatch$!{className}ByKey($!{entityName}List);
 	}
+#end
 
     @Override
     public $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
-        return $!{entityName}Dao.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
+        return $!{entityName}Repository.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
 	}
 #end
 #if($keyFields.size() == 1)
 
     @Override
     public List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
-        return $!{entityName}Dao.list$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
+        return $!{entityName}Repository.list$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
 	}
 #end
 
     @Override
     public List<$!{className}> list$!{className}() {
-        return $!{entityName}Dao.list$!{className}();
+        return $!{entityName}Repository.list$!{className}();
 	}
 
     @Override
     public List<$!{className}> list$!{className}ByParam($!{className} $!{entityName}) {
-        return $!{entityName}Dao.list$!{className}ByParam($!{entityName});
+        return $!{entityName}Repository.list$!{className}ByParam($!{entityName});
 	}
 
     @Override
     public PageInfo<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<$!{className}> $!{entityName}List = $!{entityName}Dao.list$!{className}();
+        List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}();
         return new PageInfo<$!{className}>($!{entityName}List);
 	}
 
     @Override
     public PageInfo<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<$!{className}> $!{entityName}List = $!{entityName}Dao.list$!{className}ByParam($!{entityName});
+        List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}ByParam($!{entityName});
         return new PageInfo<$!{className}>($!{entityName}List);
 	}
 

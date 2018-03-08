@@ -1,6 +1,5 @@
-package com.heqing.handler;
+package com.heqing.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.heqing.entity.Datebase;
 import com.heqing.service.DatebaseService;
@@ -22,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/datebase/v1")
-public class DatebaseHandler {
+public class DatebaseController {
 
     @Autowired
     DatebaseService datebaseService;

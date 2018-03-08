@@ -1,4 +1,4 @@
-package $!{classPackage}.handler;
+package $!{classPackage}.Controller;
 
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.$!{className}Service;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/$!{entityName}")
-public class $!{className}Handler {
+public class $!{className}Controller {
 
     @Autowired
     $!{className}Service $!{entityName}Service;
@@ -43,9 +43,9 @@ public class $!{className}Handler {
     }
 #if($keyFields.size() > 0)
 
-    @RequestMapping(value = "/modify$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/update$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil modify$!{className}ByKey(@RequestBody $!{className} $!{entityName}) {
+    public ResponseUtil update$!{className}ByKey(@RequestBody $!{className} $!{entityName}) {
         ResponseUtil response = new ResponseUtil();
 #if($notNullfields.size() > 0)
 #foreach ($!{field} in $!{notNullfields})
@@ -56,7 +56,7 @@ public class $!{className}Handler {
         }
 #end
 #end
-        int result = $!{entityName}Service.modify$!{className}ByKey($!{entityName});
+        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName});
         if(result == 1) {
             response.setCode(0);
             response.setMsg("修改$!{comment}成功！");
@@ -67,9 +67,9 @@ public class $!{className}Handler {
         return response;
     }
 
-    @RequestMapping(value = "/remove$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/delete$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil remove$!{className}ByKey(@RequestBody Map map) {
+    public ResponseUtil delete$!{className}ByKey(@RequestBody Map map) {
         ResponseUtil response = new ResponseUtil();
 #if($keyFields.size() > 0)
 #foreach ($!{field} in $!{keyFields})
@@ -80,7 +80,7 @@ public class $!{className}Handler {
         }
 #end
 #end
-        int result = $!{entityName}Service.remove$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)($!{field.type})map.get("$!{field.entityName}")#else, ($!{field.type})map.get("$!{field.entityName}")#end#end);
+        int result = $!{entityName}Service.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)($!{field.type})map.get("$!{field.entityName}")#else, ($!{field.type})map.get("$!{field.entityName}")#end#end);
         if(result > 0) {
             response.setCode(0);
             response.setMsg("删除$!{comment}成功！");
@@ -111,12 +111,12 @@ public class $!{className}Handler {
     }
 
 #end
-    @RequestMapping(value = "/remove$!{className}ByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/delete$!{className}ByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil removeBatch$!{className}ByParam(@RequestBody $!{className} $!{entityName}) {
+    public ResponseUtil deleteBatch$!{className}ByParam(@RequestBody $!{className} $!{entityName}) {
 
         ResponseUtil response = new ResponseUtil();
-        int result = $!{entityName}Service.removeBatch$!{className}ByParam($!{entityName});
+        int result = $!{entityName}Service.deleteBatch$!{className}ByParam($!{entityName});
         if(result > 0) {
             response.setCode(0);
             response.setMsg("删除$!{comment}成功！");
