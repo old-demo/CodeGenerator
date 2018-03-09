@@ -1,12 +1,10 @@
 package com.heqing.controller;
 
-import com.heqing.entity.Datebase;
+import com.heqing.entity.orm.DatebaseEntity;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Connection;
 
 /**
  * 数据库连接信息对外接口层
@@ -24,7 +22,7 @@ public class DatebaseControllerExt {
 
     @RequestMapping(value = "/checkConnect", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil checkConnect(@RequestBody Datebase datebase) {
+    public ResponseUtil checkConnect(@RequestBody DatebaseEntity datebase) {
         ResponseUtil response = new ResponseUtil();
         if(datebase.getDriver() == null && "".equals(datebase.getDriver())) {
             response.setCode(-1);
@@ -57,19 +55,13 @@ public class DatebaseControllerExt {
             return response;
         }
 
-        String url = "jdbc:MySQL://"+datebase.getUrl()+":"+datebase.getPort()+"/"+datebase.getDbName();
-        try {
-            Connection conn = datebaseServiceExt.connect(datebase.getDriver(), url, datebase.getUsername(), datebase.getPassword());
-            if (conn != null) {
-                conn.close();
-                response.setCode(0);
-                response.setMsg("数据库连接成功！");
-            } else {
-                response.setCode(-1);
-                response.setMsg("数据库连接失败！");
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
+        Boolean conn = datebaseServiceExt.connect(datebase);
+        if (conn != null) {
+            response.setCode(0);
+            response.setMsg("数据库连接成功！");
+        } else {
+            response.setCode(-1);
+            response.setMsg("数据库连接失败！");
         }
         return response;
     }

@@ -5,9 +5,39 @@
 
     <!-- 表字段 -->
     <sql id="tableFields">
-        TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE, ENGINE, ROW_FORMAT, TABLE_ROWS, CREATE_TIME, UPDATE_TIME,
-        TABLE_COLLATION, TABLE_COMMENT, AUTO_INCREMENT, INDEX_LENGTH, DATA_LENGTH, MAX_DATA_LENGTH
+        TABLE_SCHEMA
+        , TABLE_NAME
+        , TABLE_TYPE
+        , ENGINE
+        , ROW_FORMAT
+        , TABLE_ROWS
+        , CREATE_TIME
+        , UPDATE_TIME
+        , TABLE_COLLATION
+        , TABLE_COMMENT
+        , AUTO_INCREMENT
+        , INDEX_LENGTH
+        , DATA_LENGTH
+        , MAX_DATA_LENGTH
     </sql>
+
+    <!-- 表字段与对象属性映射 -->
+    <parameterMap id="tableParameterMap" type="com.heqing.entity.orm.TableEntity">
+        <parameter property="dbName"/>
+        <parameter property="tableName"/>
+        <parameter property="type"/>
+        <parameter property="engine"/>
+        <parameter property="rowFormat"/>
+        <parameter property="rowsNum"/>
+        <parameter property="createTime"/>
+        <parameter property="updateTime"/>
+        <parameter property="collation"/>
+        <parameter property="comment"/>
+        <parameter property="autoIncrement"/>
+        <parameter property="indexLength"/>
+        <parameter property="dateLength"/>
+        <parameter property="maxDateLength"/>
+    </parameterMap>
 
     <!-- 表字段与对象属性映射 -->
     <resultMap id="tableResultMap" type="com.heqing.entity.orm.TableEntity">
@@ -30,7 +60,7 @@
     <!-- 根据表名查询 -->
     <select id="getTableByName" parameterType="map" resultMap="tableResultMap">
         SELECT
-        <include refid="tableFields"/>
+          <include refid="tableFields"/>
         FROM information_schema.tables
         WHERE table_schema = (select database()) AND table_name = #{tableName}
         LIMIT 1;
@@ -39,7 +69,7 @@
     <!-- 查询所有表 -->
     <select id="listTable" resultMap="tableResultMap">
         SELECT
-        <include refid="tableFields"/>
+          <include refid="tableFields"/>
         FROM information_schema.tables
         WHERE table_schema = (select database());
     </select>

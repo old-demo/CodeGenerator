@@ -1,7 +1,7 @@
 package com.heqing.entity.task;
 
-import com.heqing.entity.Datebase;
-import org.apache.ibatis.session.SqlSession;
+import com.alibaba.fastjson.JSONObject;
+import com.heqing.entity.orm.DatebaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class TaskEntity {
     /**
      * datebase 数据操作
      */
-    private Datebase datebase;
+    private DatebaseEntity datebase;
 
     /**
      * tableName 表名
@@ -62,11 +62,11 @@ public class TaskEntity {
 
     private String repositoryFrame;
 
-    public Datebase getDatebase() {
+    public DatebaseEntity getDatebase() {
         return datebase;
     }
 
-    public void setDatebase(Datebase datebase) {
+    public void setDatebase(DatebaseEntity datebase) {
         this.datebase = datebase;
     }
 
@@ -144,24 +144,6 @@ public class TaskEntity {
 
     @Override
     public String toString() {
-        StringBuilder tableNamesBuilder = new StringBuilder();
-        if(tableNames != null && tableNames.size()>0) {
-            tableNamesBuilder.append("tableNames [ ");
-            for (String tableName : tableNames) {
-                tableNamesBuilder.append(tableName + ", ");
-            }
-            tableNamesBuilder.append("] ");
-        }
-        StringBuilder templateBuilder = new StringBuilder();
-        if(templates != null && templates.size()>0) {
-            templateBuilder.append("templates [ ");
-            for (String template : templates) {
-                templateBuilder.append(template + ", ");
-            }
-            templateBuilder.append("] ");
-        }
-        return "TaskEntity [ datebase = "+datebase +", tableNames = "+tableNamesBuilder.toString()+", packageName = "+packageName+", templates = "+templateBuilder.toString()+
-                ", zipPath = "+zipPath+", authorName = "+authorName+", authorEmail = "+authorEmail+", projectName = "+projectName+", serviceFrame = "+serviceFrame+
-                ", repositoryFrame = "+repositoryFrame+"]";
+        return JSONObject.toJSONString(this);
     }
 }

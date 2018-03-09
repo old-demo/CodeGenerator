@@ -3,6 +3,7 @@ package com.heqing.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import com.heqing.entity.orm.DatebaseEntity;
 import com.heqing.repository.DatebaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-import com.heqing.entity.Datebase;
 import com.heqing.service.DatebaseService;
 
 /**
@@ -29,12 +29,12 @@ public class DatebaseServiceImpl implements DatebaseService {
 	private DatebaseRepository datebaseRepository;
 
     @Override
-    public int saveDatebase(Datebase datebase) {
+    public int saveDatebase(DatebaseEntity datebase) {
         return datebaseRepository.saveDatebase(datebase);
 	}
 
     @Override
-    public int saveBatchDatebase(List<Datebase> datebaseList) {
+    public int saveBatchDatebase(List<DatebaseEntity> datebaseList) {
         return datebaseRepository.saveBatchDatebase(datebaseList);
 	}
 
@@ -49,12 +49,12 @@ public class DatebaseServiceImpl implements DatebaseService {
 	}
 
     @Override
-    public int removeBatchDatebaseByParam(Datebase datebase) {
+    public int removeBatchDatebaseByParam(DatebaseEntity datebase) {
         return datebaseRepository.deleteBatchDatebaseByParam(datebase);
     }
 
     @Override
-    public int modifyDatebaseByKey(Datebase datebase) {
+    public int modifyDatebaseByKey(DatebaseEntity datebase) {
         if(datebase.getId() == null) {
             LOGGER.error("--> id 不能为null！" );
             return 0;
@@ -63,8 +63,8 @@ public class DatebaseServiceImpl implements DatebaseService {
 	}
 
     @Override
-    public int modifyBatchDatebaseByKey(List<Datebase> datebaseList) {
-        for(Datebase datebase : datebaseList) {
+    public int modifyBatchDatebaseByKey(List<DatebaseEntity> datebaseList) {
+        for(DatebaseEntity datebase : datebaseList) {
             if(datebase.getId() == null) {
                 LOGGER.error("--> id 不能为null！" + datebase);
                 return 0;
@@ -74,37 +74,37 @@ public class DatebaseServiceImpl implements DatebaseService {
 	}
 
     @Override
-    public Datebase getDatebaseByKey(Integer id) {
+    public DatebaseEntity getDatebaseByKey(Integer id) {
         return datebaseRepository.getDatebaseByKey(id);
 	}
 
     @Override
-    public List<Datebase> listDatebaseByKey(List<Integer> ids) {
+    public List<DatebaseEntity> listDatebaseByKey(List<Integer> ids) {
         return datebaseRepository.listDatebaseByKey(ids);
 	}
 
     @Override
-    public List<Datebase> listDatebase() {
+    public List<DatebaseEntity> listDatebase() {
         return datebaseRepository.listDatebase();
 	}
 
     @Override
-    public List<Datebase> listDatebaseByParam(Datebase datebase) {
+    public List<DatebaseEntity> listDatebaseByParam(DatebaseEntity datebase) {
         return datebaseRepository.listDatebaseByParam(datebase);
 	}
 
     @Override
-    public PageInfo<Datebase> listDatebaseByPage(int pageNo, int pageSize) {
+    public PageInfo<DatebaseEntity> listDatebaseByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<Datebase> personList = datebaseRepository.listDatebase();
-        return new PageInfo<Datebase>(personList);
+        List<DatebaseEntity> personList = datebaseRepository.listDatebase();
+        return new PageInfo<DatebaseEntity>(personList);
 	}
 
     @Override
-    public PageInfo<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize) {
+    public PageInfo<DatebaseEntity> listDatebaseByParamAndPage(DatebaseEntity datebase, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<Datebase> personList = datebaseRepository.listDatebaseByParam(datebase);
-        return new PageInfo<Datebase>(personList);
+        List<DatebaseEntity> personList = datebaseRepository.listDatebaseByParam(datebase);
+        return new PageInfo<DatebaseEntity>(personList);
 	}
 
 }

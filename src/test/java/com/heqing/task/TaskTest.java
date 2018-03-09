@@ -1,9 +1,8 @@
-package com.heqing.datebase;
+package com.heqing.task;
 
-import com.heqing.entity.Datebase;
+import com.heqing.entity.orm.DatebaseEntity;
 import com.heqing.entity.orm.TableEntity;
 import com.heqing.entity.task.MavenTaskEntity;
-import com.heqing.entity.task.TaskEntity;
 import com.heqing.service.TableService;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import com.heqing.service.task.MavenTaskService;
@@ -15,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,7 +33,7 @@ public class TaskTest {
     @Autowired
     TableService tableService;
 
-    Datebase datebase = new Datebase();
+    DatebaseEntity datebase = new DatebaseEntity();
 
     //zip输出路径
     //String zipPath = System.getProperty("user.dir")+"/code.zip";
@@ -57,22 +54,6 @@ public class TaskTest {
         datebase.setDbName(dbName);
         datebase.setUsername(userName);
         datebase.setPassword(password);
-    }
-
-    @Test
-    public void testConnect() {
-        String url = "jdbc:MySQL://" + datebase.getUrl() + ":" + datebase.getPort() + "/" + datebase.getDbName();
-        try {
-            Connection conn = datebaseServiceExt.connect(datebase.getDriver(), url, datebase.getUsername(), datebase.getPassword());
-            if (conn != null) {
-                conn.close();
-                System.out.println("数据库连接成功！");
-            } else {
-                System.out.println("数据库连接失败！");
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
@@ -99,6 +80,5 @@ public class TaskTest {
         taskEntity.setServiceFrame(MavenTaskEntity.SPRING);
         mavenTaskService.execute(taskEntity);
     }
-
 
 }

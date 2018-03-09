@@ -1,4 +1,6 @@
-package com.heqing.entity.orm;
+package com.heqing.entity.task;
+
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 字段信息的实体
@@ -86,8 +88,7 @@ public class FieldEntity {
 
     @Override
     public String toString() {
-        return "FieldEntity [ filedName = "+filedName+", entityName = "+entityName+", type = "+type+
-                ", comment = "+comment+", columnName = "+columnName+"]";
+        return JSONObject.toJSONString(this);
     }
 
 }

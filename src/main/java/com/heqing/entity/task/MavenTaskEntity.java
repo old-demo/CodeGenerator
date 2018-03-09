@@ -1,5 +1,7 @@
 package com.heqing.entity.task;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 生成任务的参数信息
  *
@@ -48,7 +50,6 @@ public class MavenTaskEntity extends TaskEntity {
 
     @Override
     public String toString() {
-        return "MavenTaskEntity [ "+super.toString()+" groupId = "+groupId+", artifactId = "+artifactId+
-                ", version = "+version+", description = "+description+"]";
+        return JSONObject.toJSONString(this);
     }
 }

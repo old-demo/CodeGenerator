@@ -1,8 +1,8 @@
 package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.heqing.entity.orm.DatebaseEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.heqing.entity.Datebase;
 import com.heqing.service.DatebaseService;
 
 /**
@@ -32,7 +31,7 @@ public class DatebaseTest {
 
     @Test
     public void testSaveDatebase() {
-        Datebase datebase = new Datebase();
+        DatebaseEntity datebase = new DatebaseEntity();
         datebase.setUrl("test1");
         datebase.setDescribe("test1");
         datebase.setCreateTime(new Date());
@@ -51,9 +50,9 @@ public class DatebaseTest {
 
     @Test
     public void testSaveBatchDatebase() {
-        List<Datebase> datebaseList = new ArrayList<>();
+        List<DatebaseEntity> datebaseList = new ArrayList<>();
         for(int i=2;i<5;i++) {
-            Datebase datebase = new Datebase();
+            DatebaseEntity datebase = new DatebaseEntity();
             datebase.setUrl("test"+i);
             datebase.setDescribe("test"+i);
             datebase.setCreateTime(new Date());
@@ -74,7 +73,7 @@ public class DatebaseTest {
 
     @Test
     public void testModifyDatebaseByKey() {
-        Datebase datebase = new Datebase();
+        DatebaseEntity datebase = new DatebaseEntity();
         datebase.setId(1);
         datebase.setDbName("test"+11);
         datebase.setUpdateTime(new Date());
@@ -93,9 +92,9 @@ public class DatebaseTest {
 
     @Test
     public void testModifyBatchDatebaseByKey() {
-        List<Datebase> datebaseList = new ArrayList<>();
+        List<DatebaseEntity> datebaseList = new ArrayList<>();
         for(int i=12;i<15;i++) {
-            Datebase datebase = new Datebase();
+            DatebaseEntity datebase = new DatebaseEntity();
             datebase.setId(i-10);
             datebase.setDbName("test"+i);
             datebase.setUpdateTime(new Date());
@@ -134,23 +133,22 @@ public class DatebaseTest {
 
     @Test
     public void testListDatebaseByParam() {
-        Datebase datebase = new Datebase();
-//        datebase.setUrl("test1");
-//        datebase.setConnectName("testInsert");
+        DatebaseEntity datebase = new DatebaseEntity();
+        datebase.setUrl("test1");
         System.out.println("-->"+datebaseService.listDatebaseByParam(datebase).size());
     }
 
     @Test
     public void testListDatebaseByPage() {
-        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,1);
+        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByPage(1,1);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
     @Test
     public void testListDatebaseByParamAndPage() {
-        Datebase datebase = new Datebase();
+        DatebaseEntity datebase = new DatebaseEntity();
         datebase.setUrl("localhost");
-        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
+        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
@@ -171,7 +169,7 @@ public class DatebaseTest {
  
     @Test
     public void removeBatchDatebaseByParam() {
-        Datebase datebase = new Datebase();
+        DatebaseEntity datebase = new DatebaseEntity();
         datebase.setUrl("test1");
         System.out.println("-->"+datebaseService.removeBatchDatebaseByParam(datebase));
     }

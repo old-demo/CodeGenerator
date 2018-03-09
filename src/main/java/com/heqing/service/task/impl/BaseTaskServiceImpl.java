@@ -1,9 +1,9 @@
 package com.heqing.service.task.impl;
 
 import com.heqing.entity.task.TaskEntity;
-import com.heqing.entity.orm.ClassEntity;
+import com.heqing.entity.task.ClassEntity;
 import com.heqing.entity.orm.ColumnEntity;
-import com.heqing.entity.orm.FieldEntity;
+import com.heqing.entity.task.FieldEntity;
 import com.heqing.entity.orm.TableEntity;
 import com.heqing.service.ColumnService;
 import com.heqing.service.DatebaseServiceExt;
@@ -25,8 +25,6 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static com.heqing.entity.task.TaskEntity.SPRING;
 
 /**
  * 代码生成基础任务实现类

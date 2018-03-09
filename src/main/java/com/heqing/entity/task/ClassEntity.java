@@ -1,10 +1,9 @@
-package com.heqing.entity.orm;
+package com.heqing.entity.task;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 类信息的实体
@@ -161,41 +160,6 @@ public class ClassEntity {
 
     @Override
     public String toString() {
-        StringBuilder fieldBuilder = new StringBuilder();
-        if(fields != null && fields.size()>0) {
-            fieldBuilder.append("fields [ ");
-            for (FieldEntity field : fields) {
-                fieldBuilder.append(field + ", ");
-            }
-            fieldBuilder.append("] ");
-        }
-        StringBuilder keyFieldsBuilder = new StringBuilder();
-        if(keyFields != null && keyFields.size()>0) {
-            keyFieldsBuilder.append("keyFields [ ");
-            for (FieldEntity field : keyFields) {
-                keyFieldsBuilder.append(field + ", ");
-            }
-            keyFieldsBuilder.append("] ");
-        }
-        StringBuilder noKeyFieldsBuilder = new StringBuilder();
-        if(fields != null && fields.size()>0) {
-            noKeyFieldsBuilder.append("noKeyFields [ ");
-            for (FieldEntity field : fields) {
-                noKeyFieldsBuilder.append(field + ", ");
-            }
-            noKeyFieldsBuilder.append("] ");
-        }
-        StringBuilder notNullfieldsBuilder = new StringBuilder();
-        if(notNullfields != null && notNullfields.size()>0) {
-            notNullfieldsBuilder.append("notNullfields [ ");
-            for (FieldEntity field : notNullfields) {
-                notNullfieldsBuilder.append(field + ", ");
-            }
-            notNullfieldsBuilder.append("] ");
-        }
-        return "ClassEntity [ classPackage = "+classPackage+", className = "+className+ ", entityName = "+entityName+
-                ", comment = "+comment+", authorName = "+authorName+", authorEmail = "+authorEmail+", createTime = "+createTime+
-                ", fields = "+fields.toString()+", keyFields = "+keyFieldsBuilder.toString()+", notNullfields = "+notNullfieldsBuilder.toString()+
-                ", noKeyFields = "+noKeyFieldsBuilder.toString()+"]";
+        return JSONObject.toJSONString(this);
     }
 }

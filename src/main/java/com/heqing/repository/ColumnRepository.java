@@ -20,7 +20,7 @@ public interface ColumnRepository {
      * 获取表中所有列信息
      *
      * @param tableName 表名
-     * @return List<ColumnEntity> 表中所有列
+     * @return 表中所有列
      */
     List<ColumnEntity> listColumnByTable(@Param(value="tableName")String tableName);
 }

@@ -1,5 +1,7 @@
 package com.heqing.entity.orm;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 
 /**
@@ -184,9 +186,7 @@ public class ColumnEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ColumnEntity [ dbName = "+dbName+", tableName = "+tableName+", columnName = "+columnName+", position = "+position+
-                ", isNullAble = "+isNullAble+", dateType = "+dateType+", maximumLength = "+maximumLength+", precision = "+precision+
-                ", collation = "+collation+", type = "+type+", key = "+key+", comment = "+comment+", extra = "+extra+"]";
+        return JSONObject.toJSONString(this);
     }
 
 }

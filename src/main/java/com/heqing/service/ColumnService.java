@@ -17,9 +17,18 @@ public interface ColumnService {
     /**
      * 获取表中所有列信息
      *
+     * @param dbId 数据库id
+     * @param tableName 表名
+     * @return 表中所有列
+     */
+    List<ColumnEntity> listColumnByTable(Integer dbId, String tableName);
+
+    /**
+     * 获取表中所有列信息
+     *
      * @param sqlSession 操作数据库
      * @param tableName 表名
-     * @return List<ColumnEntity> 表中所有列
+     * @return 表中所有列
      */
     List<ColumnEntity> listColumnByTable(SqlSession sqlSession, String tableName);
 }

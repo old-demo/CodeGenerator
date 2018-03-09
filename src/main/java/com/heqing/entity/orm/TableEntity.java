@@ -1,9 +1,9 @@
 package com.heqing.entity.orm;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -217,20 +217,7 @@ public class TableEntity implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder columnBuilder = new StringBuilder();
-        if(columns != null && columns.size()>0) {
-            columnBuilder.append("columns [ ");
-            for (ColumnEntity column : columns) {
-                columnBuilder.append(column + ", ");
-            }
-            columnBuilder.append("] ");
-        }
-
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return "TableEntity [ dbName = "+dbName+", tableName = "+tableName+", type = "+type+", engine = "+engine+", rowFormat = "+rowFormat+
-                ", rowsNum = "+rowsNum+", createTime = "+(createTime==null ? "" : sdf.format(createTime))+", collation = "+collation+
-                ", updateTime = "+(updateTime==null ? "" : sdf.format(updateTime))+", comment = "+comment+", autoIncrement = "+autoIncrement+
-                ", indexLength = "+indexLength+", dateLength = "+dateLength+", maxDateLength = "+maxDateLength+", columns = "+columnBuilder.toString()+"]";
+        return JSONObject.toJSONString(this);
     }
 
 }

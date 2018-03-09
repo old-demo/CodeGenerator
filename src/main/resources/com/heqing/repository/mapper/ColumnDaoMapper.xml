@@ -5,9 +5,36 @@
 
     <!-- 列字段 -->
     <sql id="columnFields">
-        TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, IS_NULLABLE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH,
-        NUMERIC_PRECISION, CHARACTER_SET_NAME, COLUMN_TYPE, COLUMN_KEY, COLUMN_COMMENT, EXTRA
+        TABLE_SCHEMA
+        , TABLE_NAME, COLUMN_NAME
+        , ORDINAL_POSITION
+        , IS_NULLABLE
+        , DATA_TYPE
+        , CHARACTER_MAXIMUM_LENGTH
+        , NUMERIC_PRECISION
+        , CHARACTER_SET_NAME
+        , COLUMN_TYPE
+        , COLUMN_KEY
+        , COLUMN_COMMENT
+        , EXTRA
     </sql>
+
+    <!-- 属性 -->
+    <parameterMap id="columnParameterMap" type="com.heqing.entity.orm.ColumnEntity">
+        <parameter property="dbName"/>
+        <parameter property="tableName"/>
+        <parameter property="columnName"/>
+        <parameter property="position"/>
+        <parameter property="isNullAble"/>
+        <parameter property="dateType"/>
+        <parameter property="maximumLength"/>
+        <parameter property="precision"/>
+        <parameter property="collation"/>
+        <parameter property="type"/>
+        <parameter property="key"/>
+        <parameter property="comment"/>
+        <parameter property="extra"/>
+    </parameterMap>
 
     <!-- 表字段与对象属性映射 -->
     <resultMap id="columnResultMap" type="com.heqing.entity.orm.ColumnEntity">
@@ -29,7 +56,7 @@
     <!-- 查询表中所有列 -->
     <select id="listColumnByTable" parameterType="map" resultMap="columnResultMap">
         SELECT
-        <include refid="columnFields"/>
+          <include refid="columnFields"/>
         FROM information_schema.columns
         WHERE  table_schema = (select database()) AND table_name = #{tableName}
         ORDER BY ordinal_position;

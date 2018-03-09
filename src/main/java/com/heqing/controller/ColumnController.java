@@ -2,9 +2,7 @@ package com.heqing.controller;
 
 import com.heqing.entity.orm.ColumnEntity;
 import com.heqing.service.ColumnService;
-import com.heqing.service.DatebaseServiceExt;
 import com.heqing.util.ResponseUtil;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/column/v1")
 public class ColumnController {
-
-    @Autowired
-    DatebaseServiceExt datebaseServiceExt;
 
     @Autowired
     ColumnService columnService;
@@ -43,19 +38,11 @@ public class ColumnController {
             return response;
         }
 
-        SqlSession sqlSession = datebaseServiceExt.getSqlSession((Integer) map.get("dbId"));
-        if(sqlSession != null) {
-            List<ColumnEntity> columnList = columnService.listColumnByTable(sqlSession, (String) map.get("tableName"));
-            if (columnList != null) {
-                response.setCode(0);
-                response.setMsg("ok");
-                response.setData(columnList);
-            } else {
-                response.setCode(-1);
-                response.setMsg("获取数据库表中列的信息失败！");
-            }
-            sqlSession.clearCache();
-            sqlSession.close();
+        List<ColumnEntity> columnList = columnService.listColumnByTable((Integer) map.get("dbId"), (String) map.get("tableName"));
+        if (columnList != null) {
+            response.setCode(0);
+            response.setMsg("ok");
+            response.setData(columnList);
         } else {
             response.setCode(-1);
             response.setMsg("获取数据库表中列的信息失败！");

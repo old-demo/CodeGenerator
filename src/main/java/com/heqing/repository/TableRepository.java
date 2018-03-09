@@ -20,14 +20,14 @@ public interface TableRepository {
      * 获取所有表信息
      *
      * @param tableName 表名
-     * @return List<TableEntity> 所有表信息
+     * @return 所有表信息
      */
     TableEntity getTableByName(@Param(value="tableName")String tableName);
 
     /**
      * 获取所有表信息
      *
-     * @return List<TableEntity> 所有表信息
+     * @return 所有表信息
      */
     List<TableEntity> listTable();
 }

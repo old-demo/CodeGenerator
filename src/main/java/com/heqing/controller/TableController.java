@@ -2,10 +2,8 @@ package com.heqing.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.TableEntity;
-import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
 import com.heqing.util.ResponseUtil;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +20,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/table/v1")
 public class TableController {
-
-    @Autowired
-    DatebaseServiceExt datebaseServiceExt;
 
     @Autowired
     TableService tableService;
@@ -44,18 +39,10 @@ public class TableController {
             return response;
         }
 
-        SqlSession sqlSession = datebaseServiceExt.getSqlSession((Integer) map.get("dbId"));
-        if(sqlSession != null) {
-            TableEntity table = tableService.getTableByName(sqlSession, (String) map.get("tableName"));
-            if (table != null) {
-                response.setCode(0);
-                response.setData(table);
-            } else {
-                response.setCode(-1);
-                response.setMsg("获取数据库表信息失败！");
-            }
-            sqlSession.clearCache();
-            sqlSession.close();
+        TableEntity table = tableService.getTableByName((Integer) map.get("dbId"), (String) map.get("tableName"));
+        if (table != null) {
+            response.setCode(0);
+            response.setData(table);
         } else {
             response.setCode(-1);
             response.setMsg("获取数据库表信息失败！");
@@ -73,22 +60,14 @@ public class TableController {
             return response;
         }
 
-        SqlSession sqlSession = datebaseServiceExt.getSqlSession((Integer) map.get("dbId"));
-        if(sqlSession != null) {
-            List<TableEntity> tableList = tableService.listTable(sqlSession);
-            if (tableList != null && tableList.size() > 0) {
-                response.setCode(0);
-                response.setMsg("OK");
-                response.setData(tableList);
-            } else {
-                response.setCode(-1);
-                response.setMsg("获取数据库表信息失败！");
-            }
-            sqlSession.clearCache();
-            sqlSession.close();
+        List<TableEntity> tableList = tableService.listTable((Integer) map.get("dbId"));
+        if (tableList != null && tableList.size() > 0) {
+            response.setCode(0);
+            response.setMsg("OK");
+            response.setData(tableList);
         } else {
             response.setCode(-1);
-            response.setMsg("获取数据库信息失败！");
+            response.setMsg("获取数据库表信息失败！");
         }
         return response;
     }
@@ -114,22 +93,14 @@ public class TableController {
             dbName = map.get("dbName")+"";
         }
 
-        SqlSession sqlSession = datebaseServiceExt.getSqlSession((Integer) map.get("dbId"));
-        if(sqlSession != null) {
-            PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage(sqlSession, dbName, pageIndex, pageSize);
-            if (tableList != null && tableList.getList().size() > 0) {
-                response.setCode(0);
-                response.setMsg("OK");
-                response.setData(tableList);
-            } else {
-                response.setCode(-1);
-                response.setMsg("获取数据库表信息失败！");
-            }
-            sqlSession.clearCache();
-            sqlSession.close();
+        PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage((Integer) map.get("dbId"), dbName, pageIndex, pageSize);
+        if (tableList != null && tableList.getList().size() > 0) {
+            response.setCode(0);
+            response.setMsg("OK");
+            response.setData(tableList);
         } else {
             response.setCode(-1);
-            response.setMsg("获取数据库信息失败！");
+            response.setMsg("获取数据库表信息失败！");
         }
         return response;
     }

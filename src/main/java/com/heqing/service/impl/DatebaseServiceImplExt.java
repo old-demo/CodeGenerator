@@ -1,6 +1,6 @@
 package com.heqing.service.impl;
 
-import com.heqing.entity.Datebase;
+import com.heqing.entity.orm.DatebaseEntity;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.util.DataSourceUtil;
 import com.heqing.util.ObjectUtil;
@@ -27,8 +27,14 @@ public class DatebaseServiceImplExt extends DatebaseServiceImpl implements Dateb
     private static final Logger LOGGER = Logger.getLogger(DatebaseServiceImplExt.class);
 
     @Override
-    public Connection connect(String driverClass, String url, String userName, String password) {
+    public Boolean connect(DatebaseEntity datebase) {
+        String url = "jdbc:MySQL://"+datebase.getUrl()+":"+datebase.getPort()+"/"+datebase.getDbName();
+        return connect(datebase.getDriver(), url, datebase.getUsername(), datebase.getPassword());
+    }
 
+    @Override
+    public Boolean connect(String driverClass, String url, String userName, String password) {
+        Boolean connect = false;
         Driver driver = getDriver(driverClass);
         if(driver != null) {
             Properties props = new Properties();
@@ -39,22 +45,24 @@ public class DatebaseServiceImplExt extends DatebaseServiceImpl implements Dateb
             try {
                 String connectionUrl = url;
                 conn = driver.connect(connectionUrl, props);
+                if(conn != null) {
+                    connect = true;
+                    conn.close();
+                }
             } catch (SQLException e){
                 e.printStackTrace();
             }
-            return conn;
         }
-        return null;
+        return connect;
     }
 
     @Override
     public SqlSession getSqlSession(Integer dbId) {
-        Datebase datebase = getDatebaseByKey(dbId);
-        return getSqlSession(datebase);
+        return getSqlSession(getDatebaseByKey(dbId));
     }
 
     @Override
-    public SqlSession getSqlSession(Datebase datebase) {
+    public SqlSession getSqlSession(DatebaseEntity datebase) {
         if(datebase != null) {
             String driver = datebase.getDriver() == null ? "" : datebase.getDriver();
             String url = datebase.getUrl() == null ? "" : datebase.getUrl();
