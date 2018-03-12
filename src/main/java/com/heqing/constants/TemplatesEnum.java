@@ -14,27 +14,27 @@ public enum TemplatesEnum {
     /*
      * entity   实体类
      */
-    MYBATIS_ENTITY("mybatisEntity", "MybatisEntity.java.vm"),
+    MYBATIS_ENTITY("mybatisEntity", "mybatis/MybatisEntity.java.vm"),
     /*
      * mybatis   持久层mybatis接口
      */
-    MYBATIS_DAO("mybatisDao", "MybatisDao.java.vm"),
+    MYBATIS_DAO("mybatisDao", "mybatis/MybatisDao.java.vm"),
     /*
      * mapper   mybatis映射文件
      */
-    MYBATIS_MAPPER("mybatisMapper", "MybatisMapper.xml.vm"),
+    MYBATIS_MAPPER("mybatisMapper", "mybatis/MybatisMapper.xml.vm"),
     /*
      * service  业务逻辑层接口
      */
-    MYBATIS_SERVICE("mybatisService", "MybatisService.java.vm"),
+    MYBATIS_SERVICE("mybatisService", "mybatis/MybatisService.java.vm"),
     /*
      * serviceImpl  业务逻辑层实现类
      */
-    MYBATIS_SERVICEIMPL("mybatisServiceImpl", "MybatisServiceImpl.java.vm"),
+    MYBATIS_SERVICEIMPL("mybatisServiceImpl", "mybatis/MybatisServiceImpl.java.vm"),
     /*
          * test 测试类
          */
-    MYBATIS_TEST("mybatisTest", "MybatisTest.java.vm"),
+    MYBATIS_TEST("mybatisTest", "mybatis/MybatisTest.java.vm"),
     /*
      * controller   显示控制层
      */
@@ -58,7 +58,7 @@ public enum TemplatesEnum {
     /*
      * Spring_mybatis mybatis配置
      */
-    MYBATIS_CONFIG("mybatisConfig", "MybatisConfig.xml.vm");
+    MYBATIS_CONFIG("mybatisConfig", "mybatis/MybatisConfig.xml.vm");
 
     public static String getFilePath(String projectName, TemplatesEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
