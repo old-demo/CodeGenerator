@@ -261,7 +261,7 @@ public class FileUtil {
     public static void zipFile(String projectName) {
         try {
             String filePath = System.getProperty("user.dir")+"/code/maven/"+projectName;
-            FileOutputStream fos1 = new FileOutputStream(new File(filePath+".zip"));
+            FileOutputStream fos1 = new FileOutputStream(new File(filePath+"_"+System.currentTimeMillis()+".zip"));
             FileUtil.toZip(filePath, fos1, true);
             FileUtil.delete(filePath);
         } catch(Exception e) {

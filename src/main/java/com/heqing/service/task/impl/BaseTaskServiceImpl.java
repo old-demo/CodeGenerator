@@ -134,10 +134,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public void addMobile(T taskEntity) {
-        taskEntity.getTemplates().add(TemplatesEnum.ENTITY);
-        taskEntity.getTemplates().add(TemplatesEnum.SERVICE);
-        taskEntity.getTemplates().add(TemplatesEnum.SERVICEIMPL);
-        taskEntity.getTemplates().add(TemplatesEnum.TEST);
         FrameEnum.addTemplates(taskEntity);
     }
 
@@ -236,7 +232,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public void deploy(T taskEntity) {
-//        FileUtil.zipFile(taskEntity.getProjectName());
+        FileUtil.zipFile(taskEntity.getProjectName());
     }
 
     @Override

@@ -67,8 +67,12 @@ public enum FrameEnum {
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         switch (repositoryFrame) {
             case MYBATIS:
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_ENTITY);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_DAO);
                 taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_MAPPER);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_SERVICE);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_SERVICEIMPL);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_TEST);
                 break;
             case HIBERNATE:
                 break;

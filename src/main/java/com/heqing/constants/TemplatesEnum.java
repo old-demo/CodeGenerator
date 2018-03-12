@@ -14,11 +14,11 @@ public enum TemplatesEnum {
     /*
      * entity   实体类
      */
-    ENTITY("entity", "Entity.java.vm"),
+    MYBATIS_ENTITY("mybatisEntity", "MybatisEntity.java.vm"),
     /*
      * mybatis   持久层mybatis接口
      */
-    MYBATIS("mybatis", "Mybatis.java.vm"),
+    MYBATIS_DAO("mybatisDao", "MybatisDao.java.vm"),
     /*
      * mapper   mybatis映射文件
      */
@@ -26,15 +26,15 @@ public enum TemplatesEnum {
     /*
      * service  业务逻辑层接口
      */
-    SERVICE("service", "Service.java.vm"),
+    MYBATIS_SERVICE("mybatisService", "MybatisService.java.vm"),
     /*
      * serviceImpl  业务逻辑层实现类
      */
-    SERVICEIMPL("serviceImpl", "ServiceImpl.java.vm"),
+    MYBATIS_SERVICEIMPL("mybatisServiceImpl", "MybatisServiceImpl.java.vm"),
     /*
          * test 测试类
          */
-    TEST("test", "test.java.vm"),
+    MYBATIS_TEST("mybatisTest", "MybatisTest.java.vm"),
     /*
      * controller   显示控制层
      */
@@ -54,11 +54,11 @@ public enum TemplatesEnum {
     /*
      * spring_core  spring框架配置
      */
-    SPRING_CONFIG("spring_core", "Spring_core.xml.vm"),
+    SPRING_CONFIG("springConfig", "SpringConfig.xml.vm"),
     /*
      * Spring_mybatis mybatis配置
      */
-    MYBATIS_CONFIG("spring_mybatis", "Spring_mybatis.xml.vm");
+    MYBATIS_CONFIG("mybatisConfig", "MybatisConfig.xml.vm");
 
     public static String getFilePath(String projectName, TemplatesEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -68,19 +68,19 @@ public enum TemplatesEnum {
         }
 
         switch (template) {
-            case ENTITY:
+            case MYBATIS_ENTITY:
                 filePatch += "src/main/java/" + packagePath + "/entity/" + className + ".java";
                 break;
-            case MYBATIS:
+            case MYBATIS_DAO:
                 filePatch += "src/main/java/" + packagePath + "/repository/" + className + "Repository.java";
                 break;
             case MYBATIS_MAPPER:
                 filePatch += "src/main/resources/" +packagePath + "/repository/mapper/" + className + "RepositoryMapper.xml";
                 break;
-            case SERVICE:
+            case MYBATIS_SERVICE:
                 filePatch += "src/main/java/" + packagePath + "/service/" + className + "Service.java";
                 break;
-            case SERVICEIMPL:
+            case MYBATIS_SERVICEIMPL:
                 filePatch += "src/main/java/" + packagePath + "/service/impl/" + className + "ServiceImpl.java";
                 break;
             case POM:
@@ -92,7 +92,7 @@ public enum TemplatesEnum {
             case CONTROLLER:
                 filePatch += "src/main/java/" + packagePath + "/controller/" + className + "Controller.java";
                 break;
-            case TEST:
+            case MYBATIS_TEST:
                 filePatch += "src/test/java/" + packagePath + "/test/" + className + "Test.java";
                 break;
             case APPLICATION_PROPERTIES:
