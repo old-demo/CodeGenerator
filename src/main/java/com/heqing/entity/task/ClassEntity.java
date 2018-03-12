@@ -56,17 +56,17 @@ public class ClassEntity {
     private LinkedList<FieldEntity> fields;
 
     /**
-     * fields 主键列表
+     * keyFields 主键列表
      */
     private LinkedList<FieldEntity> keyFields;
 
     /**
-     * fields 非主键列表
+     * noKeyFields 非主键列表
      */
     private LinkedList<FieldEntity> noKeyFields;
 
     /**
-     * notNUllfields 不能为空的列表
+     * notNullfields 不能为空的列表
      */
     private LinkedList<FieldEntity> notNullfields;
 

@@ -1,5 +1,8 @@
 package com.heqing.service.task.impl;
 
+import com.heqing.constants.FrameEnum;
+import com.heqing.constants.TemplatesEnum;
+import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.TaskEntity;
 import com.heqing.entity.task.ClassEntity;
 import com.heqing.entity.orm.ColumnEntity;
@@ -9,9 +12,9 @@ import com.heqing.service.ColumnService;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
 import com.heqing.service.task.BaseTaskService;
+import com.heqing.util.FileUtil;
 import com.heqing.util.ObjectUtil;
 
-import com.heqing.util.TemplatesUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -56,11 +59,11 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     @Override
     public void execute(T taskEntity) {
         try {
-            LOGGER.info("开始载入生成模板数据！");
-            addMobile(taskEntity);
-
             LOGGER.info("开始检查数据！");
             checkParams(taskEntity);
+
+            LOGGER.info("开始载入生成模板数据！");
+            addMobile(taskEntity);
 
             for(String tableName : taskEntity.getTableNames()) {
                 LOGGER.info("开始合成参数！");
@@ -95,14 +98,26 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             if (taskEntity.getPackageName() == null || "".equals(taskEntity.getPackageName())) {
                 throw new Exception("代码存储不能为空！");
             }
-            if (taskEntity.getTemplates() == null || taskEntity.getTemplates().size() < 1) {
-                throw new Exception("模板名不能为空！");
-            }
             if (taskEntity.getZipPath() == null || "".equals(taskEntity.getZipPath())) {
                 throw new Exception("输出路径不能为空！");
             }
-            if (taskEntity.getServiceFrame() == null || "".equals(taskEntity.getServiceFrame())) {
-                throw new Exception("服务框架不能为空！");
+            if (taskEntity.getFrame() == null) {
+                FrameEntity frameEntity = new FrameEntity();
+                frameEntity.setProjectFrame(FrameEnum.MAVEN);
+                frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+                frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+                taskEntity.setFrame(frameEntity);
+            } else {
+                FrameEntity frameEntity = taskEntity.getFrame();
+                if(frameEntity.getProjectFrame() == null) {
+                    frameEntity.setProjectFrame(FrameEnum.MAVEN);
+                }
+                if(frameEntity.getServiceFrame() == null) {
+                    frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+                }
+                if(frameEntity.getRepositoryFrame() == null) {
+                    frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+                }
             }
             if (taskEntity.getDatebase() == null) {
                 throw new Exception("数据库信息不能为空！");
@@ -119,20 +134,11 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public void addMobile(T taskEntity) {
-        taskEntity.getTemplates().add(TemplatesUtil.ENTITY);
-        taskEntity.getTemplates().add(TemplatesUtil.REPOSITORY);
-        taskEntity.getTemplates().add(TemplatesUtil.REPOSITORYMAPPER);
-        taskEntity.getTemplates().add(TemplatesUtil.SERVICE);
-        taskEntity.getTemplates().add(TemplatesUtil.SERVICEIMPL);
-
-        taskEntity.getTemplates().add(TemplatesUtil.TEST);
-        if(TaskEntity.SPRING.equals(taskEntity.getServiceFrame())) {
-            taskEntity.getTemplates().add(TemplatesUtil.SPRING_CONFIG);
-            taskEntity.getTemplates().add(TemplatesUtil.MYBATIS_CONFIG);
-        } else if(TaskEntity.SPRINGBOOT.equals(taskEntity.getServiceFrame())) {
-            taskEntity.getTemplates().add(TemplatesUtil.APPLICATION);
-            taskEntity.getTemplates().add(TemplatesUtil.APPLICATION_PROPERTIES);
-        }
+        taskEntity.getTemplates().add(TemplatesEnum.ENTITY);
+        taskEntity.getTemplates().add(TemplatesEnum.SERVICE);
+        taskEntity.getTemplates().add(TemplatesEnum.SERVICEIMPL);
+        taskEntity.getTemplates().add(TemplatesEnum.TEST);
+        FrameEnum.addTemplates(taskEntity);
     }
 
     @Override
@@ -163,13 +169,13 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             }
             field.setComment(column.getComment());
             fields.add(field);
-            if(BUNDLE.getString("PRI").equals(column.getKey())) {
+            if("PRI".equals(column.getKey())) {
                 keyFields.add(field);
                 notNullfields.add(field);
             } else {
                 noKeyFields.add(field);
             }
-            if(BUNDLE.getString("NO").equals(column.getIsNullAble()) && "".equals(column.getExtra())) {
+            if("NO".equals(column.getIsNullAble()) && "".equals(column.getExtra())) {
                 notNullfields.add(field);
             }
         }
@@ -214,23 +220,23 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         VelocityContext context = new VelocityContext(taskMap);
 
         LOGGER.info("生成中 --> 渲染模板！");
-        for(String template : taskEntity.getTemplates()){
+        for(TemplatesEnum template : taskEntity.getTemplates()){
             StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate("templates/"+template, "UTF-8");
+            Template tpl = Velocity.getTemplate("templates/"+template.getFile(), "UTF-8");
             tpl.merge(context, sw);
-            String fileName = TemplatesUtil.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
+            String fileName = TemplatesEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
 
 //                System.out.println("------------------------------------------");
 //                System.out.println(sw.toString());
 //                System.out.println("------------------------------------------");
 
-            TemplatesUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
+            FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
         }
     }
 
     @Override
     public void deploy(T taskEntity) {
-        TemplatesUtil.zipFile(taskEntity.getProjectName());
+//        FileUtil.zipFile(taskEntity.getProjectName());
     }
 
     @Override

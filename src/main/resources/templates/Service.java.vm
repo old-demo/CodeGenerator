@@ -29,8 +29,8 @@ public interface $!{className}Service {
      * @return int 成功数量
      */
     int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
-#if($keyFields.size() > 0)
 
+#if($keyFields.size() > 0)
     /**
      * 根据主键删除$!{comment}实例
      *
@@ -40,9 +40,9 @@ public interface $!{className}Service {
      * @return int 成功数量
      */
     int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+
 #end
 #if($keyFields.size() == 1)
-
     /**
      * 根据主键删除多条$!{comment}实例
      *
@@ -50,8 +50,8 @@ public interface $!{className}Service {
      * @return int 成功数量
      */
     int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
-#end
 
+#end
     /**
      * 根据条件删除多条$!{comment}实例
      *
@@ -68,7 +68,7 @@ public interface $!{className}Service {
      * @return int 成功数量
      */
     int update$!{className}ByKey($!{className} $!{entityName});
-#if($!{serviceFrame} == "springboot")
+
     /**
      * 批量修改$!{comment}实例
      *
@@ -76,7 +76,6 @@ public interface $!{className}Service {
      * @return int 是否成功
      */
     int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
-#end
 
     /**
      * 根据主键获取$!{comment}实例信息
@@ -87,9 +86,9 @@ public interface $!{className}Service {
      * @return $!{className} $!{comment}信息
      */
      $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+
 #end
 #if($keyFields.size() == 1)
-
     /**
      * 根据主键获取$!{comment}实例信息
      *
@@ -97,8 +96,8 @@ public interface $!{className}Service {
      * @return List<T> $!{comment}实例信息
      */
     List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
-#end
 
+#end
     /**
      * 获取所有$!{comment}实例信息
      *

@@ -3,14 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="$!{classPackage}.repository.$!{className}Repository">
 
-    <!-- 数据库字段 -->
+    <!-- $!{comment}数据库字段 -->
     <sql id="$!{entityName}Fields">
 #foreach ($!{field} in $!{fields})
         #if($velocityCount == 1)#else, #end$!{field.columnName}
 #end
     </sql>
 
-    <!--属性-->
+    <!-- $!{comment}对象属性 -->
     <parameterMap id="$!{entityName}ParameterMap" type="$!{classPackage}.entity.$!{className}">
 #foreach ($!field in $!fields)
         <parameter property="$!field.entityName"/>
@@ -24,14 +24,14 @@
 #end
     </resultMap>
 
-    <!--新增-->
+    <!-- 增加$!{comment} -->
     <insert id="save$!{className}" parameterMap="$!{entityName}ParameterMap" #if($keyFields.size()==1 && $!{keyFields.get(0).type}=="Integer")keyProperty="$!{keyFields.get(0).columnName}" useGeneratedKeys="true"#end>
         INSERT INTO
           $!{tableName}( <include refid="$!{entityName}Fields"/> )
         VALUES (#foreach($!field in $!fields) #if($velocityCount == 1)?#else, ?#end#end);
     </insert>
 
-    <!--新增多个-->
+    <!-- 增加多条$!{comment} -->
     <insert id="saveBatch$!{className}" parameterType="java.util.List">
         INSERT INTO
           $!{tableName}( <include refid="$!{entityName}Fields"/> )
@@ -45,9 +45,9 @@
         </foreach>
         ;
     </insert>
-#if($keyFields.size() > 0)
 
-    <!--删除-->
+#if($keyFields.size() > 0)
+    <!-- 根据主键删除$!{comment} -->
     <delete id="delete$!{className}ByKey" parameterType="java.util.Map">
         DELETE FROM $!{tableName}
         <where>
@@ -58,9 +58,9 @@
         ;
     </delete>
 #end
-#if($keyFields.size() == 1)
 
-    <!--删除多个-->
+#if($keyFields.size() == 1)
+    <!-- 根据多个主键删除多条$!{comment} -->
     <delete id="deleteBatch$!{className}ByKey" parameterType="java.util.List">
         DELETE FROM $!{tableName}
         WHERE #foreach(${field} in ${keyFields})$!{field.columnName}#end IN
@@ -69,9 +69,9 @@
         </foreach>
         ;
     </delete>
-#end
 
-    <!--删除多个-->
+#end
+    <!-- 根据条件删除多条$!{comment} -->
     <delete id="deleteBatch$!{className}ByParam" parameterMap="$!{entityName}ParameterMap">
         DELETE FROM $!{tableName}
         <where>
@@ -85,9 +85,9 @@
         </where>
         ;
     </delete>
-#if($keyFields.size() > 0)
 
-    <!--更新-->
+#if($keyFields.size() > 0)
+    <!-- 根据主键修改$!{comment} -->
     <update id="update$!{className}ByKey" parameterMap="$!{entityName}ParameterMap">
         UPDATE
           $!{tableName}
@@ -103,7 +103,9 @@
         </where>
         ;
     </update>
-#if($!{serviceFrame} == "springboot")
+
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
+    <!-- 根据多个主键批量修改$!{comment} -->
     <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE $!{tableName}
@@ -119,9 +121,9 @@
             </where>
         </foreach>
     </update>
-#end
 
-    <!--根据id查询-->
+#end
+    <!-- 根据主键获取$!{comment} -->
     <select id="get$!{className}ByKey" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
         SELECT <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}
@@ -133,7 +135,7 @@
         ;
     </select>
 
-    <!--根据多个id查询-->
+    <!-- 根据多个主键获取$!{comment} -->
     <select id="list$!{className}ByKey" parameterType="java.util.List" resultMap="$!{entityName}ResultMap">
         SELECT <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}
@@ -145,13 +147,13 @@
     </select>
 #end
 
-    <!--查询-->
+    <!-- 获取所有$!{comment} -->
     <select id="list$!{className}" resultMap="$!{entityName}ResultMap">
         SELECT <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}
     </select>
 
-    <!--查询-->
+    <!-- 根据条件获取多条$!{comment} -->
     <select id="list$!{className}ByParam" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
         SELECT <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}

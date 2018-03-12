@@ -11,7 +11,7 @@
     <name>$!{projectName}</name>
     <description>$!{description}</description>
 
-#if($!{serviceFrame} == "springboot")
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -98,7 +98,7 @@
         </dependency>
     </dependencies>
 
-#elseif($!{serviceFrame} == "spring")
+#elseif($!{frame.serviceFrame} == "SPRING")
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

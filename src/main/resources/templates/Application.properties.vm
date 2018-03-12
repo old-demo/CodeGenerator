@@ -1,3 +1,7 @@
+server.context-path=/$!{projectName}
+server.port=8080
+server.session.timeout=10
+
 # 数据源配置
 spring.datasource.druid.url=jdbc:MySQL://$!{datebase.url}:$!{datebase.port}/$!{datebase.dbName}?characterEncoding=utf8&allowMultiQueries=true&useSSL=false
 spring.datasource.druid.driver-class-name=$!{datebase.driver}

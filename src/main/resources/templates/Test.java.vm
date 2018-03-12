@@ -16,10 +16,10 @@ import com.github.pagehelper.PageInfo;
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.$!{className}Service;
 
-#if($!{serviceFrame} == "springboot")
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-#elseif($!{serviceFrame} == "spring")
+#elseif($!{frame.serviceFrame} == "SPRING")
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,10 +32,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
-#if($!{serviceFrame} == "springboot")
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
 @RunWith(SpringRunner.class)
 @SpringBootTest
-#elseif($!{serviceFrame} == "spring")
+#elseif($!{frame.serviceFrame} == "SPRING")
 @RunWith(SpringJUnit4ClassRunner.class)		// 表示继承了 SpringJUnit4ClassRunner 类
 @ContextConfiguration(locations = {"classpath*:spring_core.xml","classpath:spring_mybatis.xml"})
 #end
@@ -96,6 +96,147 @@ public class $!{className}Test {
 
 #if($keyFields.size() > 0)
     @Test
+    public void testGet$!{className}ByKey() {
+        System.out.println("-->"+$!{entityName}Service.get$!{className}ByKey(
+#foreach(${field} in ${keyFields})
+#if($velocityCount == 1)
+#if($!{field.type} == "String")
+            "1"
+#elseif($!{field.type} == "Integer")
+            1
+#elseif($!{field.type} == "Long")
+            1L
+#elseif($!{field.type} == "Float")
+            1F
+#elseif($!{field.type} == "Double")
+            1D
+#elseif($!{field.type} == "Date")
+            new Date()
+#elseif($!{field.type} == "java.math.BigDecimal")
+            new java.math.BigDecimal(1)
+#end
+#else
+#if($!{field.type} == "String")
+            , ""+1
+#elseif($!{field.type} == "Integer")
+            , 1
+#elseif($!{field.type} == "Long")
+            , 1L
+#elseif($!{field.type} == "Float")
+            , 1F
+#elseif($!{field.type} == "Double")
+            , 1D
+#elseif($!{field.type} == "Date")
+            , new Date()
+#elseif($!{field.type} == "java.math.BigDecimal")
+            , new java.math.BigDecimal(1)
+#end
+#end
+#end
+        ));
+    }
+
+#end
+#if($keyFields.size() == 1)
+    @Test
+    public void testList$!{className}ByKey() {
+#if($!{keyFields.get(0).type} == "String")
+        List<String> ids = new ArrayList<>();
+        ids.add("1");
+        ids.add("2");
+#elseif($!{keyFields.get(0).type} == "Integer")
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+#elseif($!{keyFields.get(0).type} == "Long")
+        List<Long> ids = new ArrayList<>();
+        ids.add(1L);
+        ids.add(2L);
+#elseif($!{keyFields.get(0).type} == "Float")
+        List<Float> ids = new ArrayList<>();
+        ids.add(1F);
+        ids.add(2F);
+#elseif($!{keyFields.get(0).type} == "Double")
+        List<Double> ids = new ArrayList<>();
+        ids.add(1D);
+        ids.add(2D);
+#elseif($!{keyFields.get(0).type} == "Date")
+        List<Date> ids = new ArrayList<>();
+        ids.add(new Date());
+        ids.add(new Date());
+#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
+        List<java.math.BigDecimal> ids = new ArrayList<>();
+        ids.add( new java.math.BigDecimal(1));
+        ids.add( new java.math.BigDecimal(2));
+#end
+        System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey(ids));
+    }
+
+ #end
+    @Test
+    public void testList$!{className}() {
+        System.out.println("-->"+$!{entityName}Service.list$!{className}());
+    }
+
+    @Test
+    public void testList$!{className}ByParam() {
+        $!{className} $!{entityName} = new $!{className}();
+#foreach ($!{field} in $!{noKeyFields})
+#if($velocityCount == 1)
+#if($!{field.type} == "String")
+        $!{entityName}.set$!{field.filedName}("1");
+#elseif($!{field.type} == "Integer")
+        $!{entityName}.set$!{field.filedName}(1);
+#elseif($!{field.type} == "Long")
+        $!{entityName}.set$!{field.filedName}(1L);
+#elseif($!{field.type} == "Float")
+        $!{entityName}.set$!{field.filedName}(1F);
+#elseif($!{field.type} == "Double")
+        $!{entityName}.set$!{field.filedName}(1D);
+#elseif($!{field.type} == "Date")
+        $!{entityName}.set$!{field.filedName}(new Date());
+#elseif($!{field.type} == "java.math.BigDecimal")
+        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
+#end
+#end
+#end
+        System.out.println("-->"+$!{entityName}Service.list$!{className}ByParam($!{entityName}));
+    }
+
+    @Test
+    public void testList$!{className}ByPage() {
+        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(1,2);
+        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
+    }
+
+    @Test
+    public void testList$!{className}ByParamAndPage() {
+        $!{className} $!{entityName} = new $!{className}();
+#foreach ($!{field} in $!{noKeyFields})
+#if($velocityCount == 1)
+#if($!{field.type} == "String")
+        $!{entityName}.set$!{field.filedName}("1");
+#elseif($!{field.type} == "Integer")
+        $!{entityName}.set$!{field.filedName}(1);
+#elseif($!{field.type} == "Long")
+        $!{entityName}.set$!{field.filedName}(1L);
+#elseif($!{field.type} == "Float")
+        $!{entityName}.set$!{field.filedName}(1F);
+#elseif($!{field.type} == "Double")
+        $!{entityName}.set$!{field.filedName}(1D);
+#elseif($!{field.type} == "Date")
+        $!{entityName}.set$!{field.filedName}(new Date());
+#elseif($!{field.type} == "java.math.BigDecimal")
+        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
+#end
+#end
+#end
+        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, 1,2);
+        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
+    }
+
+#if($keyFields.size() > 0)
+    @Test
     public void testUpdate$!{className}ByKey() {
         $!{className} $!{entityName} = new $!{className}();
 #foreach ($!{field} in $!{keyFields})
@@ -134,7 +275,7 @@ public class $!{className}Test {
 #end
         System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}));
     }
-#if($!{serviceFrame} == "springboot")
+
     @Test
     public void testUpdateBatch$!{className}ByKey() {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
@@ -178,148 +319,6 @@ public class $!{className}Test {
         }
         System.out.println("-->"+$!{entityName}Service.updateBatch$!{className}ByKey($!{entityName}List));
     }
-#end
-
-    @Test
-    public void testGet$!{className}ByKey() {
-        System.out.println("-->"+$!{entityName}Service.get$!{className}ByKey(
-#foreach(${field} in ${keyFields})
-#if($velocityCount == 1)
-#if($!{field.type} == "String")
-            "1"
-#elseif($!{field.type} == "Integer")
-            1
-#elseif($!{field.type} == "Long")
-            1L
-#elseif($!{field.type} == "Float")
-            1F
-#elseif($!{field.type} == "Double")
-            1D
-#elseif($!{field.type} == "Date")
-            new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
-#end
-#else
-#if($!{field.type} == "String")
-            , ""+1
-#elseif($!{field.type} == "Integer")
-            , 1
-#elseif($!{field.type} == "Long")
-            , 1L
-#elseif($!{field.type} == "Float")
-            , 1F
-#elseif($!{field.type} == "Double")
-            , 1D
-#elseif($!{field.type} == "Date")
-            , new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            , new java.math.BigDecimal(1)
-#end
-#end
-#end
-        ));
-    }
-#end
-
-#if($keyFields.size() == 1)
-    @Test
-    public void testList$!{className}ByKey() {
-#if($!{keyFields.get(0).type} == "String")
-        List<String> ids = new ArrayList<>();
-        ids.add("1");
-        ids.add("2");
-#elseif($!{keyFields.get(0).type} == "Integer")
-        List<Integer> ids = new ArrayList<>();
-        ids.add(1);
-        ids.add(2);
-#elseif($!{keyFields.get(0).type} == "Long")
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-#elseif($!{keyFields.get(0).type} == "Float")
-        List<Float> ids = new ArrayList<>();
-        ids.add(1F);
-        ids.add(2F);
-#elseif($!{keyFields.get(0).type} == "Double")
-        List<Double> ids = new ArrayList<>();
-        ids.add(1D);
-        ids.add(2D);
-#elseif($!{keyFields.get(0).type} == "Date")
-        List<Date> ids = new ArrayList<>();
-        ids.add(new Date());
-        ids.add(new Date());
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> ids = new ArrayList<>();
-        ids.add( new java.math.BigDecimal(1));
-        ids.add( new java.math.BigDecimal(2));
-#end
-        System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey(ids));
-    }
- #end
-
-    @Test
-    public void testList$!{className}() {
-        System.out.println("-->"+$!{entityName}Service.list$!{className}());
-    }
-
-    @Test
-    public void testList$!{className}ByParam() {
-        $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{fields})
-#if($velocityCount == 1)
-#if($!{field.type} == "String")
-        $!{entityName}.set$!{field.filedName}("1");
-#elseif($!{field.type} == "Integer")
-        $!{entityName}.set$!{field.filedName}(1);
-#elseif($!{field.type} == "Long")
-        $!{entityName}.set$!{field.filedName}(1L);
-#elseif($!{field.type} == "Float")
-        $!{entityName}.set$!{field.filedName}(1F);
-#elseif($!{field.type} == "Double")
-        $!{entityName}.set$!{field.filedName}(1D);
-#elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
-#end
-#end
-#end
-        System.out.println("-->"+$!{entityName}Service.list$!{className}ByParam($!{entityName}));
-    }
-
-    @Test
-    public void testList$!{className}ByPage() {
-        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(1,2);
-        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
-    }
-
-    @Test
-    public void testList$!{className}ByParamAndPage() {
-        $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{fields})
-#if($velocityCount == 1)
-#if($!{field.type} == "String")
-        $!{entityName}.set$!{field.filedName}("1");
-#elseif($!{field.type} == "Integer")
-        $!{entityName}.set$!{field.filedName}(1);
-#elseif($!{field.type} == "Long")
-        $!{entityName}.set$!{field.filedName}(1L);
-#elseif($!{field.type} == "Float")
-        $!{entityName}.set$!{field.filedName}(1F);
-#elseif($!{field.type} == "Double")
-        $!{entityName}.set$!{field.filedName}(1D);
-#elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
-#end
-#end
-#end
-        PageInfo<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, 1,2);
-        System.out.println("-->"+JSON.toJSONString($!{entityName}List));
-    }
-#if($keyFields.size() > 0)
 
     @Test
     public void testDelete$!{className}ByKey() {
@@ -361,9 +360,9 @@ public class $!{className}Test {
 #end
         ));
     }
+
 #end
 #if($keyFields.size() == 1)
-
     @Test
     public void testDeleteBatch$!{className}ByKey() {
 #if($!{keyFields.get(0).type} == "String")
@@ -397,12 +396,12 @@ public class $!{className}Test {
 #end
         System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey(ids));
     }
- #end
 
+ #end
     @Test
     public void testDeleteBatch$!{className}ByParam() {
         $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{fields})
+#foreach ($!{field} in $!{noKeyFields})
 #if($velocityCount == 1)
 #if($!{field.type} == "String")
         $!{entityName}.set$!{field.filedName}("1");

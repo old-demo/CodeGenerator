@@ -1,6 +1,7 @@
 package com.heqing.entity.task;
 
 import com.alibaba.fastjson.JSONObject;
+import com.heqing.constants.TemplatesEnum;
 import com.heqing.entity.orm.DatebaseEntity;
 
 import java.util.ArrayList;
@@ -14,9 +15,6 @@ import java.util.List;
  * @date 2018/01/08
  */
 public class TaskEntity {
-
-    public final static String SPRING = "spring";
-    public final static String SPRINGBOOT = "springboot";
 
     /**
      * datebase 数据操作
@@ -36,7 +34,7 @@ public class TaskEntity {
     /**
      * templates 模板名
      */
-    private List<String> templates = new ArrayList<>();
+    private List<TemplatesEnum> templates = new ArrayList<>();
 
     /**
      * zip输出路径
@@ -58,9 +56,10 @@ public class TaskEntity {
      */
     private String projectName;
 
-    private String serviceFrame;
-
-    private String repositoryFrame;
+    /**
+     * frame    项目框架
+     */
+    private FrameEntity frame;
 
     public DatebaseEntity getDatebase() {
         return datebase;
@@ -86,11 +85,11 @@ public class TaskEntity {
         this.packageName = packageName;
     }
 
-    public List<String> getTemplates() {
+    public List<TemplatesEnum> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(List<String> templates) {
+    public void setTemplates(List<TemplatesEnum> templates) {
         this.templates = templates;
     }
 
@@ -126,20 +125,12 @@ public class TaskEntity {
         this.projectName = projectName;
     }
 
-    public String getServiceFrame() {
-        return serviceFrame;
+    public FrameEntity getFrame() {
+        return frame;
     }
 
-    public void setServiceFrame(String serviceFrame) {
-        this.serviceFrame = serviceFrame;
-    }
-
-    public String getRepositoryFrame() {
-        return repositoryFrame;
-    }
-
-    public void setRepositoryFrame(String repositoryFrame) {
-        this.repositoryFrame = repositoryFrame;
+    public void setFrame(FrameEntity frame) {
+        this.frame = frame;
     }
 
     @Override

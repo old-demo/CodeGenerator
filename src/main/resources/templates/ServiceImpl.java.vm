@@ -36,27 +36,27 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
         return $!{entityName}Repository.saveBatch$!{className}($!{entityName}List);
 	}
-#if($keyFields.size() > 0)
 
+#if($keyFields.size() > 0)
     @Override
     public int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
         return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
 	}
+
 #end
 #if($keyFields.size() == 1)
-
     @Override
     public int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
         return $!{entityName}Repository.deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
 	}
-#end
 
+#end
     @Override
     public int deleteBatch$!{className}ByParam($!{className} $!{entityName}) {
         return $!{entityName}Repository.deleteBatch$!{className}ByParam($!{entityName});
     }
-#if($keyFields.size() > 0)
 
+#if($keyFields.size() > 0)
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
 #if($notNullfields.size() > 0)
@@ -70,9 +70,9 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         return $!{entityName}Repository.update$!{className}ByKey($!{entityName});
 	}
 
-#if($!{serviceFrame} == "springboot")
     @Override
     public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
 #if($notNullfields.size() > 0)
         for($!{className} $!{entityName} : $!{entityName}List) {
 #foreach ($!{field} in $!{notNullfields})
@@ -84,22 +84,35 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         }
 #end
         return $!{entityName}Repository.updateBatch$!{className}ByKey($!{entityName}List);
-	}
+#elseif($!{frame.serviceFrame} == "SPRING")
+        int isScuess = 0;
+#if($notNullfields.size() > 0)
+        for($!{className} $!{entityName} : $!{entityName}List) {
+#foreach ($!{field} in $!{notNullfields})
+                if($!{entityName}.get$!{field.filedName}() == null) {
+                break;
+            }
 #end
+            isScuess += update$!{className}ByKey($!{entityName});
+        }
+#end
+        return isScuess;
+#end
+	}
 
     @Override
     public $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
         return $!{entityName}Repository.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
 	}
+
 #end
 #if($keyFields.size() == 1)
-
     @Override
     public List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end) {
         return $!{entityName}Repository.list$!{className}ByKey(#foreach(${field} in ${keyFields})$!{field.entityName}s#end);
 	}
-#end
 
+#end
     @Override
     public List<$!{className}> list$!{className}() {
         return $!{entityName}Repository.list$!{className}();

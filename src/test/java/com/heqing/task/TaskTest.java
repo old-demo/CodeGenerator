@@ -1,7 +1,9 @@
 package com.heqing.task;
 
+import com.heqing.constants.FrameEnum;
 import com.heqing.entity.orm.DatebaseEntity;
 import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.MavenTaskEntity;
 import com.heqing.service.TableService;
 import com.heqing.service.impl.DatebaseServiceImplExt;
@@ -35,6 +37,8 @@ public class TaskTest {
 
     DatebaseEntity datebase = new DatebaseEntity();
 
+    FrameEntity frameEntity = new FrameEntity();
+
     //zip输出路径
     //String zipPath = System.getProperty("user.dir")+"/code.zip";
     String zipPath = System.getProperty("user.dir")+"/code/";
@@ -54,6 +58,10 @@ public class TaskTest {
         datebase.setDbName(dbName);
         datebase.setUsername(userName);
         datebase.setPassword(password);
+
+        frameEntity.setProjectFrame(FrameEnum.MAVEN);
+        frameEntity.setServiceFrame(FrameEnum.SPRING);
+        frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
     @Test
@@ -67,17 +75,19 @@ public class TaskTest {
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("SpringTest");
+        taskEntity.setArtifactId("TestSpring");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("this is test");
-        taskEntity.setDatebase(datebase);
-        taskEntity.setProjectName("SpringTest");
+
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
+        taskEntity.setProjectName("TestSpring");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing.yyw");
-        taskEntity.setServiceFrame(MavenTaskEntity.SPRING);
+
+        taskEntity.setFrame(frameEntity);
+        taskEntity.setDatebase(datebase);
         mavenTaskService.execute(taskEntity);
     }
 
