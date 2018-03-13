@@ -73,7 +73,7 @@ public class TaskTest {
 //                tableNames.add(table.getTableName());
 //            }
 //        }
-        tableNames.add("studet");
+        tableNames.add("school");
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
         taskEntity.setArtifactId("TestSpring");

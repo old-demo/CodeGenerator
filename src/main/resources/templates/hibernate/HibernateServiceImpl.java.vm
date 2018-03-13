@@ -78,7 +78,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
 #end
-#if($keyFields.size() == 1)
+
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
 #if($notNullfields.size() > 0)
@@ -118,6 +118,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         return isSuccess;
     }
 
+#if($keyFields.size() == 1)
     @Override
     public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
         return $!{entityName}Repository.getOne($!{keyFields.get(0).entityName});

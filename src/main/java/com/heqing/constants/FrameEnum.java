@@ -75,11 +75,12 @@ public enum FrameEnum {
                 taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_TEST);
                 break;
             case HIBERNATE:
-//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY);
-//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_DAO);
-//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICE);
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY);
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_DAO);
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICE);
                 taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICEIMPL);
-//                taskEntity.getTemplates().add(TemplatesEnum.UTIL_PAGEINFO);
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_TEST);
+                taskEntity.getTemplates().add(TemplatesEnum.UTIL_PAGEINFO);
                 break;
             default:;
         }

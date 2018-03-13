@@ -52,13 +52,17 @@ public enum TemplatesEnum {
      */
     HIBERNATE_DAO("hibernateDao", "hibernate/HibernateDao.java.vm"),
     /*
-     * mybatis业务逻辑层接口
+     * hibernate业务逻辑层接口
      */
     HIBERNATE_SERVICE("hibernateService", "hibernate/HibernateService.java.vm"),
     /*
-     * mybatis业务逻辑层接口
+     * hibernate业务逻辑层接口
      */
     HIBERNATE_SERVICEIMPL("hibernateServiceImpl", "hibernate/HibernateServiceImpl.java.vm"),
+    /*
+     * hibernatec测试类
+     */
+    HIBERNATE_TEST("hibernateTest", "hibernate/HibernateTest.java.vm"),
     /*
      * 分页工具类
      */
@@ -123,6 +127,7 @@ public enum TemplatesEnum {
             case CONTROLLER:
                 filePatch += "src/main/java/" + packagePath + "/controller/" + className + "Controller.java";
                 break;
+            case HIBERNATE_TEST:
             case MYBATIS_TEST:
                 filePatch += "src/test/java/" + packagePath + "/test/" + className + "Test.java";
                 break;

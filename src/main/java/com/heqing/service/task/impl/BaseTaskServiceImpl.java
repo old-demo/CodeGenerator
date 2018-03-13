@@ -237,11 +237,11 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             tpl.merge(context, sw);
             String fileName = TemplatesEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
 
-            System.out.println("------------------------------------------");
-            System.out.println(sw.toString());
-            System.out.println("------------------------------------------");
+//            System.out.println("------------------------------------------");
+//            System.out.println(sw.toString());
+//            System.out.println("------------------------------------------");
 
-//            FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
+            FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
         }
     }
 

@@ -60,7 +60,6 @@ public interface $!{className}Service {
     int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
 
 #end
-#if($keyFields.size() == 1)
     /**
      * 修改$!{comment}实例
      *
@@ -76,7 +75,7 @@ public interface $!{className}Service {
      * @return int 是否成功
      */
     int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
-
+#if($keyFields.size() == 1)
     /**
      * 根据主键获取$!{comment}实例信息
      *

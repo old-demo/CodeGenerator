@@ -18,7 +18,7 @@ public class MavenTaskServiceImpl extends BaseTaskServiceImpl<MavenTaskEntity> i
     @Override
     public void addMobile(MavenTaskEntity taskEntity) {
         super.addMobile(taskEntity);
-//        taskEntity.getTemplates().add(TemplatesEnum.POM);
+        taskEntity.getTemplates().add(TemplatesEnum.POM);
     }
 
     @Override
