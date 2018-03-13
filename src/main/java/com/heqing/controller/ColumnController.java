@@ -1,6 +1,6 @@
 package com.heqing.controller;
 
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import com.heqing.service.ColumnService;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class ColumnController {
             return response;
         }
 
-        List<ColumnEntity> columnList = columnService.listColumnByTable((Integer) map.get("dbId"), (String) map.get("tableName"));
+        List<Column> columnList = columnService.listColumnByTable((Integer) map.get("dbId"), (String) map.get("tableName"));
         if (columnList != null) {
             response.setCode(0);
             response.setMsg("ok");

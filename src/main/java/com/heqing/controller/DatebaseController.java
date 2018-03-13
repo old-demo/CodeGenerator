@@ -1,7 +1,7 @@
 package com.heqing.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import com.heqing.service.DatebaseService;
 
 import com.heqing.util.ObjectUtil;
@@ -27,7 +27,7 @@ public class DatebaseController {
 
     @RequestMapping(value = "/saveDatebase", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil saveDatebase(@RequestBody DatebaseEntity datebase) {
+    public ResponseUtil saveDatebase(@RequestBody Datebase datebase) {
         ResponseUtil response = new ResponseUtil();
         int result = datebaseService.saveDatebase(datebase);
         if(result == 1) {
@@ -42,14 +42,14 @@ public class DatebaseController {
 
     @RequestMapping(value = "/modifyDatebaseByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil modifyDatebaseByKey(@RequestBody DatebaseEntity datebase) {
+    public ResponseUtil modifyDatebaseByKey(@RequestBody Datebase datebase) {
         ResponseUtil response = new ResponseUtil();
         if(datebase.getId() == null) {
             response.setCode(-1);
             response.setMsg("id不能为null");
             return response;
         }
-        int result = datebaseService.modifyDatebaseByKey(datebase);
+        int result = datebaseService.updateDatebaseByKey(datebase);
         if(result == 1) {
             response.setCode(0);
             response.setMsg("修改数据库连接信息成功！");
@@ -69,7 +69,7 @@ public class DatebaseController {
             response.setMsg("id不能为null");
             return response;
         }
-        int result = datebaseService.removeDatebaseByKey((Integer)map.get("id"));
+        int result = datebaseService.deleteDatebaseByKey((Integer)map.get("id"));
         if(result > 0) {
             response.setCode(0);
             response.setMsg("删除数据库连接信息成功！");
@@ -89,7 +89,7 @@ public class DatebaseController {
             response.setMsg("id不能为null");
             return response;
         }
-        DatebaseEntity datebase = datebaseService.getDatebaseByKey((Integer)map.get("id"));
+        Datebase datebase = datebaseService.getDatebaseByKey((Integer)map.get("id"));
         if(datebase != null) {
             response.setCode(0);
             response.setData(datebase);
@@ -102,10 +102,10 @@ public class DatebaseController {
 
     @RequestMapping(value = "/removeDatebaseByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil removeBatchDatebaseByParam(@RequestBody DatebaseEntity datebase) {
+    public ResponseUtil removeBatchDatebaseByParam(@RequestBody Datebase datebase) {
 
         ResponseUtil response = new ResponseUtil();
-        int result = datebaseService.removeBatchDatebaseByParam(datebase);
+        int result = datebaseService.deleteBatchDatebaseByParam(datebase);
         if(result > 0) {
             response.setCode(0);
             response.setMsg("删除数据库连接信息成功！");
@@ -128,7 +128,7 @@ public class DatebaseController {
 
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByPage(pageIndex, pageSize);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(pageIndex, pageSize);
         response.setCode(0);
         response.setData(datebaseList);
         return response;
@@ -148,10 +148,10 @@ public class DatebaseController {
             response.setMsg("查询条件不能为null");
             return response;
         }
-        DatebaseEntity datebase =  ObjectUtil.map2obj((Map<String, Object>)map.get("datebase"),DatebaseEntity.class);
+        Datebase datebase =  ObjectUtil.map2obj((Map<String, Object>)map.get("datebase"),Datebase.class);
         int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         int pageSize = Integer.parseInt(map.get("pageSize")+"");
-        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, pageIndex, pageSize);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, pageIndex, pageSize);
         response.setCode(0);
         response.setData(datebaseList);
         return response;

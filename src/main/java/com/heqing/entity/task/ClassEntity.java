@@ -51,24 +51,9 @@ public class ClassEntity {
     private String createTime;
 
     /**
-     * fields 一般列表
+     * fields 列表
      */
     private LinkedList<FieldEntity> fields;
-
-    /**
-     * keyFields 主键列表
-     */
-    private LinkedList<FieldEntity> keyFields;
-
-    /**
-     * noKeyFields 非主键列表
-     */
-    private LinkedList<FieldEntity> noKeyFields;
-
-    /**
-     * notNullfields 不能为空的列表
-     */
-    private LinkedList<FieldEntity> notNullfields;
 
     public String getClassPackage() {
         return classPackage;
@@ -132,30 +117,6 @@ public class ClassEntity {
 
     public void setFields(LinkedList<FieldEntity> fields) {
         this.fields = fields;
-    }
-
-    public LinkedList<FieldEntity> getKeyFields() {
-        return keyFields;
-    }
-
-    public void setKeyFields(LinkedList<FieldEntity> keyFields) {
-        this.keyFields = keyFields;
-    }
-
-    public LinkedList<FieldEntity> getNoKeyFields() {
-        return noKeyFields;
-    }
-
-    public void setNoKeyFields(LinkedList<FieldEntity> noKeyFields) {
-        this.noKeyFields = noKeyFields;
-    }
-
-    public LinkedList<FieldEntity> getNotNullfields() {
-        return notNullfields;
-    }
-
-    public void setNotNullfields(LinkedList<FieldEntity> notNullfields) {
-        this.notNullfields = notNullfields;
     }
 
     @Override

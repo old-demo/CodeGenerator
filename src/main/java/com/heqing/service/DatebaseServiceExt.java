@@ -1,6 +1,6 @@
 package com.heqing.service;
 
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import org.apache.ibatis.session.SqlSession;
 
 /**
@@ -18,7 +18,7 @@ public interface DatebaseServiceExt extends DatebaseService {
      * @param datebase 数据库信息
      * @return 是否成功
      */
-    Boolean connect(DatebaseEntity datebase);
+    Boolean connect(Datebase datebase);
 
     /**
      * 测试数据库是否连接成功
@@ -45,5 +45,5 @@ public interface DatebaseServiceExt extends DatebaseService {
      * @param datebase 数据库信息
      * @return Sql操作类
      */
-    SqlSession getSqlSession(DatebaseEntity datebase);
+    SqlSession getSqlSession(Datebase datebase);
 }

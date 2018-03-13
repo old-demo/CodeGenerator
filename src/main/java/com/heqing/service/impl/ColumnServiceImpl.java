@@ -1,6 +1,6 @@
 package com.heqing.service.impl;
 
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import com.heqing.service.ColumnService;
 import com.heqing.service.DatebaseServiceExt;
 import org.apache.ibatis.session.SqlSession;
@@ -23,19 +23,19 @@ public class ColumnServiceImpl implements ColumnService {
     DatebaseServiceExt datebaseServiceExt;
 
     @Override
-    public List<ColumnEntity> listColumnByTable(Integer dbId, String tableName) {
+    public List<Column> listColumnByTable(Integer dbId, String tableName) {
         SqlSession sqlSession = datebaseServiceExt.getSqlSession(dbId);
         if(sqlSession == null) {
             return null;
         }
-        List<ColumnEntity> columnList = listColumnByTable(sqlSession, tableName);
+        List<Column> columnList = listColumnByTable(sqlSession, tableName);
         sqlSession.clearCache();
         sqlSession.close();
         return columnList;
     }
 
     @Override
-    public List<ColumnEntity> listColumnByTable(SqlSession sqlSession, String tableName) {
+    public List<Column> listColumnByTable(SqlSession sqlSession, String tableName) {
         return sqlSession.selectList("com.heqing.repository.ColumnRepository.listColumnByTable",tableName);
     }
 

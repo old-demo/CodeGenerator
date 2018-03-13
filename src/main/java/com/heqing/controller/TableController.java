@@ -1,7 +1,7 @@
 package com.heqing.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Table;
 import com.heqing.service.TableService;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class TableController {
             return response;
         }
 
-        TableEntity table = tableService.getTableByName((Integer) map.get("dbId"), (String) map.get("tableName"));
+        Table table = tableService.getTableByName((Integer) map.get("dbId"), (String) map.get("tableName"));
         if (table != null) {
             response.setCode(0);
             response.setData(table);
@@ -60,7 +60,7 @@ public class TableController {
             return response;
         }
 
-        List<TableEntity> tableList = tableService.listTable((Integer) map.get("dbId"));
+        List<Table> tableList = tableService.listTable((Integer) map.get("dbId"));
         if (tableList != null && tableList.size() > 0) {
             response.setCode(0);
             response.setMsg("OK");
@@ -93,7 +93,7 @@ public class TableController {
             dbName = map.get("dbName")+"";
         }
 
-        PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage((Integer) map.get("dbId"), dbName, pageIndex, pageSize);
+        PageInfo<Table> tableList = tableService.listTableByParamAndPage((Integer) map.get("dbId"), dbName, pageIndex, pageSize);
         if (tableList != null && tableList.getList().size() > 0) {
             response.setCode(0);
             response.setMsg("OK");

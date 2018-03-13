@@ -1,0 +1,55 @@
+package $!{classPackage}.repository;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Table;
+import java.util.List;
+
+import $!{classPackage}.entity.$!{className};
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
+
+/**
+ * $!{comment}实体类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Repository
+@Table(name="$!{tableName}")
+@Qualifier("$!{entityName}Repository")
+public interface $!{className}Repository
+#if($keyFields.size() == 1)
+        extends JpaRepository<$!{className}, $!{keyFields.get(0).type}> {
+#elseif($keyFields.size() > 1)
+        extends JpaRepository<$!{className}, $!{className}PK> {
+#else
+        extends JpaRepository<$!{className}, Integer> {
+#end
+
+#foreach ($!{field} in $!{noKeyFields})
+    /**
+     * 根据$!{field.comment}获取信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @return List<Person> $!{comment}集合
+     */
+    List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName});
+
+    /**
+     * 根据$!{field.comment}模糊匹配获取分页信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @param pageable 分页信息
+     * @return Page<$!{className}> $!{comment}分页信息
+     */
+    Page<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, Pageable pageable);
+
+#end
+}

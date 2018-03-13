@@ -1,6 +1,6 @@
 package com.heqing.datebase;
 
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class DatebaseExtTest {
     @Autowired
     DatebaseServiceImplExt datebaseServiceExt;
 
-    DatebaseEntity datebase = new DatebaseEntity();
+    Datebase datebase = new Datebase();
 
     @Before
     public void createDateBase() {

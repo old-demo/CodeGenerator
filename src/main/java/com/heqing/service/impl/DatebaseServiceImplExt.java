@@ -1,6 +1,6 @@
 package com.heqing.service.impl;
 
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.util.DataSourceUtil;
 import com.heqing.util.ObjectUtil;
@@ -27,7 +27,7 @@ public class DatebaseServiceImplExt extends DatebaseServiceImpl implements Dateb
     private static final Logger LOGGER = Logger.getLogger(DatebaseServiceImplExt.class);
 
     @Override
-    public Boolean connect(DatebaseEntity datebase) {
+    public Boolean connect(Datebase datebase) {
         String url = "jdbc:MySQL://"+datebase.getUrl()+":"+datebase.getPort()+"/"+datebase.getDbName();
         return connect(datebase.getDriver(), url, datebase.getUsername(), datebase.getPassword());
     }
@@ -62,7 +62,7 @@ public class DatebaseServiceImplExt extends DatebaseServiceImpl implements Dateb
     }
 
     @Override
-    public SqlSession getSqlSession(DatebaseEntity datebase) {
+    public SqlSession getSqlSession(Datebase datebase) {
         if(datebase != null) {
             String driver = datebase.getDriver() == null ? "" : datebase.getDriver();
             String url = datebase.getUrl() == null ? "" : datebase.getUrl();

@@ -2,7 +2,7 @@ package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,94 +31,51 @@ public class DatebaseTest {
 
     @Test
     public void testSaveDatebase() {
-        DatebaseEntity datebase = new DatebaseEntity();
-        datebase.setUrl("test1");
-        datebase.setDescribe("test1");
-        datebase.setCreateTime(new Date());
-        datebase.setPassword("test1");
-        datebase.setSchema("test1");
-        datebase.setDbName("test1");
-        datebase.setUpdateTime(new Date());
-        datebase.setId(2);
-        datebase.setConnectName("test1");
-        datebase.setCreateUser("test1");
-        datebase.setDriver("test1");
-        datebase.setUsername("test1");
+        Datebase datebase = new Datebase();
+        datebase.setId(1);
+        datebase.setDbName("1");
         datebase.setPort(1);
+        datebase.setUrl("1");
+        datebase.setPassword("1");
+        datebase.setRemark("1");
+        datebase.setUpdateTime(new Date());
+        datebase.setUsername("1");
+        datebase.setConnectName("1");
+        datebase.setCreateTime(new Date());
+        datebase.setDriver("1");
+        datebase.setCreateUser("1");
         System.out.println("-->"+datebaseService.saveDatebase(datebase));
     }
 
     @Test
     public void testSaveBatchDatebase() {
-        List<DatebaseEntity> datebaseList = new ArrayList<>();
+        List<Datebase> datebaseList = new ArrayList<>();
         for(int i=2;i<5;i++) {
-            DatebaseEntity datebase = new DatebaseEntity();
-            datebase.setUrl("test"+i);
-            datebase.setDescribe("test"+i);
-            datebase.setCreateTime(new Date());
-            datebase.setPassword("test"+i);
-            datebase.setSchema("test"+i);
-            datebase.setDbName("test"+i);
-            datebase.setUpdateTime(new Date());
+            Datebase datebase = new Datebase();
             datebase.setId(i);
-            datebase.setConnectName("test"+i);
-            datebase.setCreateUser("test"+i);
-            datebase.setDriver("test"+i);
-            datebase.setUsername("test"+i);
+            datebase.setDbName(""+i);
             datebase.setPort(i);
+            datebase.setUrl(""+i);
+            datebase.setPassword(""+i);
+            datebase.setRemark(""+i);
+            datebase.setUpdateTime(new Date());
+            datebase.setUsername(""+i);
+            datebase.setConnectName(""+i);
+            datebase.setCreateTime(new Date());
+            datebase.setDriver(""+i);
+            datebase.setCreateUser(""+i);
             datebaseList.add(datebase);
         }
         System.out.println("-->"+datebaseService.saveBatchDatebase(datebaseList));
     }
 
     @Test
-    public void testModifyDatebaseByKey() {
-        DatebaseEntity datebase = new DatebaseEntity();
-        datebase.setId(1);
-        datebase.setDbName("test"+11);
-        datebase.setUpdateTime(new Date());
-        datebase.setUrl("test"+11);
-        datebase.setConnectName("test"+11);
-        datebase.setDescribe("test"+11);
-        datebase.setCreateTime(new Date());
-        datebase.setCreateUser("test"+11);
-        datebase.setDriver("test"+11);
-        datebase.setPassword("test"+11);
-        datebase.setUsername("test"+11);
-        datebase.setPort(1+10);
-        datebase.setSchema("test"+11);
-        System.out.println("-->"+datebaseService.modifyDatebaseByKey(datebase));
-    }
-
-    @Test
-    public void testModifyBatchDatebaseByKey() {
-        List<DatebaseEntity> datebaseList = new ArrayList<>();
-        for(int i=12;i<15;i++) {
-            DatebaseEntity datebase = new DatebaseEntity();
-            datebase.setId(i-10);
-            datebase.setDbName("test"+i);
-            datebase.setUpdateTime(new Date());
-            datebase.setUrl("test"+i);
-            datebase.setConnectName("test"+i);
-            datebase.setDescribe("test"+i);
-            datebase.setCreateTime(new Date());
-            datebase.setCreateUser("test"+i);
-            datebase.setDriver("test"+i);
-            datebase.setPassword("test"+i);
-            datebase.setUsername("test"+i);
-            datebase.setPort(i);
-            datebase.setSchema("test"+i);
-            datebaseList.add(datebase);
-        }
-        System.out.println("-->"+datebaseService.modifyBatchDatebaseByKey(datebaseList));
-    }
-
-    @Test
     public void testGetDatebaseByKey() {
         System.out.println("-->"+datebaseService.getDatebaseByKey(
-            1
+                25
         ));
     }
+
     @Test
     public void testListDatebaseByKey() {
         List<Integer> ids = new ArrayList<>();
@@ -126,52 +83,93 @@ public class DatebaseTest {
         ids.add(2);
         System.out.println("-->"+datebaseService.listDatebaseByKey(ids));
     }
-     @Test
+
+    @Test
     public void testListDatebase() {
         System.out.println("-->"+datebaseService.listDatebase());
     }
 
     @Test
     public void testListDatebaseByParam() {
-        DatebaseEntity datebase = new DatebaseEntity();
-        datebase.setUrl("test1");
-        System.out.println("-->"+datebaseService.listDatebaseByParam(datebase).size());
+        Datebase datebase = new Datebase();
+        datebase.setConnectName("1");
+        System.out.println("-->"+datebaseService.listDatebaseByParam(datebase));
     }
 
     @Test
     public void testListDatebaseByPage() {
-        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByPage(1,1);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,2);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
     @Test
     public void testListDatebaseByParamAndPage() {
-        DatebaseEntity datebase = new DatebaseEntity();
-        datebase.setUrl("localhost");
-        PageInfo<DatebaseEntity> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
+        Datebase datebase = new Datebase();
+        datebase.setConnectName("1");
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
     @Test
-    public void testRemoveDatebaseByKey() {
-        System.out.println("-->"+datebaseService.removeDatebaseByKey(
-            1
+    public void testUpdateDatebaseByKey() {
+        Datebase datebase = new Datebase();
+        datebase.setId(1);
+        datebase.setConnectName(""+6);
+        datebase.setUsername(""+6);
+        datebase.setPassword(""+6);
+        datebase.setDbName(""+6);
+        datebase.setRemark(""+6);
+        datebase.setPort(1+5);
+        datebase.setUrl(""+6);
+        datebase.setCreateUser(""+6);
+        datebase.setUpdateTime(new Date());
+        datebase.setDriver(""+6);
+        datebase.setCreateTime(new Date());
+        System.out.println("-->"+datebaseService.updateDatebaseByKey(datebase));
+    }
+
+    @Test
+    public void testUpdateBatchDatebaseByKey() {
+        List<Datebase> datebaseList = new ArrayList<>();
+        for(int i=7;i<10;i++) {
+            Datebase datebase = new Datebase();
+            datebase.setId(i-5);
+            datebase.setConnectName(""+i);
+            datebase.setUsername(""+i);
+            datebase.setPassword(""+i);
+            datebase.setDbName(""+i);
+            datebase.setRemark(""+i);
+            datebase.setPort(i);
+            datebase.setUrl(""+i);
+            datebase.setCreateUser(""+i);
+            datebase.setUpdateTime(new Date());
+            datebase.setDriver(""+i);
+            datebase.setCreateTime(new Date());
+            datebaseList.add(datebase);
+        }
+        System.out.println("-->"+datebaseService.updateBatchDatebaseByKey(datebaseList));
+    }
+
+    @Test
+    public void testDeleteDatebaseByKey() {
+        System.out.println("-->"+datebaseService.deleteDatebaseByKey(
+                1
         ));
     }
 
     @Test
-    public void testRemoveBatchDatebaseByKey() {
+    public void testDeleteBatchDatebaseByKey() {
         List<Integer> ids = new ArrayList<>();
         ids.add(1);
         ids.add(2);
-        System.out.println("-->"+datebaseService.removeBatchDatebaseByKey(ids));
-    }
- 
-    @Test
-    public void removeBatchDatebaseByParam() {
-        DatebaseEntity datebase = new DatebaseEntity();
-        datebase.setUrl("test1");
-        System.out.println("-->"+datebaseService.removeBatchDatebaseByParam(datebase));
+        System.out.println("-->"+datebaseService.deleteBatchDatebaseByKey(ids));
     }
 
+    @Test
+    public void testDeleteBatchDatebaseByParam() {
+        Datebase datebase = new Datebase();
+        datebase.setConnectName("1");
+        System.out.println("-->"+datebaseService.deleteBatchDatebaseByParam(datebase));
+    }
 }
+

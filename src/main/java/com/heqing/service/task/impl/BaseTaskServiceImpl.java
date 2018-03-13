@@ -5,9 +5,9 @@ import com.heqing.constants.TemplatesEnum;
 import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.TaskEntity;
 import com.heqing.entity.task.ClassEntity;
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import com.heqing.entity.task.FieldEntity;
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Table;
 import com.heqing.service.ColumnService;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
@@ -142,17 +142,21 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         ClassEntity classEntity = new ClassEntity();
 
         LOGGER.info("合成中 --> 获取表的信息！");
-        TableEntity tableEntity = tableService.getTableByName(sqlSession, tableName);
+        Table Table = tableService.getTableByName(sqlSession, tableName);
+        if(Table == null) {
+            LOGGER.error("---> 找不到数据库中对应表的信息");
+            return;
+        }
 
         LOGGER.info("合成中 --> 获取表中列的信息！");
-        List<ColumnEntity> columnList = columnService.listColumnByTable(sqlSession, tableName);
+        List<Column> columnList = columnService.listColumnByTable(sqlSession, tableName);
 
         LOGGER.info("合成中 --> 将列的信息转为类属性");
         Set<FieldEntity> fields = new HashSet<>();
-        Set<FieldEntity> keyFields = new HashSet<>();
-        Set<FieldEntity> noKeyFields = new HashSet<>();
-        Set<FieldEntity> notNullfields = new HashSet<>();
-        for(ColumnEntity column : columnList) {
+        Set<Map<String, Object>> keyFields = new HashSet<>();
+        Set<Map<String, Object>> noKeyFields = new HashSet<>();
+        Set<Map<String, Object>> notNullfields = new HashSet<>();
+        for(Column column : columnList) {
             FieldEntity field = new FieldEntity();
             field.setColumnName(column.getColumnName());
             field.setFiledName(dbToJava(column.getColumnName()));
@@ -165,26 +169,33 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             }
             field.setComment(column.getComment());
             fields.add(field);
+
             if("PRI".equals(column.getKey())) {
-                keyFields.add(field);
-                notNullfields.add(field);
+                Map<String, Object> keyField = ObjectUtil.objToMap(field);
+                keyField.put("isAutoAdd", "");
+                keyFields.add(keyField);
             } else {
-                noKeyFields.add(field);
+                Map<String, Object> noKeyField = ObjectUtil.objToMap(field);
+                noKeyFields.add(noKeyField);
             }
             if("NO".equals(column.getIsNullAble()) && "".equals(column.getExtra())) {
-                notNullfields.add(field);
+                Map<String, Object> notNullfield = ObjectUtil.objToMap(field);
+                notNullfield.put("isNullAble", column.getIsNullAble());
+                notNullfields.add(notNullfield);
             }
         }
 
+        // 如果表中有联合主键，且为hibernate框架需做特许处理
+        if(keyFields.size() > 1) {
+            FrameEnum.addEntityPKTemplates(taskEntity);
+        }
+
         LOGGER.info("合成中 --> 将表的信息转为类！");
-        classEntity.setFields(new LinkedList<FieldEntity>(fields));
-        classEntity.setKeyFields(new LinkedList<FieldEntity>(keyFields));
-        classEntity.setNoKeyFields(new LinkedList<FieldEntity>(noKeyFields));
-        classEntity.setNotNullfields(new LinkedList<FieldEntity>(notNullfields));
+        classEntity.setFields(new LinkedList<>(fields));
         classEntity.setClassPackage(taskEntity.getPackageName());
         classEntity.setClassName(dbToJava(tableName));
         classEntity.setEntityName(StringUtils.uncapitalize(classEntity.getClassName()));
-        classEntity.setComment(tableEntity.getComment()==null ? "" : tableEntity.getComment());
+        classEntity.setComment(Table.getComment()==null ? "" : Table.getComment());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         classEntity.setCreateTime(sdf.format(new Date()));
         classEntity.setAuthorName(taskEntity.getAuthorName()==null ? "" : taskEntity.getAuthorName());
@@ -195,6 +206,10 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskMap.putAll(ObjectUtil.objToMap(classEntity));
         taskMap.put("tableName", tableName);
         taskMap.put("repositoryMapper", taskEntity.getPackageName().replace(".","/"));
+        taskMap.put("keyFields", new LinkedList<>(keyFields));
+        taskMap.put("noKeyFields", new LinkedList<>(noKeyFields));
+        taskMap.put("notNullfields", new LinkedList<>(notNullfields));
+        taskMap.put("isAutoIncr", Table.getAutoIncrement());
 
 //        System.out.println("------------------------------------------");
 //        Iterator entries = taskMap.entrySet().iterator();
@@ -222,17 +237,17 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             tpl.merge(context, sw);
             String fileName = TemplatesEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
 
-//                System.out.println("------------------------------------------");
-//                System.out.println(sw.toString());
-//                System.out.println("------------------------------------------");
+            System.out.println("------------------------------------------");
+            System.out.println(sw.toString());
+            System.out.println("------------------------------------------");
 
-            FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
+//            FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
         }
     }
 
     @Override
     public void deploy(T taskEntity) {
-        FileUtil.zipFile(taskEntity.getProjectName());
+//        FileUtil.zipFile(taskEntity.getProjectName());
     }
 
     @Override

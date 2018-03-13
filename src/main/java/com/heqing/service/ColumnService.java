@@ -1,6 +1,6 @@
 package com.heqing.service;
 
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface ColumnService {
      * @param tableName 表名
      * @return 表中所有列
      */
-    List<ColumnEntity> listColumnByTable(Integer dbId, String tableName);
+    List<Column> listColumnByTable(Integer dbId, String tableName);
 
     /**
      * 获取表中所有列信息
@@ -30,5 +30,5 @@ public interface ColumnService {
      * @param tableName 表名
      * @return 表中所有列
      */
-    List<ColumnEntity> listColumnByTable(SqlSession sqlSession, String tableName);
+    List<Column> listColumnByTable(SqlSession sqlSession, String tableName);
 }

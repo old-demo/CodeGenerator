@@ -12,29 +12,57 @@ import org.apache.commons.lang.StringUtils;
 public enum TemplatesEnum {
 
     /*
-     * entity   实体类
+     * mybatis实体类
      */
     MYBATIS_ENTITY("mybatisEntity", "mybatis/MybatisEntity.java.vm"),
     /*
-     * mybatis   持久层mybatis接口
+     * 持久层mybatis接口
      */
     MYBATIS_DAO("mybatisDao", "mybatis/MybatisDao.java.vm"),
     /*
-     * mapper   mybatis映射文件
+     * mybatis映射文件
      */
     MYBATIS_MAPPER("mybatisMapper", "mybatis/MybatisMapper.xml.vm"),
     /*
-     * service  业务逻辑层接口
+     * mybatis业务逻辑层接口
      */
     MYBATIS_SERVICE("mybatisService", "mybatis/MybatisService.java.vm"),
     /*
-     * serviceImpl  业务逻辑层实现类
+     * mybatis业务逻辑层实现类
      */
     MYBATIS_SERVICEIMPL("mybatisServiceImpl", "mybatis/MybatisServiceImpl.java.vm"),
     /*
-         * test 测试类
-         */
+     * mybatis测试类
+     */
     MYBATIS_TEST("mybatisTest", "mybatis/MybatisTest.java.vm"),
+    /*
+     * mybatis配置
+     */
+    MYBATIS_CONFIG("mybatisConfig", "mybatis/MybatisConfig.xml.vm"),
+    /*
+     * hibernate实体类
+     */
+    HIBERNATE_ENTITY("hibernateEntity", "hibernate/HibernateEntity.java.vm"),
+    /*
+     * hibernate实体类
+     */
+    HIBERNATE_ENTITY_PK("hibernateEntityPK", "hibernate/HibernateEntityPK.java.vm"),
+    /*
+     * hibernate持久层接口
+     */
+    HIBERNATE_DAO("hibernateDao", "hibernate/HibernateDao.java.vm"),
+    /*
+     * mybatis业务逻辑层接口
+     */
+    HIBERNATE_SERVICE("hibernateService", "hibernate/HibernateService.java.vm"),
+    /*
+     * mybatis业务逻辑层接口
+     */
+    HIBERNATE_SERVICEIMPL("hibernateServiceImpl", "hibernate/HibernateServiceImpl.java.vm"),
+    /*
+     * 分页工具类
+     */
+    UTIL_PAGEINFO("pageInfoUtil", "util/PageInfoUtil.java.vm"),
     /*
      * controller   显示控制层
      */
@@ -54,11 +82,7 @@ public enum TemplatesEnum {
     /*
      * spring_core  spring框架配置
      */
-    SPRING_CONFIG("springConfig", "SpringConfig.xml.vm"),
-    /*
-     * Spring_mybatis mybatis配置
-     */
-    MYBATIS_CONFIG("mybatisConfig", "mybatis/MybatisConfig.xml.vm");
+    SPRING_CONFIG("springConfig", "SpringConfig.xml.vm");
 
     public static String getFilePath(String projectName, TemplatesEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -68,18 +92,25 @@ public enum TemplatesEnum {
         }
 
         switch (template) {
+            case HIBERNATE_ENTITY_PK:
+                filePatch += "src/main/java/" + packagePath + "/entity/" + className + "PK.java";
+                break;
+            case HIBERNATE_ENTITY:
             case MYBATIS_ENTITY:
                 filePatch += "src/main/java/" + packagePath + "/entity/" + className + ".java";
                 break;
+            case HIBERNATE_DAO:
             case MYBATIS_DAO:
                 filePatch += "src/main/java/" + packagePath + "/repository/" + className + "Repository.java";
                 break;
             case MYBATIS_MAPPER:
                 filePatch += "src/main/resources/" +packagePath + "/repository/mapper/" + className + "RepositoryMapper.xml";
                 break;
+            case HIBERNATE_SERVICE:
             case MYBATIS_SERVICE:
                 filePatch += "src/main/java/" + packagePath + "/service/" + className + "Service.java";
                 break;
+            case HIBERNATE_SERVICEIMPL:
             case MYBATIS_SERVICEIMPL:
                 filePatch += "src/main/java/" + packagePath + "/service/impl/" + className + "ServiceImpl.java";
                 break;
@@ -103,6 +134,9 @@ public enum TemplatesEnum {
                 break;
             case MYBATIS_CONFIG:
                 filePatch += "src/test/resources/spring_mybatis.xml";
+                break;
+            case UTIL_PAGEINFO:
+                filePatch += "src/main/java/" + packagePath + "/util/pageInfoUtil.java";;
                 break;
             default: filePatch = "";
         }

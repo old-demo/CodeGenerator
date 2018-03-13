@@ -1,8 +1,8 @@
 package com.heqing.task;
 
 import com.heqing.constants.FrameEnum;
-import com.heqing.entity.orm.DatebaseEntity;
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Datebase;
+import com.heqing.entity.orm.Table;
 import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.MavenTaskEntity;
 import com.heqing.service.TableService;
@@ -35,7 +35,7 @@ public class TaskTest {
     @Autowired
     TableService tableService;
 
-    DatebaseEntity datebase = new DatebaseEntity();
+    Datebase datebase = new Datebase();
 
     FrameEntity frameEntity = new FrameEntity();
 
@@ -61,18 +61,19 @@ public class TaskTest {
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
         frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
-        frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+        frameEntity.setRepositoryFrame(FrameEnum.HIBERNATE);
     }
 
     @Test
     public void testMavenTask() {
-        List<TableEntity> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
+        List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
-        for(TableEntity table : tableList) {
-            if(!"datebase".equals(table.getTableName())) {
-                tableNames.add(table.getTableName());
-            }
-        }
+//        for(Table table : tableList) {
+//            if(!"datebase".equals(table.getTableName())) {
+//                tableNames.add(table.getTableName());
+//            }
+//        }
+        tableNames.add("studet");
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
         taskEntity.setArtifactId("TestSpring");

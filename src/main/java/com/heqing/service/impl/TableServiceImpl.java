@@ -2,7 +2,7 @@ package com.heqing.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Table;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
 import org.apache.ibatis.session.SqlSession;
@@ -25,55 +25,55 @@ public class TableServiceImpl implements TableService {
     DatebaseServiceExt datebaseServiceExt;
 
     @Override
-    public TableEntity getTableByName(Integer dbId, String tableName) {
+    public Table getTableByName(Integer dbId, String tableName) {
         SqlSession sqlSession = datebaseServiceExt.getSqlSession(dbId);
         if(sqlSession == null) {
             return null;
         }
-        TableEntity tableEntity = getTableByName(sqlSession, tableName);
+        Table Table = getTableByName(sqlSession, tableName);
         sqlSession.clearCache();
         sqlSession.close();
-        return tableEntity;
+        return Table;
     }
 
     @Override
-    public TableEntity getTableByName(SqlSession sqlSession, String tableName) {
-        return (TableEntity)sqlSession.selectOne("com.heqing.repository.TableRepository.getTableByName", tableName);
+    public Table getTableByName(SqlSession sqlSession, String tableName) {
+        return (Table)sqlSession.selectOne("com.heqing.repository.TableRepository.getTableByName", tableName);
     }
 
     @Override
-    public List<TableEntity> listTable(Integer dbId) {
+    public List<Table> listTable(Integer dbId) {
         SqlSession sqlSession = datebaseServiceExt.getSqlSession(dbId);
         if(sqlSession == null) {
             return null;
         }
-        List<TableEntity> tableList = listTable(sqlSession);
+        List<Table> tableList = listTable(sqlSession);
         sqlSession.clearCache();
         sqlSession.close();
         return tableList;
     }
 
     @Override
-    public List<TableEntity> listTable(SqlSession sqlSession) {
+    public List<Table> listTable(SqlSession sqlSession) {
         return sqlSession.selectList("com.heqing.repository.TableRepository.listTable");
     }
 
     @Override
-    public PageInfo<TableEntity> listTableByParamAndPage(Integer dbId, String tableName, int pageNo, int pageSize) {
+    public PageInfo<Table> listTableByParamAndPage(Integer dbId, String tableName, int pageNo, int pageSize) {
         SqlSession sqlSession = datebaseServiceExt.getSqlSession(dbId);
         if(sqlSession == null) {
             return null;
         }
-        PageInfo<TableEntity> tablePage = listTableByParamAndPage(sqlSession, tableName, pageNo, pageSize);
+        PageInfo<Table> tablePage = listTableByParamAndPage(sqlSession, tableName, pageNo, pageSize);
         sqlSession.clearCache();
         sqlSession.close();
         return tablePage;
     }
 
     @Override
-    public PageInfo<TableEntity> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
+    public PageInfo<Table> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<TableEntity> tableList = sqlSession.selectList("com.heqing.repository.TableRepository.listTableByParamAndPage", tableName);
-        return new PageInfo<TableEntity>(tableList);
+        List<Table> tableList = sqlSession.selectList("com.heqing.repository.TableRepository.listTableByParamAndPage", tableName);
+        return new PageInfo<Table>(tableList);
     }
 }

@@ -6,7 +6,8 @@
     <!-- 列字段 -->
     <sql id="columnFields">
         TABLE_SCHEMA
-        , TABLE_NAME, COLUMN_NAME
+        , TABLE_NAME
+        , COLUMN_NAME
         , ORDINAL_POSITION
         , IS_NULLABLE
         , DATA_TYPE
@@ -20,7 +21,7 @@
     </sql>
 
     <!-- 属性 -->
-    <parameterMap id="columnParameterMap" type="com.heqing.entity.orm.ColumnEntity">
+    <parameterMap id="columnParameterMap" type="com.heqing.entity.orm.Column">
         <parameter property="dbName"/>
         <parameter property="tableName"/>
         <parameter property="columnName"/>
@@ -37,7 +38,7 @@
     </parameterMap>
 
     <!-- 表字段与对象属性映射 -->
-    <resultMap id="columnResultMap" type="com.heqing.entity.orm.ColumnEntity">
+    <resultMap id="columnResultMap" type="com.heqing.entity.orm.Column">
         <result property="dbName" column="TABLE_SCHEMA" />
         <result property="tableName" column="TABLE_NAME" />
         <result property="columnName" column="COLUMN_NAME" />

@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @email 975656343@qq.com
  * @date 2018/01/03
  */
-public class ColumnEntity implements Serializable {
+public class Column implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -2,7 +2,7 @@ package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Table;
 import com.heqing.service.TableService;
 import com.heqing.util.DataSourceUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -42,14 +42,14 @@ public class TableTest {
 
     @Test
     public void getTableByName() {
-        TableEntity table = tableService.getTableByName(sqlSession, "datebase");
+        Table table = tableService.getTableByName(sqlSession, "datebase");
         System.out.println("---> "+table);
     }
 
     @Test
     public void listTable() {
-        List<TableEntity> tableList = tableService.listTable(sqlSession);
-        for(TableEntity table : tableList) {
+        List<Table> tableList = tableService.listTable(sqlSession);
+        for(Table table : tableList) {
             System.out.println("-->"+table);
         }
     }
@@ -57,7 +57,7 @@ public class TableTest {
     @Test
     public void listTableByParamAndPage() {
         try {
-            PageInfo<TableEntity> tableList = tableService.listTableByParamAndPage(sqlSession, "r", 1, 2);
+            PageInfo<Table> tableList = tableService.listTableByParamAndPage(sqlSession, "r", 1, 2);
             System.out.println("-->"+ JSON.toJSONString(tableList));
         } catch(Exception e) {
             e.printStackTrace();

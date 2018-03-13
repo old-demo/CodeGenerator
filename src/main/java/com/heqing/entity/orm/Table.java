@@ -14,7 +14,7 @@ import java.util.List;
  * @email 975656343@qq.com
  * @date 2018/01/03
  */
-public class TableEntity implements Serializable {
+public class Table implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -93,7 +93,7 @@ public class TableEntity implements Serializable {
     /**
      * columns 列信息列表
      */
-    private List<ColumnEntity> columns;
+    private List<Column> columns;
 
     public String getDbName() {
         return dbName;
@@ -207,11 +207,11 @@ public class TableEntity implements Serializable {
         this.maxDateLength = maxDateLength;
     }
 
-    public List<ColumnEntity> getColumns() {
+    public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<ColumnEntity> columns) {
+    public void setColumns(List<Column> columns) {
         this.columns = columns;
     }
 

@@ -1,6 +1,6 @@
 package com.heqing.repository;
 
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +22,5 @@ public interface ColumnRepository {
      * @param tableName 表名
      * @return 表中所有列
      */
-    List<ColumnEntity> listColumnByTable(@Param(value="tableName")String tableName);
+    List<Column> listColumnByTable(@Param(value="tableName")String tableName);
 }

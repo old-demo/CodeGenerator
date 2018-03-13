@@ -1,0 +1,162 @@
+package $!{classPackage}.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
+
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.repository.$!{className}Repository;
+import $!{classPackage}.service.$!{className}Service;
+import $!{classPackage}.util.PageInfoUtil;
+
+/**
+ * $!{comment}业务逻辑实现类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Service("$!{entityName}Service")
+public class $!{className}ServiceImpl implements $!{className}Service {
+
+    private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
+
+    @Autowired
+    private $!{className}Repository $!{entityName}Repository;
+
+    @Override
+    public int save$!{className}($!{className} $!{entityName}) {
+        if($!{entityName}Repository.save($!{entityName}) != null) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
+        int isSuccess = 0;
+        for($!{className} $!{entityName} : $!{entityName}List) {
+            if($!{entityName}Repository.save($!{entityName}) != null) {
+                isSuccess += 1;
+            }
+        }
+        return isSuccess;
+    }
+
+#if($keyFields.size() > 1)
+    @Override
+    public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        $!{entityName}Repository.delete($!{entityName}PK);
+        return 1;
+    }
+
+#end
+#if($keyFields.size() == 1)
+    @Override
+    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+        return 1;
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
+        int isSuccess = 0;
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
+            $!{entityName}RepositoryRepository.delete($!{keyFields.get(0).entityName});
+            isSuccess += 1;
+        }
+        return isSuccess;
+    }
+
+#end
+#if($keyFields.size() == 1)
+    @Override
+    public int update$!{className}ByKey($!{className} $!{entityName}) {
+#if($notNullfields.size() > 0)
+        for($!{className} $!{entityName} : $!{entityName}List) {
+#foreach ($!{field} in $!{notNullfields})
+            if($!{entityName}.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+            return 0;
+        }
+#end
+}
+#end
+        if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+        int isSuccess = 0;
+        for($!{className} $!{entityName} : $!{entityName}List) {
+#if($notNullfields.size() > 0)
+            for($!{className} $!{entityName} : $!{entityName}List) {
+#foreach ($!{field} in $!{notNullfields})
+                if($!{entityName}Repository.get$!{field.filedName}() == null) {
+                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+                break;
+                }
+#end
+                if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
+                    isSuccess += 1;
+                }
+            }
+#end
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        return $!{entityName}Repository.getOne($!{keyFields.get(0).entityName});
+    }
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
+            $!{entityName}List.add($!{entityName}Repository.getOne($!{keyFields.get(0).entityName}));
+        }
+        return $!{entityName}List;
+    }
+
+#end
+    @Override
+    public List<$!{className}> list$!{className}() {
+        return $!{entityName}Repository.findAll();
+    }
+
+#foreach ($!{field} in $!{noKeyFields})
+    @Override
+    public List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        return $!{entityName}Repository.findBy$!{field.filedName}($!{field.entityName});
+    }
+
+    @Override
+    public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNo, int pageSize) {
+        pageNo = pageNo < 0 ? 0 : pageNo;
+        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
+        Pageable pageable = new PageRequest(pageNo-1, pageSize);
+        Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findByNameContains($!{field.entityName}, pageable);
+        return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
+    }
+
+    @Override
+    public void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        $!{entityName}Repository.deleteBy$!{field.filedName}($!{field.entityName});
+    }
+
+#end
+}

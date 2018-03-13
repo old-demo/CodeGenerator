@@ -22,7 +22,7 @@
     </sql>
 
     <!-- 表字段与对象属性映射 -->
-    <parameterMap id="tableParameterMap" type="com.heqing.entity.orm.TableEntity">
+    <parameterMap id="tableParameterMap" type="com.heqing.entity.orm.Table">
         <parameter property="dbName"/>
         <parameter property="tableName"/>
         <parameter property="type"/>
@@ -40,7 +40,7 @@
     </parameterMap>
 
     <!-- 表字段与对象属性映射 -->
-    <resultMap id="tableResultMap" type="com.heqing.entity.orm.TableEntity">
+    <resultMap id="tableResultMap" type="com.heqing.entity.orm.Table">
         <result property="dbName" column="TABLE_SCHEMA" />
         <result property="tableName" column="TABLE_NAME" />
         <result property="type" column="TABLE_TYPE" />

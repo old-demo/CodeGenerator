@@ -2,7 +2,7 @@ package com.heqing.entity.task;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heqing.constants.TemplatesEnum;
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class TaskEntity {
     /**
      * datebase 数据操作
      */
-    private DatebaseEntity datebase;
+    private Datebase datebase;
 
     /**
      * tableName 表名
@@ -61,11 +61,11 @@ public class TaskEntity {
      */
     private FrameEntity frame;
 
-    public DatebaseEntity getDatebase() {
+    public Datebase getDatebase() {
         return datebase;
     }
 
-    public void setDatebase(DatebaseEntity datebase) {
+    public void setDatebase(Datebase datebase) {
         this.datebase = datebase;
     }
 

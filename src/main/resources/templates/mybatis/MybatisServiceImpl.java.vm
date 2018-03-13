@@ -13,7 +13,7 @@ import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.service.$!{className}Service;
 
 /**
- * $!{comment}数据持久层实现类
+ * $!{comment}业务逻辑实现类
  *
  * @author $!{authorName}
  * @email  $!{authorEmail}
@@ -125,6 +125,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfo<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
+        pageNo = pageNo < 0 ? 0 : pageNo;
+        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
         List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}();
         return new PageInfo<$!{className}>($!{entityName}List);
@@ -132,6 +134,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfo<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
+        pageNo = pageNo < 0 ? 0 : pageNo;
+        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
         List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}ByParam($!{entityName});
         return new PageInfo<$!{className}>($!{entityName}List);

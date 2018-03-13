@@ -1,0 +1,133 @@
+package $!{classPackage}.service;
+
+import java.util.List;
+
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.util.PageInfoUtil;
+
+/**
+ * $!{comment}业务逻辑层接口
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public interface $!{className}Service {
+
+    /**
+     * 增加$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例
+     * @return int 成功数量
+     */
+    int save$!{className}($!{className} $!{entityName});
+
+    /**
+     * 增加多条$!{comment}实例
+     *
+     * @param $!{entityName}List 多条$!{comment}实例
+     * @return int 成功数量
+     */
+    int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
+
+#if($keyFields.size() > 1)
+    /**
+     * 根据主键删除$!{comment}实例
+     *
+     * @param $!{entityName}PK 联合主键
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey($!{className}PK $!{entityName}PK);
+
+#end
+#if($keyFields.size() == 1)
+    /**
+     * 根据主键删除$!{comment}实例
+     *
+#foreach(${field} in ${keyFields})
+    * @param $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
+#end
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
+
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{keyFields.get(0).entityName}s 主键ID集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
+
+#end
+#if($keyFields.size() == 1)
+    /**
+     * 修改$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例信息
+     * @return int 成功数量
+     */
+    int update$!{className}ByKey($!{className} $!{entityName});
+
+    /**
+     * 批量修改$!{comment}实例
+     *
+     * @param $!{entityName}List 多条$!{comment}实例信息
+     * @return int 是否成功
+     */
+    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+#foreach(${field} in ${keyFields})
+     * @param $!{field.entityName} $!{field.comment}
+#end
+     * @return $!{className} $!{comment}信息
+     */
+     $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
+     * @return List<T> $!{comment}实例信息
+     */
+    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
+
+#end
+    /**
+     * 获取所有$!{comment}实例信息
+     *
+     * @return List<$!{className}> $!{comment}主键集合
+     */
+    List<$!{className}> list$!{className}();
+
+#foreach ($!{field} in $!{noKeyFields})
+    /**
+     * 根据$!{field.comment}获取信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @return List<Person> $!{comment}集合
+     */
+    List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName});
+
+    /**
+     * 根据$!{field.comment}模糊匹配获取分页信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @param pageNo 第几页
+     * @param pageSize 每页数量
+     * @return PageInfoUtil<$!{className}> $!{comment}分页信息
+     */
+    PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNo, int pageSize);
+
+    /**
+     * 根据$!{field.comment}删除信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     */
+    void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+
+#end
+}

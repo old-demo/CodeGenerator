@@ -51,18 +51,18 @@ public enum FrameEnum {
     }
 
     public static void addTemplates(TaskEntity taskEntity) {
-        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
-        switch (serviceFrame) {
-            case SPRING:
-                taskEntity.getTemplates().add(TemplatesEnum.SPRING_CONFIG);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_CONFIG);
-                break;
-            case SPRINGBOOT:
-                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION_PROPERTIES);
-                break;
-            default:;
-        }
+//        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
+//        switch (serviceFrame) {
+//            case SPRING:
+//                taskEntity.getTemplates().add(TemplatesEnum.SPRING_CONFIG);
+//                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_CONFIG);
+//                break;
+//            case SPRINGBOOT:
+//                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION);
+//                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION_PROPERTIES);
+//                break;
+//            default:;
+//        }
 
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         switch (repositoryFrame) {
@@ -75,8 +75,21 @@ public enum FrameEnum {
                 taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_TEST);
                 break;
             case HIBERNATE:
+//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY);
+//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_DAO);
+//                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICE);
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICEIMPL);
+//                taskEntity.getTemplates().add(TemplatesEnum.UTIL_PAGEINFO);
                 break;
             default:;
         }
     }
+
+    public static void addEntityPKTemplates(TaskEntity taskEntity) {
+//        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
+//        if(repositoryFrame == HIBERNATE) {
+//            taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY_PK);
+//        }
+    }
+
 }

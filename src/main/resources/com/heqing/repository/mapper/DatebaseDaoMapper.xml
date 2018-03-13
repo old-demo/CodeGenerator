@@ -3,99 +3,95 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.heqing.repository.DatebaseRepository">
 
-    <!-- 数据库字段 -->
+    <!-- 数据库连接信息数据库字段 -->
     <sql id="datebaseFields">
-         id
-         , connect_name
-         , driver
-         , url
-         , port
-         , db_name
-         , schema
-         , username
-         , password
-         , describe
-         , create_time
-         , update_time
-         , create_user
+        id
+        , db_name
+        , port
+        , url
+        , password
+        , remark
+        , update_time
+        , username
+        , connect_name
+        , create_time
+        , driver
+        , create_user
     </sql>
 
-    <!-- 属性 -->
-    <parameterMap id="datebaseParameterMap" type="com.heqing.entity.orm.DatebaseEntity">
+    <!-- 数据库连接信息对象属性 -->
+    <parameterMap id="datebaseParameterMap" type="com.heqing.entity.orm.Datebase">
         <parameter property="id"/>
-        <parameter property="connectName"/>
-        <parameter property="driver"/>
-        <parameter property="url"/>
-        <parameter property="port"/>
         <parameter property="dbName"/>
-        <parameter property="schema"/>
-        <parameter property="username"/>
+        <parameter property="port"/>
+        <parameter property="url"/>
         <parameter property="password"/>
-        <parameter property="describe"/>
-        <parameter property="createTime"/>
+        <parameter property="remark"/>
         <parameter property="updateTime"/>
+        <parameter property="username"/>
+        <parameter property="connectName"/>
+        <parameter property="createTime"/>
+        <parameter property="driver"/>
         <parameter property="createUser"/>
     </parameterMap>
 
     <!-- 数据库字段与对象属性映射 -->
-    <resultMap id="datebaseResultMap" type="com.heqing.entity.orm.DatebaseEntity">
+    <resultMap id="datebaseResultMap" type="com.heqing.entity.orm.Datebase">
         <result property="id" column="id" />
-        <result property="connectName" column="connect_name" />
-        <result property="driver" column="driver" />
-        <result property="url" column="url" />
-        <result property="port" column="port" />
         <result property="dbName" column="db_name" />
-        <result property="schema" column="schema" />
-        <result property="username" column="username" />
+        <result property="port" column="port" />
+        <result property="url" column="url" />
         <result property="password" column="password" />
-        <result property="describe" column="describe" />
-        <result property="createTime" column="create_time" />
+        <result property="remark" column="remark" />
         <result property="updateTime" column="update_time" />
+        <result property="username" column="username" />
+        <result property="connectName" column="connect_name" />
+        <result property="createTime" column="create_time" />
+        <result property="driver" column="driver" />
         <result property="createUser" column="create_user" />
     </resultMap>
 
-    <!-- 增加数据库连接信息列 -->
+    <!-- 增加数据库连接信息 -->
     <insert id="saveDatebase" parameterMap="datebaseParameterMap" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
-          datebase( <include refid="datebaseFields"/> )
-        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
+        datebase( <include refid="datebaseFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
     </insert>
 
-    <!-- 增加多条数据库连接信息列 -->
+    <!-- 增加多条数据库连接信息 -->
     <insert id="saveBatchDatebase" parameterType="java.util.List">
         INSERT INTO
-          datebase( <include refid="datebaseFields"/> )
+        datebase( <include refid="datebaseFields"/> )
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-        (
-            #{item.schema}
-            ,#{item.id}
-            ,#{item.createTime}
-            ,#{item.username}
-            ,#{item.port}
-            ,#{item.password}
+            (
+            #{item.id}
             ,#{item.dbName}
+            ,#{item.port}
             ,#{item.url}
-            ,#{item.createUser}
-            ,#{item.describe}
-            ,#{item.driver}
+            ,#{item.password}
+            ,#{item.remark}
             ,#{item.updateTime}
+            ,#{item.username}
             ,#{item.connectName}
-        )
+            ,#{item.createTime}
+            ,#{item.driver}
+            ,#{item.createUser}
+            )
         </foreach>
         ;
     </insert>
 
-    <!-- 根据主键删除数据库连接信息列 -->
+    <!-- 根据主键删除数据库连接信息 -->
     <delete id="deleteDatebaseByKey" parameterType="java.util.Map">
         DELETE FROM datebase
         <where>
-            AND id=#{0}
+            AND id=#{id}
         </where>
         ;
     </delete>
 
-    <!-- 根据主键删除多条数据库连接信息列 -->
+    <!-- 根据多个主键删除多条数据库连接信息 -->
     <delete id="deleteBatchDatebaseByKey" parameterType="java.util.List">
         DELETE FROM datebase
         WHERE id IN
@@ -105,45 +101,43 @@
         ;
     </delete>
 
-    <!-- 根据条件删除多条数据库连接信息列 -->
+    <!-- 根据条件删除多条数据库连接信息 -->
     <delete id="deleteBatchDatebaseByParam" parameterMap="datebaseParameterMap">
         DELETE FROM datebase
         <where>
-            <if test="schema != null and schema != ''"> AND schema=#{schema} </if>
             <if test="id != null and id != ''"> AND id=#{id} </if>
-            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
-            <if test="username != null and username != ''"> AND username=#{username} </if>
-            <if test="port != null and port != ''"> AND port=#{port} </if>
-            <if test="password != null and password != ''"> AND password=#{password} </if>
             <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
+            <if test="port != null and port != ''"> AND port=#{port} </if>
             <if test="url != null and url != ''"> AND url=#{url} </if>
-            <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
-            <if test="describe != null and describe != ''"> AND describe=#{describe} </if>
-            <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="password != null and password != ''"> AND password=#{password} </if>
+            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
             <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND username=#{username} </if>
             <if test="connectName != null and connectName != ''"> AND connect_name=#{connectName} </if>
+            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
         </where>
         ;
     </delete>
 
-    <!-- 修改数据库连接信息列 -->
+    <!-- 根据主键修改数据库连接信息 -->
     <update id="updateDatebaseByKey" parameterMap="datebaseParameterMap">
         UPDATE
-          datebase
+        datebase
         <trim prefix="SET" prefixOverrides=",">
-            <if test="schema != null">, schema=#{schema}</if>
             <if test="id != null">, id=#{id}</if>
-            <if test="createTime != null">, create_time=#{createTime}</if>
-            <if test="username != null">, username=#{username}</if>
-            <if test="port != null">, port=#{port}</if>
-            <if test="password != null">, password=#{password}</if>
             <if test="dbName != null">, db_name=#{dbName}</if>
+            <if test="port != null">, port=#{port}</if>
             <if test="url != null">, url=#{url}</if>
-            <if test="createUser != null">, create_user=#{createUser}</if>
-            <if test="describe != null">, describe=#{describe}</if>
-            <if test="driver != null">, driver=#{driver}</if>
+            <if test="password != null">, password=#{password}</if>
+            <if test="remark != null">, remark=#{remark}</if>
             <if test="updateTime != null">, update_time=#{updateTime}</if>
+            <if test="username != null">, username=#{username}</if>
             <if test="connectName != null">, connect_name=#{connectName}</if>
+            <if test="createTime != null">, create_time=#{createTime}</if>
+            <if test="driver != null">, driver=#{driver}</if>
+            <if test="createUser != null">, create_user=#{createUser}</if>
         </trim>
         <where>
             AND id=#{id}
@@ -151,24 +145,23 @@
         ;
     </update>
 
-    <!-- 批量修改数据库连接信息列 -->
+    <!-- 根据多个主键批量修改数据库连接信息 -->
     <update id="updateBatchDatebaseByKey"  parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE datebase
             <trim prefix="SET" prefixOverrides=",">
-                <if test="item.schema != null ">, schema=#{item.schema}</if>
                 <if test="item.id != null ">, id=#{item.id}</if>
-                <if test="item.createTime != null ">, create_time=#{item.createTime}</if>
-                <if test="item.username != null ">, username=#{item.username}</if>
-                <if test="item.port != null ">, port=#{item.port}</if>
-                <if test="item.password != null ">, password=#{item.password}</if>
                 <if test="item.dbName != null ">, db_name=#{item.dbName}</if>
+                <if test="item.port != null ">, port=#{item.port}</if>
                 <if test="item.url != null ">, url=#{item.url}</if>
-                <if test="item.createUser != null ">, create_user=#{item.createUser}</if>
-                <if test="item.describe != null ">, describe=#{item.describe}</if>
-                <if test="item.driver != null ">, driver=#{item.driver}</if>
+                <if test="item.password != null ">, password=#{item.password}</if>
+                <if test="item.remark != null ">, remark=#{item.remark}</if>
                 <if test="item.updateTime != null ">, update_time=#{item.updateTime}</if>
+                <if test="item.username != null ">, username=#{item.username}</if>
                 <if test="item.connectName != null ">, connect_name=#{item.connectName}</if>
+                <if test="item.createTime != null ">, create_time=#{item.createTime}</if>
+                <if test="item.driver != null ">, driver=#{item.driver}</if>
+                <if test="item.createUser != null ">, create_user=#{item.createUser}</if>
             </trim>
             <where>
                 AND id=#{item.id}
@@ -176,17 +169,17 @@
         </foreach>
     </update>
 
-    <!-- 根据主键获取数据库连接信息列信息 -->
+    <!-- 根据主键获取数据库连接信息 -->
     <select id="getDatebaseByKey" parameterType="java.util.Map" resultMap="datebaseResultMap">
         SELECT <include refid="datebaseFields"/>
         FROM datebase
         <where>
-            AND id=#{0}
+            AND id=#{id}
         </where>
         ;
     </select>
 
-    <!-- 根据Key获取数据库连接信息列信息 -->
+    <!-- 根据多个主键获取数据库连接信息 -->
     <select id="listDatebaseByKey" parameterType="java.util.List" resultMap="datebaseResultMap">
         SELECT <include refid="datebaseFields"/>
         FROM datebase
@@ -197,30 +190,29 @@
         ;
     </select>
 
-    <!-- 获取所有数据库连接信息列信息 -->
+    <!-- 获取所有数据库连接信息 -->
     <select id="listDatebase" resultMap="datebaseResultMap">
         SELECT <include refid="datebaseFields"/>
         FROM datebase
     </select>
 
-    <!-- 根据条件获取多条数据库连接信息列 -->
+    <!-- 根据条件获取多条数据库连接信息 -->
     <select id="listDatebaseByParam" parameterType="java.util.Map" resultMap="datebaseResultMap">
         SELECT <include refid="datebaseFields"/>
         FROM datebase
         <where>
-            <if test="schema != null and schema != ''"> AND schema=#{schema} </if>
             <if test="id != null and id != ''"> AND id=#{id} </if>
-            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
-            <if test="username != null and username != ''"> AND username=#{username} </if>
-            <if test="port != null and port != ''"> AND port=#{port} </if>
-            <if test="password != null and password != ''"> AND password=#{password} </if>
             <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
+            <if test="port != null and port != ''"> AND port=#{port} </if>
             <if test="url != null and url != ''"> AND url=#{url} </if>
-            <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
-            <if test="describe != null and describe != ''"> AND describe=#{describe} </if>
-            <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="password != null and password != ''"> AND password=#{password} </if>
+            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
             <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND username=#{username} </if>
             <if test="connectName != null and connectName != ''"> AND connect_name=#{connectName} </if>
+            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
         </where>
     </select>
 

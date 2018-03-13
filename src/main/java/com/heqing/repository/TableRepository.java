@@ -1,6 +1,6 @@
 package com.heqing.repository;
 
-import com.heqing.entity.orm.TableEntity;
+import com.heqing.entity.orm.Table;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,12 +22,12 @@ public interface TableRepository {
      * @param tableName 表名
      * @return 所有表信息
      */
-    TableEntity getTableByName(@Param(value="tableName")String tableName);
+    Table getTableByName(@Param(value="tableName")String tableName);
 
     /**
      * 获取所有表信息
      *
      * @return 所有表信息
      */
-    List<TableEntity> listTable();
+    List<Table> listTable();
 }

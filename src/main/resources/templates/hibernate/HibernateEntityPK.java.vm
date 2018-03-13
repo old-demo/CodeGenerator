@@ -1,0 +1,54 @@
+package $!{classPackage}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+
+import javax.persistence.Embeddable;
+
+/**
+ * $!{comment}实体类联合主键
+ * 
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Embeddable
+public class $!{className}PK implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public $!{className}PK() {}
+
+    public $!{className}PK(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
+#foreach(${field} in ${keyFields})
+		this.$!{field.entityName} = $!{field.entityName};
+#end
+    }
+
+#foreach ($!{field} in $!{keyFields})
+	/**
+	 * $!{field.entityName} $!{field.comment}
+	 */
+#if($!{field.type} == "Date")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+#end
+	private $!{field.type} $!{field.entityName};
+
+#end
+#foreach ($!{field} in $!{keyFields})
+	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+		this.$!{field.entityName} = $!{field.entityName};
+	}
+
+	public $!{field.type} get$!{field.filedName}() {
+	    return $!{field.entityName};
+	}
+
+#end
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
+    }
+}

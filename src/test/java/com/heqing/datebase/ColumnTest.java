@@ -1,6 +1,6 @@
 package com.heqing.datebase;
 
-import com.heqing.entity.orm.ColumnEntity;
+import com.heqing.entity.orm.Column;
 import com.heqing.service.ColumnService;
 import com.heqing.util.DataSourceUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -40,8 +40,8 @@ public class ColumnTest {
 
     @Test
     public void listColumnByTable() {
-        List<ColumnEntity> columnList = tableService.listColumnByTable(sqlSession, "datebase");
-        for(ColumnEntity column : columnList) {
+        List<Column> columnList = tableService.listColumnByTable(sqlSession, "datebase");
+        for(Column column : columnList) {
             System.out.println("-->"+column);
         }
     }

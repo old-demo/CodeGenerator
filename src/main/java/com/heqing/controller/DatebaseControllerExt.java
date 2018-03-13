@@ -1,6 +1,6 @@
 package com.heqing.controller;
 
-import com.heqing.entity.orm.DatebaseEntity;
+import com.heqing.entity.orm.Datebase;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import com.heqing.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class DatebaseControllerExt {
 
     @RequestMapping(value = "/checkConnect", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil checkConnect(@RequestBody DatebaseEntity datebase) {
+    public ResponseUtil checkConnect(@RequestBody Datebase datebase) {
         ResponseUtil response = new ResponseUtil();
         if(datebase.getDriver() == null && "".equals(datebase.getDriver())) {
             response.setCode(-1);

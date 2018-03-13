@@ -1,0 +1,89 @@
+package $!{classPackage}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+
+import javax.persistence.*;
+
+/**
+ * $!{comment}实体类
+ * 
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Entity
+@Table(name="$!{tableName}")
+public class $!{className} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+#if($keyFields.size() > 1)
+	/**
+	 * $!{entityName}PK 联合主键
+	 */
+	@EmbeddedId
+	private $!{className}Pk $!{entityName}PK;
+
+#else
+#foreach ($!{field} in $!{keyFields})
+    /**
+     * $!{field.entityName} $!{field.comment}
+     */
+    @Id
+#if($!{isAutoIncr})
+	@GeneratedValue(strategy= GenerationType.AUTO)
+#end
+    @Column(name="$!{field.columnName}")
+    private $!{field.type} $!{field.entityName};
+
+#end
+#end
+#foreach ($!{field} in $!{noKeyFields})
+    /**
+	 * $!{field.entityName} $!{field.comment}
+	 */
+#if($!{field.type} == "Date")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+#end
+	@Column(name="$!{field.columnName}")
+	private $!{field.type} $!{field.entityName};
+
+#end
+#if($keyFields.size() > 1)
+	public void set$!{className}Pk($!{className}Pk $!{entityName}PK) {
+        this.$!{entityName}PK = $!{entityName}PK;
+    }
+
+	public $!{className}Pk get$!{className}Pk() {
+        return $!{entityName}PK;
+    }
+#else
+#foreach ($!{field} in $!{KeyFields})
+    public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+		this.$!{field.entityName} = $!{field.entityName};
+    }
+
+    public $!{field.type} get$!{field.filedName}() {
+		return $!{field.entityName};
+	}
+#end
+
+#end
+#foreach ($!{field} in $!{noKeyFields})
+	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+		this.$!{field.entityName} = $!{field.entityName};
+	}
+
+	public $!{field.type} get$!{field.filedName}() {
+	    return $!{field.entityName};
+	}
+
+#end
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
+    }
+}
