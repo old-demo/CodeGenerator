@@ -16,7 +16,7 @@ import java.util.List;
 import com.heqing.service.DatebaseService;
 
 /**
- * 数据库连接信息数据持久层接口
+ * 数据库连接测试类
  *
  * @author heqing
  * @email  975656343@qq.com

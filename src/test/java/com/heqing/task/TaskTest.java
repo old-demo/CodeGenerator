@@ -68,21 +68,20 @@ public class TaskTest {
     public void testMavenTask() {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
-//        for(Table table : tableList) {
-//            if(!"datebase".equals(table.getTableName())) {
-//                tableNames.add(table.getTableName());
-//            }
-//        }
-        tableNames.add("school");
+        for(Table table : tableList) {
+            if(!"datebase".equals(table.getTableName())) {
+                tableNames.add(table.getTableName());
+            }
+        }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("TestSpring");
+        taskEntity.setArtifactId("TestHibernate");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("this is test");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("TestSpring");
+        taskEntity.setProjectName("TestHibernate");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing.yyw");

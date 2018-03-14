@@ -4,11 +4,20 @@ import com.heqing.entity.orm.Datebase;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Created by heqing on 2018/2/7.
+ * 数据库连接测试类
+ *
+ * @author heqing
+ * @email  975656343@qq.com
+ * @date   2018-02-02 09:20:35
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class DatebaseExtTest {
 
     @Autowired

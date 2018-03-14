@@ -51,18 +51,18 @@ public enum FrameEnum {
     }
 
     public static void addTemplates(TaskEntity taskEntity) {
-//        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
-//        switch (serviceFrame) {
-//            case SPRING:
-//                taskEntity.getTemplates().add(TemplatesEnum.SPRING_CONFIG);
-//                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_CONFIG);
-//                break;
-//            case SPRINGBOOT:
-//                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION);
-//                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION_PROPERTIES);
-//                break;
-//            default:;
-//        }
+        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
+        switch (serviceFrame) {
+            case SPRING:
+                taskEntity.getTemplates().add(TemplatesEnum.SPRING_CONFIG);
+                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_CONFIG);
+                break;
+            case SPRINGBOOT:
+                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION);
+                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION_PROPERTIES);
+                break;
+            default:;
+        }
 
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         switch (repositoryFrame) {
@@ -86,11 +86,15 @@ public enum FrameEnum {
         }
     }
 
-    public static void addEntityPKTemplates(TaskEntity taskEntity) {
-//        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
-//        if(repositoryFrame == HIBERNATE) {
-//            taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY_PK);
-//        }
+    public static void addEntityPKTemplates(TaskEntity taskEntity, int keyNum) {
+        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
+        if(repositoryFrame == HIBERNATE) {
+            if(keyNum > 1) {
+                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY_PK);
+            } else {
+                taskEntity.getTemplates().remove(TemplatesEnum.HIBERNATE_ENTITY_PK);
+            }
+        }
     }
 
 }

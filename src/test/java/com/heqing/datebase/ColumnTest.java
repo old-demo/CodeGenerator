@@ -16,7 +16,11 @@ import javax.sql.DataSource;
 import java.util.List;
 
 /**
- * Created by heqing on 2018/1/3.
+ * 数据库列测试类
+ *
+ * @author heqing
+ * @email  975656343@qq.com
+ * @date   2018-02-02 09:20:35
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

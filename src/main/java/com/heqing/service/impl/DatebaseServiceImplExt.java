@@ -21,7 +21,7 @@ import java.util.Properties;
  * @email  975656343@qq.com
  * @date   2018-02-02 09:20:35
  */
-@Service
+@Service("datebaseServiceExt")
 public class DatebaseServiceImplExt extends DatebaseServiceImpl implements DatebaseServiceExt {
 
     private static final Logger LOGGER = Logger.getLogger(DatebaseServiceImplExt.class);

@@ -185,10 +185,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             }
         }
 
-        // 如果表中有联合主键，且为hibernate框架需做特许处理
-        if(keyFields.size() > 1) {
-            FrameEnum.addEntityPKTemplates(taskEntity);
-        }
+         FrameEnum.addEntityPKTemplates(taskEntity, keyFields.size());
 
         LOGGER.info("合成中 --> 将表的信息转为类！");
         classEntity.setFields(new LinkedList<>(fields));

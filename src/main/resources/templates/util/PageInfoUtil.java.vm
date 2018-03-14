@@ -1,11 +1,9 @@
 package $!{classPackage}.util;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * 分页帮助类
@@ -137,6 +135,6 @@ public class PageInfoUtil<T> implements Serializable {
 
     @Override
     public String toString() {
-        eturn JSONObject.toJSONString(this);
+        return JSONObject.toJSONString(this);
     }
 }

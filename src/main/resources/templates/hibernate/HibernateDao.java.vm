@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Date;
 
 import $!{classPackage}.entity.$!{className};
 #if($keyFields.size() > 1)
@@ -51,5 +53,12 @@ public interface $!{className}Repository
      */
     Page<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, Pageable pageable);
 
+    /**
+     * 根据$!{field.comment}删除信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     */
+    @Transactional
+    void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
 #end
 }

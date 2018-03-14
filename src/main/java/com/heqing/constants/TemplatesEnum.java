@@ -141,7 +141,7 @@ public enum TemplatesEnum {
                 filePatch += "src/test/resources/spring_mybatis.xml";
                 break;
             case UTIL_PAGEINFO:
-                filePatch += "src/main/java/" + packagePath + "/util/pageInfoUtil.java";;
+                filePatch += "src/main/java/" + packagePath + "/util/PageInfoUtil.java";
                 break;
             default: filePatch = "";
         }

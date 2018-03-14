@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -71,7 +72,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
         int isSuccess = 0;
         for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
-            $!{entityName}RepositoryRepository.delete($!{keyFields.get(0).entityName});
+            $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
             isSuccess += 1;
         }
         return isSuccess;
@@ -82,15 +83,21 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
 #if($notNullfields.size() > 0)
-        for($!{className} $!{entityName} : $!{entityName}List) {
 #foreach ($!{field} in $!{notNullfields})
-            if($!{entityName}.get$!{field.filedName}() == null) {
+#if($keyFields.size() > 1)
+        if($!{entityName}.get$!{className}PK().get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+            return 0;
+        }
+#else
+        if($!{entityName}.get$!{field.filedName}() == null) {
             LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
             return 0;
         }
 #end
-}
 #end
+#end
+        if()
         if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
             return 1;
         }
@@ -102,16 +109,21 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         int isSuccess = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
 #if($notNullfields.size() > 0)
-            for($!{className} $!{entityName} : $!{entityName}List) {
 #foreach ($!{field} in $!{notNullfields})
-                if($!{entityName}Repository.get$!{field.filedName}() == null) {
+#if($keyFields.size() > 1)
+            if($!{entityName}.get$!{className}PK().get$!{field.filedName}() == null) {
                 LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
                 break;
-                }
+            }
+#else
+            if($!{entityName}.get$!{field.filedName}() == null) {
+                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+                break;
+            }
 #end
-                if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
-                    isSuccess += 1;
-                }
+#end
+            if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
+                isSuccess += 1;
             }
 #end
         }
@@ -150,8 +162,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         pageNo = pageNo < 0 ? 0 : pageNo;
         pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         Pageable pageable = new PageRequest(pageNo-1, pageSize);
-        Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findByNameContains($!{field.entityName}, pageable);
-        return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
+        Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageable);
+        return new PageInfoUtil($!{entityName}Page.getContent(), pageNo, pageSize, $!{entityName}Page.getTotalElements());
     }
 
     @Override

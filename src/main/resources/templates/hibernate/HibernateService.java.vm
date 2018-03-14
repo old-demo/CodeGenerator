@@ -1,7 +1,11 @@
 package $!{classPackage}.service;
 
 import java.util.List;
+import java.util.Date;
 
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.util.PageInfoUtil;
 

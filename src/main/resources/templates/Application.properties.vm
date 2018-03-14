@@ -18,6 +18,7 @@ spring.datasource.druid.time-between-eviction-runs-millis=60000
 # 配置一个连接在池中最小生存的时间，单位是毫秒
 spring.datasource.druid.min-evictable-idle-time-millis=300000
 
+#if($!{frame.repositoryFrame} == "MYBATIS")
 mybatis.type-aliases-package=$!{packageName}.repository
 mybatis.mapper-locations=classpath*:$!{repositoryMapper}/repository/mapper/*.xml
 
@@ -27,8 +28,17 @@ pagehelper.reasonable=true
 pagehelper.supportMethodsArguments=true
 pagehelper.params=count=countSql
 
+logging.level.org.mybatis=debug
+#elseif($!{frame.repositoryFrame} == "HIBERNATE")
+spring.jpa.database = MYSQL
+spring.jpa.show-sql = true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+
+#end
 #日志配置
 logging.level.$!{packageName}=debug
 logging.level.org.springframework.web=debug
 logging.level.org.springframework.transaction=debug
-logging.level.org.mybatis=debug
+
