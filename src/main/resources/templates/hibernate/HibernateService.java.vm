@@ -79,13 +79,28 @@ public interface $!{className}Service {
      * @return int 是否成功
      */
     int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
-#if($keyFields.size() == 1)
+#if($keyFields.size() > 1)
     /**
      * 根据主键获取$!{comment}实例信息
      *
-#foreach(${field} in ${keyFields})
-     * @param $!{field.entityName} $!{field.comment}
-#end
+     * @param $!{entityName}PK $!{comment}主键
+     * @return $!{className} $!{comment}信息
+     */
+     $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK);
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{entityName}PKs $!{comment}主键集合
+     * @return List<T> $!{comment}实例信息
+     */
+    List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs);
+
+#elseif($keyFields.size() == 1)
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
      * @return $!{className} $!{comment}信息
      */
      $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});

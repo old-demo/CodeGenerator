@@ -53,33 +53,6 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         return isSuccess;
     }
 
-#if($keyFields.size() > 1)
-    @Override
-    public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
-        $!{entityName}Repository.delete($!{entityName}PK);
-        return 1;
-    }
-
-#end
-#if($keyFields.size() == 1)
-    @Override
-    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
-        $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
-        return 1;
-    }
-
-    @Override
-    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
-        int isSuccess = 0;
-        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
-            $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
-            isSuccess += 1;
-        }
-        return isSuccess;
-    }
-
-#end
-
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
 #if($notNullfields.size() > 0)
@@ -97,7 +70,6 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #end
 #end
 #end
-        if()
         if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
             return 1;
         }
@@ -130,7 +102,22 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         return isSuccess;
     }
 
-#if($keyFields.size() == 1)
+#if($keyFields.size() > 1)
+    @Override
+    public $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        return $!{entityName}Repository.getOne($!{entityName}PK);
+    }
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKs) {
+            $!{entityName}List.add($!{entityName}Repository.getOne($!{entityName}PK));
+        }
+        return $!{entityName}List;
+    }
+
+#elseif($keyFields.size() == 1)
     @Override
     public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
         return $!{entityName}Repository.getOne($!{keyFields.get(0).entityName});
@@ -169,6 +156,33 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     @Override
     public void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
         $!{entityName}Repository.deleteBy$!{field.filedName}($!{field.entityName});
+    }
+
+#end
+
+#if($keyFields.size() > 1)
+    @Override
+    public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        $!{entityName}Repository.delete($!{entityName}PK);
+        return 1;
+    }
+
+#end
+#if($keyFields.size() == 1)
+    @Override
+    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+        return 1;
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
+        int isSuccess = 0;
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
+            $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+            isSuccess += 1;
+        }
+        return isSuccess;
     }
 
 #end

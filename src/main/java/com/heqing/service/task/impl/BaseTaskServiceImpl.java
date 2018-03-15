@@ -185,7 +185,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             }
         }
 
-         FrameEnum.addEntityPKTemplates(taskEntity, keyFields.size());
+         FrameEnum.addEntityPKTemplates(taskEntity, keyFields);
 
         LOGGER.info("合成中 --> 将表的信息转为类！");
         classEntity.setFields(new LinkedList<>(fields));

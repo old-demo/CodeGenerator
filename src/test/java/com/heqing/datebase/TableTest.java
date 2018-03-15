@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * 数据库表测试类
@@ -31,15 +32,20 @@ public class TableTest {
     @Autowired
     TableService tableService;
 
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("application");
+
     DataSource dataSource = null;
     SqlSession sqlSession = null;
 
     @Before
     public void before() {
-        String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:MySQL://localhost:3306/code_generator";
-        String userName = "root";
-        String password = "246512";
+        String driver = BUNDLE.getString("db.driver");
+        String url = BUNDLE.getString("db.url");
+        int port = Integer.parseInt(BUNDLE.getString("db.port"));
+        String dbName = BUNDLE.getString("db.dbName");
+        String userName = BUNDLE.getString("db.username");
+        String password = BUNDLE.getString("db.password");
+        url = "jdbc:MySQL://"+url+":"+port+"/"+dbName;
         dataSource = DataSourceUtil.createDataSource(driver, url, userName, password);
         sqlSession = DataSourceUtil.createSqlSession(dataSource);
     }

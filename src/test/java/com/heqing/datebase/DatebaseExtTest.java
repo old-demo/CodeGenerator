@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ResourceBundle;
+
 /**
  * 数据库连接测试类
  *
@@ -23,16 +25,18 @@ public class DatebaseExtTest {
     @Autowired
     DatebaseServiceImplExt datebaseServiceExt;
 
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("application");
+
     Datebase datebase = new Datebase();
 
     @Before
     public void createDateBase() {
-        String driver = "com.mysql.jdbc.Driver";
-        String url = "localhost";
-        int port = 3306;
-        String dbName = "code_generator";
-        String userName = "root";
-        String password = "246512";
+        String driver = BUNDLE.getString("db.driver");
+        String url = BUNDLE.getString("db.url");
+        int port = Integer.parseInt(BUNDLE.getString("db.port"));
+        String dbName = BUNDLE.getString("db.dbName");
+        String userName = BUNDLE.getString("db.username");
+        String password = BUNDLE.getString("db.password");
 
         datebase.setDriver(driver);
         datebase.setUrl(url);

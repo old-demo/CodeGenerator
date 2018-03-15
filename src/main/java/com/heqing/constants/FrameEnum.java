@@ -1,6 +1,11 @@
 package com.heqing.constants;
 
+import com.heqing.entity.task.FieldEntity;
 import com.heqing.entity.task.TaskEntity;
+import com.heqing.util.ObjectUtil;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 生成代码中所包含的框架
@@ -86,13 +91,22 @@ public enum FrameEnum {
         }
     }
 
-    public static void addEntityPKTemplates(TaskEntity taskEntity, int keyNum) {
+    public static void addEntityPKTemplates(TaskEntity taskEntity, Set<Map<String, Object>> keyFields) {
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         if(repositoryFrame == HIBERNATE) {
-            if(keyNum > 1) {
+            taskEntity.getTemplates().remove(TemplatesEnum.HIBERNATE_ENTITY_PK);
+            if(keyFields.size() == 0) {
+                FieldEntity field = new FieldEntity();
+                field.setColumnName("id");
+                field.setFiledName("Id");
+                field.setEntityName("id");
+                field.setType("Integer");
+                field.setComment("主键");
+                Map<String, Object> keyField = ObjectUtil.objToMap(field);
+                keyField.put("isAutoAdd", "");
+                keyFields.add(keyField);
+            }else if(keyFields.size() > 1) {
                 taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY_PK);
-            } else {
-                taskEntity.getTemplates().remove(TemplatesEnum.HIBERNATE_ENTITY_PK);
             }
         }
     }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-01-26 19:31:33
+Date: 2018-03-15 14:21:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,15 +26,19 @@ CREATE TABLE `datebase` (
   `url` varchar(255) DEFAULT NULL COMMENT '主机或ip地址',
   `port` int(11) DEFAULT '3306' COMMENT '端口号',
   `db_name` varchar(255) DEFAULT NULL COMMENT '数据库名',
-  `schema` varchar(255) DEFAULT NULL COMMENT '模式',
   `username` varchar(255) DEFAULT NULL COMMENT '登陆用户',
   `password` varchar(255) DEFAULT NULL COMMENT '登陆密码',
-  `describe` varchar(255) DEFAULT NULL COMMENT '描述',
+  `remark` varchar(255) DEFAULT NULL COMMENT '描述',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `create_user` varchar(255) DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='数据库连接信息';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='数据库连接信息';
+
+-- ----------------------------
+-- Records of datebase
+-- ----------------------------
+INSERT INTO `datebase` VALUES ('25', 'test', 'com.mysql.jdbc.Driver', 'localhost', '3306', 'code_generator', 'root', '246512', '用来测试的数据库', '2018-01-22 18:01:00', '2018-01-22 18:01:00', 'heqing');
 
 -- ----------------------------
 -- Table structure for grade
@@ -50,6 +54,26 @@ CREATE TABLE `grade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Records of grade
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for person
+-- ----------------------------
+DROP TABLE IF EXISTS `person`;
+CREATE TABLE `person` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of person
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for school
 -- ----------------------------
 DROP TABLE IF EXISTS `school`;
@@ -59,7 +83,11 @@ CREATE TABLE `school` (
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of school
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for studet
@@ -71,3 +99,7 @@ CREATE TABLE `studet` (
   `sex` varchar(255) DEFAULT NULL COMMENT '性别',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of studet
+-- ----------------------------

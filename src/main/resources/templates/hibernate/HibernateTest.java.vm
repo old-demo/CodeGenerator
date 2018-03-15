@@ -508,56 +508,88 @@ public class $!{className}Test {
     public void testDelete$!{className}ByKey() {
         $!{entityName}Service.delete$!{className}ByKey(
 #if($!{keyFields.get(0).type} == "String")
-        "1"
+            "1"
 #elseif($!{keyFields.get(0).type} == "Integer")
-        1
+            1
 #elseif($!{keyFields.get(0).get(0).type} == "Long")
-        1L
+            1L
 #elseif($!{keyFields.get(0).type} == "Float")
-        1F
+            1F
 #elseif($!{keyFields.get(0).type} == "Double")
-        1D
+            1D
 #elseif($!{keyFields.get(0).type} == "Date")
-        new Date()
+            new Date()
 #elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        new java.math.BigDecimal(1)
+            new java.math.BigDecimal(1)
 #end
         );
     }
 
+#end
     @Test
     public void testDeleteBatch$!{className}ByKey() {
+#if($keyFields.size() > 1)
+        List<$!{className}PK> $!{entityName}PKs = new ArrayList<>();
+        $!{className}PK $!{entityName}PK1 = new $!{className}PK();
+        $!{className}PK $!{entityName}PK2 = new $!{className}PK();
+#foreach ($!{field} in $!{keyFields})
+#if($!{field.type} == "String")
+        $!{entityName}PK1.set$!{field.filedName}("1");
+        $!{entityName}PK2.set$!{field.filedName}("2");
+#elseif($!{field.type} == "Date")
+        $!{entityName}PK1.set$!{field.filedName}(new Date());
+        $!{entityName}PK2.set$!{field.filedName}(new Date());
+#elseif($!{field.type} == "Integer")
+        $!{entityName}PK1.set$!{field.filedName}(1);
+        $!{entityName}PK2.set$!{field.filedName}(2);
+#elseif($!{field.type} == "Long")
+        $!{entityName}PK1.set$!{field.filedName}(1L);
+        $!{entityName}PK2.set$!{field.filedName}(2L);
+#elseif($!{field.type} == "Float")
+        $!{entityName}PK1.set$!{field.filedName}(1F);
+        $!{entityName}PK2.set$!{field.filedName}(2F);
+#elseif($!{field.type} == "Double")
+        $!{entityName}PK1.set$!{field.filedName}(1D);
+        $!{entityName}PK2.set$!{field.filedName}(2D);
+#elseif($!{field.type} == "java.math.BigDecimal")
+        $!{entityName}PK1.set$!{field.filedName}(new java.math.BigDecimal(1));
+        $!{entityName}PK2.set$!{field.filedName}(new java.math.BigDecimal(2));
+#end
+#end
+        $!{entityName}PKs.add($!{entityName}PK1);
+        $!{entityName}PKs.add($!{entityName}PK2);
+        $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
+#elseif($keyFields.size() == 1)
 #if($!{keyFields.get(0).type} == "String")
-        List<String> ids = new ArrayList<>();
-        ids.add("1");
-        ids.add("2");
+        List<String> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add("1");
+        $!{entityName}PKs.add("2");
 #elseif($!{keyFields.get(0).type} == "Integer")
-        List<Integer> ids = new ArrayList<>();
-        ids.add(1);
-        ids.add(2);
+        List<Integer> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add(1);
+        $!{entityName}PKs.add(2);
 #elseif($!{keyFields.get(0).type} == "Long")
         List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
+        $!{entityName}PKs.add(1L);
+        $!{entityName}PKs.add(2L);
 #elseif($!{keyFields.get(0).type} == "Float")
-        List<Float> ids = new ArrayList<>();
-        ids.add(1F);
-        ids.add(2F);
+        List<Float> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add(1F);
+        $!{entityName}PKs.add(2F);
 #elseif($!{keyFields.get(0).type} == "Double")
-        List<Double> ids = new ArrayList<>();
-        ids.add(1D);
-        ids.add(2D);
+        List<Double> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add(1D);
+        $!{entityName}PKs.add(2D);
 #elseif($!{keyFields.get(0).type} == "Date")
-        List<Date> ids = new ArrayList<>();
-        ids.add(new Date());
-        ids.add(new Date());
+        List<Date> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add(new Date());
+        $!{entityName}PKs.add(new Date());
 #elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> ids = new ArrayList<>();
-        ids.add( new java.math.BigDecimal(1));
-        ids.add( new java.math.BigDecimal(2));
+        List<java.math.BigDecimal> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add( new java.math.BigDecimal(1));
+        $!{entityName}PKs.add( new java.math.BigDecimal(2));
 #end
-        $!{entityName}Service.deleteBatch$!{className}ByKey(ids);
-}
-
+        $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
 #end
+    }
 }

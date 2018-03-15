@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Created by heqing on 2018/1/6.
@@ -35,6 +36,8 @@ public class TaskTest {
     @Autowired
     TableService tableService;
 
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("application");
+
     Datebase datebase = new Datebase();
 
     FrameEntity frameEntity = new FrameEntity();
@@ -45,12 +48,12 @@ public class TaskTest {
 
     @Before
     public void createDateBase() {
-        String driver = "com.mysql.jdbc.Driver";
-        String url = "localhost";
-        int port = 3306;
-        String dbName = "code_generator";
-        String userName = "root";
-        String password = "246512";
+        String driver = BUNDLE.getString("db.driver");
+        String url = BUNDLE.getString("db.url");
+        int port = Integer.parseInt(BUNDLE.getString("db.port"));
+        String dbName = BUNDLE.getString("db.dbName");
+        String userName = BUNDLE.getString("db.username");
+        String password = BUNDLE.getString("db.password");
 
         datebase.setDriver(driver);
         datebase.setUrl(url);
