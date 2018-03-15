@@ -168,9 +168,9 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKs) {
+    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs) {
         int isSuccess = 0;
-        for($!{className}PK} $!{entityName}PK : $!{entityName}PKs) {
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKs) {
             $!{entityName}Repository.delete($!{entityName}PK);
             isSuccess++;
         }
