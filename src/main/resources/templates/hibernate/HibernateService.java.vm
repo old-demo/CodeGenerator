@@ -43,6 +43,14 @@ public interface $!{className}Service {
      */
     int delete$!{className}ByKey($!{className}PK $!{entityName}PK);
 
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{keyFields.get(0).entityName}s 主键ID集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKs);
+
 #end
 #if($keyFields.size() == 1)
     /**
