@@ -1,7 +1,7 @@
 package com.heqing.service.task.impl;
 
 import com.heqing.constants.FrameEnum;
-import com.heqing.constants.TemplatesEnum;
+import com.heqing.constants.TemplateEnum;
 import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.TaskEntity;
 import com.heqing.entity.task.ClassEntity;
@@ -62,12 +62,12 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             LOGGER.info("开始检查数据！");
             checkParams(taskEntity);
 
-            LOGGER.info("开始载入生成模板数据！");
-            addMobile(taskEntity);
-
             for(String tableName : taskEntity.getTableNames()) {
                 LOGGER.info("开始合成参数！");
                 combileParams(taskEntity, tableName);
+
+                LOGGER.info("开始载入生成模板数据！");
+                addMobile(taskEntity);
 
                 LOGGER.info("开始生成代码！");
                 work(taskEntity, tableName);
@@ -184,8 +184,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
                 notNullfields.add(notNullfield);
             }
         }
-
-         FrameEnum.addEntityPKTemplates(taskEntity, keyFields);
+        taskEntity.getFrame().setKeyNum(keyFields.size());
 
         LOGGER.info("合成中 --> 将表的信息转为类！");
         classEntity.setFields(new LinkedList<>(fields));
@@ -228,11 +227,11 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         VelocityContext context = new VelocityContext(taskMap);
 
         LOGGER.info("生成中 --> 渲染模板！");
-        for(TemplatesEnum template : taskEntity.getTemplates()){
+        for(TemplateEnum template : taskEntity.getTemplates()){
             StringWriter sw = new StringWriter();
             Template tpl = Velocity.getTemplate("templates/"+template.getFile(), "UTF-8");
             tpl.merge(context, sw);
-            String fileName = TemplatesEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
+            String fileName = TemplateEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
 
 //            System.out.println("------------------------------------------");
 //            System.out.println(sw.toString());

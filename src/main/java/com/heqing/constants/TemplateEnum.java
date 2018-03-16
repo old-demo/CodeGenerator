@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
  * @email 975656343@qq.com
  * @date 2018/03/12
  */
-public enum TemplatesEnum {
+public enum TemplateEnum {
 
     /*
      * mybatis实体类
@@ -88,7 +88,7 @@ public enum TemplatesEnum {
      */
     SPRING_CONFIG("springConfig", "SpringConfig.xml.vm");
 
-    public static String getFilePath(String projectName, TemplatesEnum template, String packageName, String className) {
+    public static String getFilePath(String projectName, TemplateEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
         String packagePath = "";
         if(StringUtils.isNotBlank(packageName)){
@@ -151,7 +151,7 @@ public enum TemplatesEnum {
     private final String name;
     private final String file;
 
-    private TemplatesEnum(String name, String file) {
+    private TemplateEnum(String name, String file) {
         this.name = name;
         this.file = file;
     }

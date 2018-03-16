@@ -12,6 +12,8 @@ import com.heqing.constants.FrameEnum;
  */
 public class FrameEntity {
 
+    private Integer keyNum;
+
     /**
      * projectFrame   项目框架
      */
@@ -36,6 +38,14 @@ public class FrameEntity {
      * projectFrame   前端框架
      */
     private FrameEnum h5Frame;
+
+    public Integer getKeyNum() {
+        return keyNum;
+    }
+
+    public void setKeyNum(Integer keyNum) {
+        this.keyNum = keyNum;
+    }
 
     public FrameEnum getProjectFrame() {
         return projectFrame;

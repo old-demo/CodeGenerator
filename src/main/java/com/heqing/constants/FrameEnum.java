@@ -1,8 +1,6 @@
 package com.heqing.constants;
 
-import com.heqing.entity.task.FieldEntity;
 import com.heqing.entity.task.TaskEntity;
-import com.heqing.util.ObjectUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -56,15 +54,28 @@ public enum FrameEnum {
     }
 
     public static void addTemplates(TaskEntity taskEntity) {
+        taskEntity.getTemplates().clear();
+        int keyNum = taskEntity.getFrame().getKeyNum();
+
+        FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
+        switch (projectFrame) {
+            case MAVEN:
+                taskEntity.getTemplates().add(TemplateEnum.POM);
+                break;
+            case JAR:
+                break;
+            default:;
+        }
+
         FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
         switch (serviceFrame) {
             case SPRING:
-                taskEntity.getTemplates().add(TemplatesEnum.SPRING_CONFIG);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_CONFIG);
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
                 break;
             case SPRINGBOOT:
-                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplatesEnum.APPLICATION_PROPERTIES);
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
                 break;
             default:;
         }
@@ -72,42 +83,29 @@ public enum FrameEnum {
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         switch (repositoryFrame) {
             case MYBATIS:
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_ENTITY);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_DAO);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_MAPPER);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_SERVICE);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_SERVICEIMPL);
-                taskEntity.getTemplates().add(TemplatesEnum.MYBATIS_TEST);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_DAO);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_MAPPER);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICEIMPL);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_TEST);
                 break;
             case HIBERNATE:
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY);
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_DAO);
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICE);
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_SERVICEIMPL);
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_TEST);
-                taskEntity.getTemplates().add(TemplatesEnum.UTIL_PAGEINFO);
+                if(keyNum > 0) {
+                    if (keyNum > 1) {
+                        taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY_PK);
+                    }
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICEIMPL);
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
+                    taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
+                } else {
+                    taskEntity.getTemplates().clear();
+                }
                 break;
             default:;
-        }
-    }
-
-    public static void addEntityPKTemplates(TaskEntity taskEntity, Set<Map<String, Object>> keyFields) {
-        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
-        if(repositoryFrame == HIBERNATE) {
-            taskEntity.getTemplates().remove(TemplatesEnum.HIBERNATE_ENTITY_PK);
-            if(keyFields.size() == 0) {
-                FieldEntity field = new FieldEntity();
-                field.setColumnName("id");
-                field.setFiledName("Id");
-                field.setEntityName("id");
-                field.setType("Integer");
-                field.setComment("主键");
-                Map<String, Object> keyField = ObjectUtil.objToMap(field);
-                keyField.put("isAutoAdd", "");
-                keyFields.add(keyField);
-            }else if(keyFields.size() > 1) {
-                taskEntity.getTemplates().add(TemplatesEnum.HIBERNATE_ENTITY_PK);
-            }
         }
     }
 

@@ -1,6 +1,6 @@
 package com.heqing.service.task.impl;
 
-import com.heqing.constants.TemplatesEnum;
+import com.heqing.constants.TemplateEnum;
 import com.heqing.entity.task.MavenTaskEntity;
 import com.heqing.service.task.MavenTaskService;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MavenTaskServiceImpl extends BaseTaskServiceImpl<MavenTaskEntity> implements MavenTaskService {
-
-    @Override
-    public void addMobile(MavenTaskEntity taskEntity) {
-        super.addMobile(taskEntity);
-        taskEntity.getTemplates().add(TemplatesEnum.POM);
-    }
 
     @Override
     public void combileParams(MavenTaskEntity taskEntity, String tableName) {

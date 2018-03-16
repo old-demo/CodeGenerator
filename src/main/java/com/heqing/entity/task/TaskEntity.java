@@ -1,7 +1,7 @@
 package com.heqing.entity.task;
 
 import com.alibaba.fastjson.JSONObject;
-import com.heqing.constants.TemplatesEnum;
+import com.heqing.constants.TemplateEnum;
 import com.heqing.entity.orm.Datebase;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class TaskEntity {
     /**
      * templates 模板名
      */
-    private List<TemplatesEnum> templates = new ArrayList<>();
+    private List<TemplateEnum> templates = new ArrayList<>();
 
     /**
      * zip输出路径
@@ -85,11 +85,11 @@ public class TaskEntity {
         this.packageName = packageName;
     }
 
-    public List<TemplatesEnum> getTemplates() {
+    public List<TemplateEnum> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(List<TemplatesEnum> templates) {
+    public void setTemplates(List<TemplateEnum> templates) {
         this.templates = templates;
     }
 
