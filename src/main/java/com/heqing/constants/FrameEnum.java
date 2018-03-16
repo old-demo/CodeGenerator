@@ -68,7 +68,8 @@ public enum FrameEnum {
                 break;
             case JAR:
                 break;
-            default:;
+            default:
+                ;
         }
 
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
@@ -82,7 +83,7 @@ public enum FrameEnum {
                 taskEntity.getTemplates().add(TemplateEnum.MYBATIS_TEST);
                 break;
             case HIBERNATE:
-                if(keyNum > 0) {
+                if (keyNum > 0) {
                     if (keyNum > 1) {
                         taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY_PK);
                     }
@@ -95,7 +96,8 @@ public enum FrameEnum {
                     taskEntity.getTemplates().clear();
                 }
                 break;
-            default:;
+            default:
+                ;
         }
 
         FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
@@ -106,19 +108,25 @@ public enum FrameEnum {
                 break;
             case SPRINGBOOT:
                 taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
                 break;
-            default:;
+            default:
+                ;
         }
 
         FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
-        switch (controllerFrame) {
-            case SPRINGMVC:
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
-                break;
-            case STRUTS2:
-                break;
-            default:;
+        if(controllerFrame != null) {
+            switch (controllerFrame) {
+                case SPRINGMVC:
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
+                    if(serviceFrame == SPRINGBOOT) {
+                        taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+                    }
+                    break;
+                case STRUTS2:
+                    break;
+                default:;
+            }
         }
     }
 

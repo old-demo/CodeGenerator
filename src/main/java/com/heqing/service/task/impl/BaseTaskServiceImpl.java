@@ -104,7 +104,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             if (taskEntity.getFrame() == null) {
                 FrameEntity frameEntity = new FrameEntity();
                 frameEntity.setProjectFrame(FrameEnum.MAVEN);
-                frameEntity.setServiceFrame(FrameEnum.SPRINGMVC);
                 frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
                 frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
                 taskEntity.setFrame(frameEntity);
@@ -118,9 +117,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
                 }
                 if(frameEntity.getRepositoryFrame() == null) {
                     frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
-                }
-                if(frameEntity.getControllerFrame() == null) {
-                    frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
                 }
             }
             if (taskEntity.getDatebase() == null) {

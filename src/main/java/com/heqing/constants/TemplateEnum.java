@@ -96,6 +96,10 @@ public enum TemplateEnum {
      */
     APPLICATION_PROPERTIES("application_properties", "Application.properties.vm"),
     /*
+     * application_properties_test springboot配置文件
+     */
+    APPLICATION_PROPERTIES_TEST("application_properties_test", "Application.properties.vm"),
+    /*
      * spring_core  spring框架配置
      */
     SPRING_CONFIG("springConfig", "SpringConfig.xml.vm");
@@ -145,6 +149,9 @@ public enum TemplateEnum {
                 filePatch += "src/test/java/" + packagePath + "/test/" + className + "Test.java";
                 break;
             case APPLICATION_PROPERTIES:
+                filePatch += "src/main/resources/application.properties";
+                break;
+            case APPLICATION_PROPERTIES_TEST:
                 filePatch += "src/test/resources/application.properties";
                 break;
             case SPRING_CONFIG:
