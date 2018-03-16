@@ -1,0 +1,134 @@
+package $!{classPackage}.controller;
+
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.service.$!{className}Service;
+import $!{classPackage}.util.ObjectUtil;
+import $!{classPackage}.util.ResponseUtil;
+import $!{classPackage}.util.PageInfoUtil;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * $!{comment}对外接口层
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@RestController
+@RequestMapping("/$!{entityName}")
+public class $!{className}Controller {
+
+    @Autowired
+    $!{className}Service $!{entityName}Service;
+
+    @RequestMapping(value = "/save$!{className}", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil save$!{className}(@RequestBody $!{className} $!{entityName}Request) {
+        int result = $!{entityName}Service.save$!{className}($!{entityName}Request);
+        if(result == 1) {
+            return new ResponseUtil(1, "创建$!{comment}成功！", null);
+        }
+        return new ResponseUtil(0, "创建$!{comment}失败！", null);
+    }
+#if($keyFields.size() > 0)
+
+    @RequestMapping(value = "/update$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil update$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+#if($notNullfields.size() > 0)
+#foreach ($!{field} in $!{notNullfields})
+        if($!{entityName}Request.get$!{field.filedName}() == null) {
+            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+        }
+#end
+#end
+        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName}Request);
+        if(result == 1) {
+            return new ResponseUtil(1, "修改$!{comment}成功！", null);
+        }
+        return new ResponseUtil(0, "修改$!{comment}失败！", null);
+    }
+
+    @RequestMapping(value = "/delete$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil delete$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+#if($keyFields.size() > 0)
+#foreach ($!{field} in $!{keyFields})
+        if($!{entityName}Request.get$!{field.filedName}() == null) {
+            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+        }
+#end
+#end
+        int result = $!{entityName}Service.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{entityName}Request.get$!{field.filedName}()#else, $!{entityName}Request.get$!{field.filedName}()#end#end);
+        if(result > 0) {
+            return new ResponseUtil(1, "删除$!{comment}成功！", null);
+        }
+        return new ResponseUtil(0, "删除$!{comment}失败！", null);
+    }
+
+    @RequestMapping(value = "/get$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil get$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+#if($keyFields.size() > 0)
+#foreach ($!{field} in $!{keyFields})
+        if($!{entityName}Request.get$!{field.filedName}() == null) {
+            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+        }
+#end
+#end
+        $!{className} $!{entityName} = $!{entityName}Service.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{entityName}Request.get$!{field.filedName}()#else, $!{entityName}Request.get$!{field.filedName}()#end#end);
+        return new ResponseUtil(1, "OK", $!{entityName}.toString());
+    }
+
+#end
+    @RequestMapping(value = "/delete$!{className}ByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil deleteBatch$!{className}ByParam(@RequestBody $!{className} $!{entityName}Request) {
+
+        int result = $!{entityName}Service.deleteBatch$!{className}ByParam($!{entityName}Request);
+        if(result > 0) {
+            return new ResponseUtil(1, "删除$!{comment}成功！", $!{entityName}.toString());
+        }
+        return new ResponseUtil(0, "删除$!{comment}失败！", null);
+    }
+
+    @RequestMapping(value = "/list$!{className}ByPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil list$!{className}ByPage(@RequestBody Map map) {
+        int pageIndex = 1, pageSize = 10;
+        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
+            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+        }
+        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
+            pageSize = Integer.parseInt(map.get("pageSize")+"");
+        }
+
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
+        return new ResponseUtil(1, "OK", $!{entityName}List);
+    }
+
+    @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil list$!{className}ByParamAndPage(@RequestBody Map map) {
+        int pageIndex = 1, pageSize = 10;
+        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
+            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+        }
+        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
+            pageSize = Integer.parseInt(map.get("pageSize")+"");
+        }
+        if(map.get("$!{entityName}") == null) {
+            return new ResponseUtil(0, "查询条件不能为null！", null);
+        }
+        $!{className} $!{entityName} = ObjectUtil.map2obj((Map<String, Object>)map.get("$!{entityName}"), $!{className}.class);
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, pageIndex, pageSize);
+        return new ResponseUtil(1, "OK", $!{entityName}List);
+    }
+}

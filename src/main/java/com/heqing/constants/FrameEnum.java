@@ -57,25 +57,16 @@ public enum FrameEnum {
         taskEntity.getTemplates().clear();
         int keyNum = taskEntity.getFrame().getKeyNum();
 
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_OBJECT);
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
+
         FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
         switch (projectFrame) {
             case MAVEN:
                 taskEntity.getTemplates().add(TemplateEnum.POM);
                 break;
             case JAR:
-                break;
-            default:;
-        }
-
-        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
-        switch (serviceFrame) {
-            case SPRING:
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
-                break;
-            case SPRINGBOOT:
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
                 break;
             default:;
         }
@@ -100,10 +91,32 @@ public enum FrameEnum {
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICEIMPL);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
-                    taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
                 } else {
                     taskEntity.getTemplates().clear();
                 }
+                break;
+            default:;
+        }
+
+        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
+        switch (serviceFrame) {
+            case SPRING:
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
+                break;
+            case SPRINGBOOT:
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+                break;
+            default:;
+        }
+
+        FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
+        switch (controllerFrame) {
+            case SPRINGMVC:
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
+                break;
+            case STRUTS2:
                 break;
             default:;
         }

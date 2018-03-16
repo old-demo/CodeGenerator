@@ -14,7 +14,7 @@ public enum TemplateEnum {
     /*
      * mybatis实体类
      */
-    MYBATIS_ENTITY("mybatisEntity", "mybatis/MybatisEntity.java.vm"),
+    MYBATIS_ENTITY("MybatisEntity", "mybatis/MybatisEntity.java.vm"),
     /*
      * 持久层mybatis接口
      */
@@ -68,9 +68,21 @@ public enum TemplateEnum {
      */
     UTIL_PAGEINFO("pageInfoUtil", "util/PageInfoUtil.java.vm"),
     /*
-     * controller   显示控制层
+     * 类型转换工具类
      */
-    CONTROLLER("controller", "Controller.java.vm"),
+    UTIL_OBJECT("objectUtil", "util/ObjectUtil.java.vm"),
+    /*
+     * 返回数据封装类
+     */
+    UTIL_RESPONSE("responseUtil", "util/ResponseUtil.java.vm"),
+    /*
+     * springController   spring显示控制层
+     */
+    SPRING_CONTROLLER("springController", "SpringController.java.vm"),
+    /*
+     * strutsControllre   struts2显示控制层
+     */
+    STRUTS2_CONTROLLER("strutsController", "StrutsController.java.vm"),
     /*
      * pom  maven项目pom文件
      */
@@ -124,7 +136,8 @@ public enum TemplateEnum {
             case APPLICATION:
                 filePatch += "src/main/java/" + packagePath+ "/" +projectName+"Application.java";
                 break;
-            case CONTROLLER:
+            case STRUTS2_CONTROLLER:
+            case SPRING_CONTROLLER:
                 filePatch += "src/main/java/" + packagePath + "/controller/" + className + "Controller.java";
                 break;
             case HIBERNATE_TEST:
@@ -139,6 +152,12 @@ public enum TemplateEnum {
                 break;
             case MYBATIS_CONFIG:
                 filePatch += "src/test/resources/spring_mybatis.xml";
+                break;
+            case UTIL_OBJECT:
+                filePatch += "src/main/java/" + packagePath + "/util/ObjectUtil.java";
+                break;
+            case UTIL_RESPONSE:
+                filePatch += "src/main/java/" + packagePath + "/util/ResponseUtil.java";
                 break;
             case UTIL_PAGEINFO:
                 filePatch += "src/main/java/" + packagePath + "/util/PageInfoUtil.java";

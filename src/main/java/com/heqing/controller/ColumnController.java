@@ -25,28 +25,18 @@ public class ColumnController {
 
     @RequestMapping(value = "/listColumnByTable", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil listColumnByTable(@RequestBody Map map) {
-        ResponseUtil response = new ResponseUtil();
-        if(map.get("dbId") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库id不能为null");
-            return response;
+    public ResponseUtil listColumnByTable(@RequestBody Column columnRequest) {
+        if(columnRequest.getDbName() == null) {
+            return new ResponseUtil(0, "数据库id不能为null！", null);
         }
-        if(map.get("tableName") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库表名不能为null");
-            return response;
+        if(columnRequest.getTableName() == null) {
+            return new ResponseUtil(0, "数据库表名不能为null！", null);
         }
 
-        List<Column> columnList = columnService.listColumnByTable((Integer) map.get("dbId"), (String) map.get("tableName"));
+        List<Column> columnList = columnService.listColumnByTable(Integer.parseInt(columnRequest.getDbName()), columnRequest.getTableName());
         if (columnList != null) {
-            response.setCode(0);
-            response.setMsg("ok");
-            response.setData(columnList);
-        } else {
-            response.setCode(-1);
-            response.setMsg("获取数据库表中列的信息失败！");
+            return new ResponseUtil(1, "OK！", columnList);
         }
-        return response;
+        return new ResponseUtil(0, "获取数据库表中列的信息失败！", null);
     }
 }

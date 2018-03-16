@@ -104,6 +104,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             if (taskEntity.getFrame() == null) {
                 FrameEntity frameEntity = new FrameEntity();
                 frameEntity.setProjectFrame(FrameEnum.MAVEN);
+                frameEntity.setServiceFrame(FrameEnum.SPRINGMVC);
                 frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
                 frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
                 taskEntity.setFrame(frameEntity);
@@ -117,6 +118,9 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
                 }
                 if(frameEntity.getRepositoryFrame() == null) {
                     frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+                }
+                if(frameEntity.getControllerFrame() == null) {
+                    frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
                 }
             }
             if (taskEntity.getDatebase() == null) {
@@ -142,8 +146,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         ClassEntity classEntity = new ClassEntity();
 
         LOGGER.info("合成中 --> 获取表的信息！");
-        Table Table = tableService.getTableByName(sqlSession, tableName);
-        if(Table == null) {
+        Table table = tableService.getTableByName(sqlSession, tableName);
+        if(table == null) {
             LOGGER.error("---> 找不到数据库中对应表的信息");
             return;
         }
@@ -191,7 +195,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         classEntity.setClassPackage(taskEntity.getPackageName());
         classEntity.setClassName(dbToJava(tableName));
         classEntity.setEntityName(StringUtils.uncapitalize(classEntity.getClassName()));
-        classEntity.setComment(Table.getComment()==null ? "" : Table.getComment());
+        classEntity.setComment(table.getComment()==null ? "" : table.getComment());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         classEntity.setCreateTime(sdf.format(new Date()));
         classEntity.setAuthorName(taskEntity.getAuthorName()==null ? "" : taskEntity.getAuthorName());
@@ -205,7 +209,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskMap.put("keyFields", new LinkedList<>(keyFields));
         taskMap.put("noKeyFields", new LinkedList<>(noKeyFields));
         taskMap.put("notNullfields", new LinkedList<>(notNullfields));
-        taskMap.put("isAutoIncr", Table.getAutoIncrement());
+        taskMap.put("isAutoIncr", table.getAutoIncrement());
 
 //        System.out.println("------------------------------------------");
 //        Iterator entries = taskMap.entrySet().iterator();

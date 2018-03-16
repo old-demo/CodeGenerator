@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.service.$!{className}Service;
+import $!{classPackage}.util.PageInfoUtil;
 
 /**
  * $!{comment}业务逻辑实现类
@@ -124,21 +125,21 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 	}
 
     @Override
-    public PageInfo<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
+    public PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
         pageNo = pageNo < 0 ? 0 : pageNo;
         pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
-        List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}();
-        return new PageInfo<$!{className}>($!{entityName}List);
+        PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}());
+        return new PageInfoUtil($!{entityName}Page.getList(), pageNo, pageSize, $!{entityName}Page.getTotal());
 	}
 
     @Override
-    public PageInfo<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
+    public PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize) {
         pageNo = pageNo < 0 ? 0 : pageNo;
         pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
-        List<$!{className}> $!{entityName}List = $!{entityName}Repository.list$!{className}ByParam($!{entityName});
-        return new PageInfo<$!{className}>($!{entityName}List);
+        PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}ByParam($!{entityName}));
+        return new PageInfoUtil($!{entityName}Page.getList(), pageNo, pageSize, $!{entityName}Page.getTotal());
 	}
 
 }

@@ -1,17 +1,15 @@
-package com.heqing.util;
+package $!{classPackage}.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 结果返回工具类
  *
- * @author heqing
- * @date 2018/01/03
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
  */
 public class ResponseUtil implements Serializable {
 

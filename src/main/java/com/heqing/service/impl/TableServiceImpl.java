@@ -30,10 +30,10 @@ public class TableServiceImpl implements TableService {
         if(sqlSession == null) {
             return null;
         }
-        Table Table = getTableByName(sqlSession, tableName);
+        Table table = getTableByName(sqlSession, tableName);
         sqlSession.clearCache();
         sqlSession.close();
-        return Table;
+        return table;
     }
 
     @Override

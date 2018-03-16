@@ -26,68 +26,47 @@ public class TableController {
 
     @RequestMapping(value = "/getTableByName", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil getTableByName(@RequestBody Map map) {
-        ResponseUtil response = new ResponseUtil();
-        if(map.get("dbId") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库id不能为null");
-            return response;
+    public ResponseUtil getTableByName(@RequestBody Table tableRequest) {
+        if(tableRequest.getDbName() == null) {
+            return new ResponseUtil(0, "数据库id不能为null！", null);
         }
-        if(map.get("tableName") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库表名不能为null");
-            return response;
+        if(tableRequest.getTableName() == null) {
+            return new ResponseUtil(0, "数据库表名不能为null！", null);
         }
-
-        Table table = tableService.getTableByName((Integer) map.get("dbId"), (String) map.get("tableName"));
-        if (table != null) {
-            response.setCode(0);
-            response.setData(table);
-        } else {
-            response.setCode(-1);
-            response.setMsg("获取数据库表信息失败！");
+        Table table = tableService.getTableByName(Integer.parseInt(tableRequest.getDbName()), tableRequest.getTableName());
+        if(table != null) {
+            return new ResponseUtil(1, "OK！", table);
         }
-        return response;
+        return new ResponseUtil(0, "无法找到"+tableRequest.getDbName()+"对应的表", null);
     }
 
     @RequestMapping(value = "/listTable", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil listTable(@RequestBody Map map) {
-        ResponseUtil response = new ResponseUtil();
-        if(map.get("dbId") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库id不能为null");
-            return response;
+    public ResponseUtil listTable(@RequestBody Table tableRequest) {
+        if(tableRequest.getDbName() == null) {
+            return new ResponseUtil(0, "数据库id不能为null！", null);
         }
 
-        List<Table> tableList = tableService.listTable((Integer) map.get("dbId"));
+        List<Table> tableList = tableService.listTable(Integer.parseInt(tableRequest.getDbName()));
         if (tableList != null && tableList.size() > 0) {
-            response.setCode(0);
-            response.setMsg("OK");
-            response.setData(tableList);
-        } else {
-            response.setCode(-1);
-            response.setMsg("获取数据库表信息失败！");
+            return new ResponseUtil(1, "OK！", tableList);
         }
-        return response;
+        return new ResponseUtil(0, "获取数据库表信息失败！", null);
     }
 
     @RequestMapping(value = "/listTableByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil listTableByParamAndPage(@RequestBody Map map) {
-        ResponseUtil response = new ResponseUtil();
         if(map.get("dbId") == null) {
-            response.setCode(-1);
-            response.setMsg("数据库id不能为null");
-            return response;
+            return new ResponseUtil(0, "数据库id不能为null！", null);
         }
-        if((map.get("pageIndex")==null) || (map.get("pageSize")==null)) {
-            response.setCode(-1);
-            response.setMsg("页码或每页数量不能为null");
-            return response;
+        int pageIndex = 0, pageSize = 10;
+        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
+            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
         }
-        int pageIndex = Integer.parseInt(map.get("pageIndex")+"");
-        int pageSize = Integer.parseInt(map.get("pageSize")+"");
+        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
+            pageSize = Integer.parseInt(map.get("pageSize")+"");
+        }
         String dbName = "";
         if(map.get("dbName") != null) {
             dbName = map.get("dbName")+"";
@@ -95,13 +74,8 @@ public class TableController {
 
         PageInfo<Table> tableList = tableService.listTableByParamAndPage((Integer) map.get("dbId"), dbName, pageIndex, pageSize);
         if (tableList != null && tableList.getList().size() > 0) {
-            response.setCode(0);
-            response.setMsg("OK");
-            response.setData(tableList);
-        } else {
-            response.setCode(-1);
-            response.setMsg("获取数据库表信息失败！");
+            return new ResponseUtil(1, "OK！", tableList);
         }
-        return response;
+        return new ResponseUtil(0, "获取数据库表信息失败！", null);
     }
 }

@@ -63,8 +63,9 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
+        frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
         frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
-        frameEntity.setRepositoryFrame(FrameEnum.HIBERNATE);
+        frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
     @Test
@@ -78,13 +79,13 @@ public class TaskTest {
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("TestHibernate");
+        taskEntity.setArtifactId("TestMybatis");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("this is test");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("TestHibernate");
+        taskEntity.setProjectName("TestMybatis");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing.yyw");
