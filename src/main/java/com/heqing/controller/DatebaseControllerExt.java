@@ -1,5 +1,6 @@
 package com.heqing.controller;
 
+import com.heqing.controller.request.DatebaseRequest;
 import com.heqing.entity.orm.Datebase;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import com.heqing.util.ResponseUtil;
@@ -22,7 +23,11 @@ public class DatebaseControllerExt {
 
     @RequestMapping(value = "/checkConnect", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil checkConnect(@RequestBody Datebase datebase) {
+    public ResponseUtil checkConnect(@RequestBody DatebaseRequest datebaseRequest) {
+        Datebase datebase = datebaseRequest.getDatebase();
+        if(datebase == null) {
+            return new ResponseUtil(0, "数据库信息不能为null！", null);
+        }
         if(datebase.getDriver() == null && "".equals(datebase.getDriver())) {
             return new ResponseUtil(0, "数据库方言不能为null或空字符串！", null);
         }

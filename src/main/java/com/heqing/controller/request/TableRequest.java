@@ -1,22 +1,48 @@
-package com.heqing.entity.orm;
+package com.heqing.controller.request;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.heqing.entity.orm.Column;
+import com.heqing.entity.orm.Table;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 数据库 表实体类
+ * 数据库 表请求参数
  *
  * @author heqing
  * @email 975656343@qq.com
  * @date 2018/01/03
  */
-public class Table implements Serializable {
+public class TableRequest  implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * pageNum 当前页
+     */
+    @JSONField(name="page_num")
+    private int pageNum;
+
+    /**
+     * pageSize 每页的数量
+     */
+    @JSONField(name="page_size")
+    private int pageSize;
+
+    /**
+     * tableNameList 表名集合
+     */
+    @JSONField(name="table_name_list")
+    private List<String> tableNameList = new ArrayList<>();
+
+    /**
+     * dbId 数据库id
+     */
+    @JSONField(name="db_id")
+    private Integer dbId;
 
     /**
      * dbName 数据库名
@@ -53,18 +79,6 @@ public class Table implements Serializable {
      */
     @JSONField(name="rows_num")
     private Integer rowsNum;
-
-    /**
-     * createTime 创建时间
-     */
-    @JSONField(name="create_time", format="yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    /**
-     * updateTime 修改时间
-     */
-    @JSONField(name="update_time", format="yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
 
     /**
      * collation 编码
@@ -107,6 +121,38 @@ public class Table implements Serializable {
      */
     @JSONField(name="column_list")
     private List<Column> columnList;
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public List<String> getTableNameList() {
+        return tableNameList;
+    }
+
+    public void setTableNameList(List<String> tableNameList) {
+        this.tableNameList = tableNameList;
+    }
+
+    public Integer getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(Integer dbId) {
+        this.dbId = dbId;
+    }
 
     public String getDbName() {
         return dbName;
@@ -154,22 +200,6 @@ public class Table implements Serializable {
 
     public void setRowsNum(Integer rowsNum) {
         this.rowsNum = rowsNum;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getCollation() {
@@ -233,4 +263,21 @@ public class Table implements Serializable {
         return JSONObject.toJSONString(this);
     }
 
+    public Table getTable() {
+        Table table = new Table();
+        table.setDbName(this.getDbName());
+        table.setTableName(this.getTableName());
+        table.setType(this.getType());
+        table.setEngine(this.getEngine());
+        table.setRowFormat(this.getRowFormat());
+        table.setRowsNum(this.getRowsNum());
+        table.setCollation(this.getCollation());
+        table.setComment(this.getComment());
+        table.setAutoIncrement(this.getAutoIncrement());
+        table.setIndexLength(this.getIndexLength());
+        table.setDateLength(this.getDateLength());
+        table.setMaxDateLength(this.getMaxDateLength());
+        table.setColumnList(this.getColumnList());
+        return table;
+    }
 }

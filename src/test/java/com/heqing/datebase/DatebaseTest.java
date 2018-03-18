@@ -1,8 +1,8 @@
 package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.Datebase;
+import com.heqing.util.PageInfoUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import java.util.List;
 import com.heqing.service.DatebaseService;
 
 /**
- * 数据库连接测试类
+ * 数据库连接信息数据持久层接口
  *
  * @author heqing
  * @email  975656343@qq.com
- * @date   2018-02-02 09:20:35
+ * @date   2018-03-18 21:57:48
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,18 +32,18 @@ public class DatebaseTest {
     @Test
     public void testSaveDatebase() {
         Datebase datebase = new Datebase();
-        datebase.setId(1);
-        datebase.setDbName("1");
-        datebase.setPort(1);
-        datebase.setUrl("1");
-        datebase.setPassword("1");
-        datebase.setRemark("1");
-        datebase.setUpdateTime(new Date());
-        datebase.setUsername("1");
         datebase.setConnectName("1");
-        datebase.setCreateTime(new Date());
         datebase.setDriver("1");
+        datebase.setUpdateTime(new Date());
+        datebase.setId(1);
+        datebase.setRemark("1");
+        datebase.setUrl("1");
+        datebase.setCreateTime(new Date());
+        datebase.setUsername("1");
+        datebase.setDbName("1");
         datebase.setCreateUser("1");
+        datebase.setPort(1);
+        datebase.setPassword("1");
         System.out.println("-->"+datebaseService.saveDatebase(datebase));
     }
 
@@ -52,18 +52,18 @@ public class DatebaseTest {
         List<Datebase> datebaseList = new ArrayList<>();
         for(int i=2;i<5;i++) {
             Datebase datebase = new Datebase();
-            datebase.setId(i);
-            datebase.setDbName(""+i);
-            datebase.setPort(i);
-            datebase.setUrl(""+i);
-            datebase.setPassword(""+i);
-            datebase.setRemark(""+i);
-            datebase.setUpdateTime(new Date());
-            datebase.setUsername(""+i);
             datebase.setConnectName(""+i);
-            datebase.setCreateTime(new Date());
             datebase.setDriver(""+i);
+            datebase.setUpdateTime(new Date());
+            datebase.setId(i);
+            datebase.setRemark(""+i);
+            datebase.setUrl(""+i);
+            datebase.setCreateTime(new Date());
+            datebase.setUsername(""+i);
+            datebase.setDbName(""+i);
             datebase.setCreateUser(""+i);
+            datebase.setPort(i);
+            datebase.setPassword(""+i);
             datebaseList.add(datebase);
         }
         System.out.println("-->"+datebaseService.saveBatchDatebase(datebaseList));
@@ -72,7 +72,7 @@ public class DatebaseTest {
     @Test
     public void testGetDatebaseByKey() {
         System.out.println("-->"+datebaseService.getDatebaseByKey(
-                25
+                1
         ));
     }
 
@@ -98,7 +98,7 @@ public class DatebaseTest {
 
     @Test
     public void testListDatebaseByPage() {
-        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(10,10);
+        PageInfoUtil<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,2);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
@@ -106,7 +106,7 @@ public class DatebaseTest {
     public void testListDatebaseByParamAndPage() {
         Datebase datebase = new Datebase();
         datebase.setConnectName("1");
-        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
+        PageInfoUtil<Datebase> datebaseList = datebaseService.listDatebaseByParamAndPage(datebase, 1,2);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
@@ -172,4 +172,3 @@ public class DatebaseTest {
         System.out.println("-->"+datebaseService.deleteBatchDatebaseByParam(datebase));
     }
 }
-

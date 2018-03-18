@@ -1,20 +1,47 @@
-package com.heqing.entity.orm;
+package com.heqing.controller.request;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.heqing.entity.orm.Datebase;
 
 /**
- * 数据库连接信息实体类
+ * 数据库连接信息请求参数
  *
  * @author heqing
  * @email  975656343@qq.com
  * @date   2018-03-18 21:57:48
  */
-public class Datebase implements Serializable {
+public class DatebaseRequest implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
+
+    /**
+     * pageNum 当前页
+     */
+    @JSONField(name="page_num")
+    private int pageNum;
+
+    /**
+     * pageSize 每页的数量
+     */
+    @JSONField(name="page_size")
+    private int pageSize;
+
+    /**
+     * ids 主键集合
+     */
+    List<Integer> ids = new ArrayList<>();
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
+
+    public List<Integer> getIds() {
+        return ids;
+    }
 
     /**
      * connectName 连接名
@@ -27,12 +54,6 @@ public class Datebase implements Serializable {
      */
     @JSONField(name="driver")
     private String driver;
-
-    /**
-     * updateTime 修改时间
-     */
-    @JSONField(name="update_time", format="yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
 
     /**
      * id id
@@ -51,12 +72,6 @@ public class Datebase implements Serializable {
      */
     @JSONField(name="url")
     private String url;
-
-    /**
-     * createTime 创建时间
-     */
-    @JSONField(name="create_time", format="yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
 
     /**
      * username 登陆用户
@@ -88,6 +103,22 @@ public class Datebase implements Serializable {
     @JSONField(name="password")
     private String password;
 
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
     public void setConnectName(String connectName) {
         this.connectName = connectName;
     }
@@ -102,14 +133,6 @@ public class Datebase implements Serializable {
 
     public String getDriver() {
         return driver;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
     }
 
     public void setId(Integer id) {
@@ -134,14 +157,6 @@ public class Datebase implements Serializable {
 
     public String getUrl() {
         return url;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
     }
 
     public void setUsername(String username) {
@@ -187,5 +202,20 @@ public class Datebase implements Serializable {
     @Override
     public String toString() {
         return JSONObject.toJSONString(this);
+    }
+
+    public Datebase getDatebase() {
+        Datebase datebase = new Datebase();
+        datebase.setConnectName(this.getConnectName());
+        datebase.setDriver(this.getDriver());
+        datebase.setId(this.getId());
+        datebase.setRemark(this.getRemark());
+        datebase.setUrl(this.getUrl());
+        datebase.setUsername(this.getUsername());
+        datebase.setDbName(this.getDbName());
+        datebase.setCreateUser(this.getCreateUser());
+        datebase.setPort(this.getPort());
+        datebase.setPassword(this.getPassword());
+        return datebase;
     }
 }

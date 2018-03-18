@@ -1,6 +1,7 @@
 package com.heqing.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.heqing.controller.request.TableRequest;
 import com.heqing.entity.orm.Table;
 import com.heqing.service.TableService;
 import com.heqing.util.ResponseUtil;
@@ -26,8 +27,8 @@ public class TableController {
 
     @RequestMapping(value = "/getTableByName", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil getTableByName(@RequestBody Table tableRequest) {
-        if(tableRequest.getDbName() == null) {
+    public ResponseUtil getTableByName(@RequestBody TableRequest tableRequest) {
+        if(tableRequest.getDbId() == 0) {
             return new ResponseUtil(0, "数据库id不能为null！", null);
         }
         if(tableRequest.getTableName() == null) {
@@ -42,12 +43,12 @@ public class TableController {
 
     @RequestMapping(value = "/listTable", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil listTable(@RequestBody Table tableRequest) {
-        if(tableRequest.getDbName() == null) {
+    public ResponseUtil listTable(@RequestBody TableRequest tableRequest) {
+        if(tableRequest.getDbId() == 0) {
             return new ResponseUtil(0, "数据库id不能为null！", null);
         }
 
-        List<Table> tableList = tableService.listTable(Integer.parseInt(tableRequest.getDbName()));
+        List<Table> tableList = tableService.listTable(tableRequest.getDbId());
         if (tableList != null && tableList.size() > 0) {
             return new ResponseUtil(1, "OK！", tableList);
         }
@@ -56,23 +57,23 @@ public class TableController {
 
     @RequestMapping(value = "/listTableByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil listTableByParamAndPage(@RequestBody Map map) {
-        if(map.get("dbId") == null) {
+    public ResponseUtil listTableByParamAndPage(@RequestBody TableRequest tableRequest) {
+        if(tableRequest.getDbId() == 0) {
             return new ResponseUtil(0, "数据库id不能为null！", null);
         }
-        int pageIndex = 0, pageSize = 10;
-        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
-            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+        int pageNum = 0, pageSize = 10;
+        if(tableRequest.getPageNum() != 0) {
+            pageNum = tableRequest.getPageNum();
         }
-        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
-            pageSize = Integer.parseInt(map.get("pageSize")+"");
+        if(tableRequest.getPageSize() != 0) {
+            pageSize = tableRequest.getPageSize();
         }
         String dbName = "";
-        if(map.get("dbName") != null) {
-            dbName = map.get("dbName")+"";
+        if(tableRequest.getDbName() != null) {
+            dbName = tableRequest.getDbName();
         }
 
-        PageInfo<Table> tableList = tableService.listTableByParamAndPage((Integer) map.get("dbId"), dbName, pageIndex, pageSize);
+        PageInfo<Table> tableList = tableService.listTableByParamAndPage(tableRequest.getDbId(), dbName, pageNum, pageSize);
         if (tableList != null && tableList.getList().size() > 0) {
             return new ResponseUtil(1, "OK！", tableList);
         }

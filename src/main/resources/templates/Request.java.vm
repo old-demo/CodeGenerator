@@ -2,12 +2,12 @@ package $!{classPackage}.controller.request;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import $!{classPackage}.entity.$!{className};
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
-import java.util.ArrayList;
 #end
 
 /**
@@ -38,14 +38,14 @@ private static final long serialVersionUID = 1L;
      * $!{entityName}PKs 主键类集合
      */
     @JSONField(name="$!{entityName}pk")
-    List<$!{className}PK> $!{entityName}PKs = new ArrayList<>();
+    List<$!{className}PK> $!{entityName}PKList = new ArrayList<>();
 
-    public void set$!{className}PK(List<$!{className}PK> $!{entityName}PKs) {
-        this.$!{entityName}PKs = $!{entityName}PKs;
+    public void set$!{className}PKList(List<$!{className}PK> $!{entityName}PKList) {
+        this.$!{entityName}PKList = $!{entityName}PKList;
     }
 
-    public List<$!{className}PK> get$!{className}PKs() {
-        return $!{entityName}PKs;
+    public List<$!{className}PK> get$!{className}PKList() {
+        return $!{entityName}PKList;
     }
 
 #end
@@ -53,14 +53,14 @@ private static final long serialVersionUID = 1L;
     /**
      * $!{keyFields.get(0).entityName}s 主键集合
      */
-    List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s;
+    List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List = new ArrayList<>();
 
-    public void set$!{keyFields.get(0).filedName}s(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
-        this.$!{keyFields.get(0).entityName}s = $!{keyFields.get(0).entityName}s;
+    public void set$!{keyFields.get(0).filedName}List(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+        this.$!{keyFields.get(0).entityName}List = $!{keyFields.get(0).entityName}List;
     }
 
-    public List<$!{keyFields.get(0).type}> get$!{keyFields.get(0).filedName}s() {
-        return $!{keyFields.get(0).entityName}s;
+    public List<$!{keyFields.get(0).type}> get$!{keyFields.get(0).filedName}List() {
+        return $!{keyFields.get(0).entityName}List;
     }
 
 #end

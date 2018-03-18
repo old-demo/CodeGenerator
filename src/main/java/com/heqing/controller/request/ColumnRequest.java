@@ -1,20 +1,47 @@
-package com.heqing.entity.orm;
+package com.heqing.controller.request;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.heqing.entity.orm.Column;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 数据库 列实体类
+ * 数据库列信息请求参数
  *
  * @author heqing
- * @email 975656343@qq.com
- * @date 2018/01/03
+ * @email  975656343@qq.com
+ * @date   2018-03-18 21:57:48
  */
-public class Column implements Serializable {
+public class ColumnRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * pageNum 当前页
+     */
+    @JSONField(name="page_num")
+    private int pageNum;
+
+    /**
+     * pageSize 每页的数量
+     */
+    @JSONField(name="page_size")
+    private int pageSize;
+
+    /**
+     * columnNameList 列名集合
+     */
+    @JSONField(name="column_name_list")
+    private List<String> columnNameList = new ArrayList<>();
+
+    /**
+     * dbId 数据库id
+     */
+    @JSONField(name="db_id")
+    private Integer dbId;
 
     /**
      * dbName 数据库名
@@ -93,6 +120,38 @@ public class Column implements Serializable {
      */
     @JSONField(name="extra")
     private String extra;
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public List<String> getColumnNameList() {
+        return columnNameList;
+    }
+
+    public void setColumnNameList(List<String> columnNameList) {
+        this.columnNameList = columnNameList;
+    }
+
+    public Integer getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(Integer dbId) {
+        this.dbId = dbId;
+    }
 
     public String getDbName() {
         return dbName;
@@ -203,4 +262,21 @@ public class Column implements Serializable {
         return JSONObject.toJSONString(this);
     }
 
+    public Column getColumn() {
+        Column column = new Column();
+        column.setDbName(this.getDbName());
+        column.setTableName(this.getTableName());
+        column.setColumnName(this.getColumnName());
+        column.setPosition(this.getPosition());
+        column.setIsNullAble(this.getIsNullAble());
+        column.setDateType(this.getDateType());
+        column.setMaximumLength(this.getMaximumLength());
+        column.setPrecision(this.getPrecision());
+        column.setCollation(this.getCollation());
+        column.setType(this.getType());
+        column.setKey(this.getKey());
+        column.setComment(this.getComment());
+        column.setExtra(this.getExtra());
+        return column;
+    }
 }

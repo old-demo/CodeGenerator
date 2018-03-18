@@ -35,7 +35,11 @@ public class $!{className}Controller {
     @RequestMapping(value = "/save$!{className}", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil save$!{className}(@RequestBody $!{className}Request $!{entityName}Request) {
-        int result = $!{entityName}Service.save$!{className}($!{entityName}Request.get$!{className}());
+        $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
+        if($!{entityName} == null) {
+            return new ResponseUtil(0, "$!{comment}不能为null！", null);
+        }
+        int result = $!{entityName}Service.save$!{className}($!{entityName});
         if(result == 1) {
             return new ResponseUtil(1, "创建$!{comment}成功！", null);
         }
@@ -53,7 +57,11 @@ public class $!{className}Controller {
         }
 #end
 #end
-        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName}Request.get$!{className}());
+        $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
+        if($!{entityName} == null) {
+            return new ResponseUtil(0, "$!{comment}不能为null！", null);
+        }
+        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName});
         if(result == 1) {
             return new ResponseUtil(1, "修改$!{comment}成功！", null);
         }
@@ -117,14 +125,18 @@ public class $!{className}Controller {
     @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil list$!{className}ByParamAndPage(@RequestBody $!{className}Request $!{entityName}Request) {
-        int pageIndex = 1, pageSize = 100;
-        if(schoolRequest.getPageNum() != 0) {
-            pageNum = schoolRequest.getPageNum();
+        int pageNum = 1, pageSize = 100;
+        if($!{entityName}Request.getPageNum() != 0) {
+            pageNum = $!{entityName}Request.getPageNum();
         }
-        if(schoolRequest.getPageSize() != 0) {
-            pageSize = schoolRequest.getPageSize();
+        if($!{entityName}Request.getPageSize() != 0) {
+            pageSize = $!{entityName}Request.getPageSize();
         }
-        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}Request.get$!{className}(), pageNum, pageSize);
+        $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
+        if($!{entityName} == null) {
+            return new ResponseUtil(0, "$!{comment}不能为null！", null);
+        }
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, pageNum, pageSize);
         return new ResponseUtil(1, "OK", $!{entityName}List);
     }
 }

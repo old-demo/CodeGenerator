@@ -1,5 +1,6 @@
 package com.heqing.controller;
 
+import com.heqing.controller.request.ColumnRequest;
 import com.heqing.entity.orm.Column;
 import com.heqing.service.ColumnService;
 import com.heqing.util.ResponseUtil;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 数据库表信息对外接口层
@@ -25,15 +25,15 @@ public class ColumnController {
 
     @RequestMapping(value = "/listColumnByTable", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil listColumnByTable(@RequestBody Column columnRequest) {
-        if(columnRequest.getDbName() == null) {
+    public ResponseUtil listColumnByTable(@RequestBody ColumnRequest columnRequest) {
+        if(columnRequest.getDbId() == 0) {
             return new ResponseUtil(0, "数据库id不能为null！", null);
         }
         if(columnRequest.getTableName() == null) {
             return new ResponseUtil(0, "数据库表名不能为null！", null);
         }
 
-        List<Column> columnList = columnService.listColumnByTable(Integer.parseInt(columnRequest.getDbName()), columnRequest.getTableName());
+        List<Column> columnList = columnService.listColumnByTable(columnRequest.getDbId(), columnRequest.getTableName());
         if (columnList != null) {
             return new ResponseUtil(1, "OK！", columnList);
         }

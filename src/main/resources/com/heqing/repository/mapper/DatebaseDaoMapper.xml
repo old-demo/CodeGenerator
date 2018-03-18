@@ -5,50 +5,50 @@
 
     <!-- 数据库连接信息数据库字段 -->
     <sql id="datebaseFields">
-        id
-        , db_name
-        , port
-        , url
-        , password
-        , remark
-        , update_time
-        , username
-        , connect_name
-        , create_time
+        connect_name
         , driver
+        , update_time
+        , id
+        , remark
+        , url
+        , create_time
+        , username
+        , db_name
         , create_user
+        , port
+        , password
     </sql>
 
     <!-- 数据库连接信息对象属性 -->
     <parameterMap id="datebaseParameterMap" type="com.heqing.entity.orm.Datebase">
-        <parameter property="id"/>
-        <parameter property="dbName"/>
-        <parameter property="port"/>
-        <parameter property="url"/>
-        <parameter property="password"/>
-        <parameter property="remark"/>
-        <parameter property="updateTime"/>
-        <parameter property="username"/>
         <parameter property="connectName"/>
-        <parameter property="createTime"/>
         <parameter property="driver"/>
+        <parameter property="updateTime"/>
+        <parameter property="id"/>
+        <parameter property="remark"/>
+        <parameter property="url"/>
+        <parameter property="createTime"/>
+        <parameter property="username"/>
+        <parameter property="dbName"/>
         <parameter property="createUser"/>
+        <parameter property="port"/>
+        <parameter property="password"/>
     </parameterMap>
 
     <!-- 数据库字段与对象属性映射 -->
     <resultMap id="datebaseResultMap" type="com.heqing.entity.orm.Datebase">
-        <result property="id" column="id" />
-        <result property="dbName" column="db_name" />
-        <result property="port" column="port" />
-        <result property="url" column="url" />
-        <result property="password" column="password" />
-        <result property="remark" column="remark" />
-        <result property="updateTime" column="update_time" />
-        <result property="username" column="username" />
         <result property="connectName" column="connect_name" />
-        <result property="createTime" column="create_time" />
         <result property="driver" column="driver" />
+        <result property="updateTime" column="update_time" />
+        <result property="id" column="id" />
+        <result property="remark" column="remark" />
+        <result property="url" column="url" />
+        <result property="createTime" column="create_time" />
+        <result property="username" column="username" />
+        <result property="dbName" column="db_name" />
         <result property="createUser" column="create_user" />
+        <result property="port" column="port" />
+        <result property="password" column="password" />
     </resultMap>
 
     <!-- 增加数据库连接信息 -->
@@ -65,18 +65,18 @@
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (
-            #{item.id}
-            ,#{item.dbName}
-            ,#{item.port}
-            ,#{item.url}
-            ,#{item.password}
-            ,#{item.remark}
-            ,#{item.updateTime}
-            ,#{item.username}
-            ,#{item.connectName}
-            ,#{item.createTime}
+            #{item.connectName}
             ,#{item.driver}
+            ,#{item.updateTime}
+            ,#{item.id}
+            ,#{item.remark}
+            ,#{item.url}
+            ,#{item.createTime}
+            ,#{item.username}
+            ,#{item.dbName}
             ,#{item.createUser}
+            ,#{item.port}
+            ,#{item.password}
             )
         </foreach>
         ;
@@ -105,18 +105,18 @@
     <delete id="deleteBatchDatebaseByParam" parameterMap="datebaseParameterMap">
         DELETE FROM datebase
         <where>
-            <if test="id != null and id != ''"> AND id=#{id} </if>
-            <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
-            <if test="port != null and port != ''"> AND port=#{port} </if>
-            <if test="url != null and url != ''"> AND url=#{url} </if>
-            <if test="password != null and password != ''"> AND password=#{password} </if>
-            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
-            <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
-            <if test="username != null and username != ''"> AND username=#{username} </if>
             <if test="connectName != null and connectName != ''"> AND connect_name=#{connectName} </if>
-            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
             <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="id != null and id != ''"> AND id=#{id} </if>
+            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
+            <if test="url != null and url != ''"> AND url=#{url} </if>
+            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND username=#{username} </if>
+            <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
             <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
+            <if test="port != null and port != ''"> AND port=#{port} </if>
+            <if test="password != null and password != ''"> AND password=#{password} </if>
         </where>
         ;
     </delete>
@@ -126,18 +126,18 @@
         UPDATE
         datebase
         <trim prefix="SET" prefixOverrides=",">
-            <if test="id != null">, id=#{id}</if>
-            <if test="dbName != null">, db_name=#{dbName}</if>
-            <if test="port != null">, port=#{port}</if>
-            <if test="url != null">, url=#{url}</if>
-            <if test="password != null">, password=#{password}</if>
-            <if test="remark != null">, remark=#{remark}</if>
-            <if test="updateTime != null">, update_time=#{updateTime}</if>
-            <if test="username != null">, username=#{username}</if>
             <if test="connectName != null">, connect_name=#{connectName}</if>
-            <if test="createTime != null">, create_time=#{createTime}</if>
             <if test="driver != null">, driver=#{driver}</if>
+            <if test="updateTime != null">, update_time=#{updateTime}</if>
+            <if test="id != null">, id=#{id}</if>
+            <if test="remark != null">, remark=#{remark}</if>
+            <if test="url != null">, url=#{url}</if>
+            <if test="createTime != null">, create_time=#{createTime}</if>
+            <if test="username != null">, username=#{username}</if>
+            <if test="dbName != null">, db_name=#{dbName}</if>
             <if test="createUser != null">, create_user=#{createUser}</if>
+            <if test="port != null">, port=#{port}</if>
+            <if test="password != null">, password=#{password}</if>
         </trim>
         <where>
             AND id=#{id}
@@ -150,18 +150,18 @@
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE datebase
             <trim prefix="SET" prefixOverrides=",">
-                <if test="item.id != null ">, id=#{item.id}</if>
-                <if test="item.dbName != null ">, db_name=#{item.dbName}</if>
-                <if test="item.port != null ">, port=#{item.port}</if>
-                <if test="item.url != null ">, url=#{item.url}</if>
-                <if test="item.password != null ">, password=#{item.password}</if>
-                <if test="item.remark != null ">, remark=#{item.remark}</if>
-                <if test="item.updateTime != null ">, update_time=#{item.updateTime}</if>
-                <if test="item.username != null ">, username=#{item.username}</if>
                 <if test="item.connectName != null ">, connect_name=#{item.connectName}</if>
-                <if test="item.createTime != null ">, create_time=#{item.createTime}</if>
                 <if test="item.driver != null ">, driver=#{item.driver}</if>
+                <if test="item.updateTime != null ">, update_time=#{item.updateTime}</if>
+                <if test="item.id != null ">, id=#{item.id}</if>
+                <if test="item.remark != null ">, remark=#{item.remark}</if>
+                <if test="item.url != null ">, url=#{item.url}</if>
+                <if test="item.createTime != null ">, create_time=#{item.createTime}</if>
+                <if test="item.username != null ">, username=#{item.username}</if>
+                <if test="item.dbName != null ">, db_name=#{item.dbName}</if>
                 <if test="item.createUser != null ">, create_user=#{item.createUser}</if>
+                <if test="item.port != null ">, port=#{item.port}</if>
+                <if test="item.password != null ">, password=#{item.password}</if>
             </trim>
             <where>
                 AND id=#{item.id}
@@ -201,18 +201,18 @@
         SELECT <include refid="datebaseFields"/>
         FROM datebase
         <where>
-            <if test="id != null and id != ''"> AND id=#{id} </if>
-            <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
-            <if test="port != null and port != ''"> AND port=#{port} </if>
-            <if test="url != null and url != ''"> AND url=#{url} </if>
-            <if test="password != null and password != ''"> AND password=#{password} </if>
-            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
-            <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
-            <if test="username != null and username != ''"> AND username=#{username} </if>
             <if test="connectName != null and connectName != ''"> AND connect_name=#{connectName} </if>
-            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
             <if test="driver != null and driver != ''"> AND driver=#{driver} </if>
+            <if test="updateTime != null"> AND date(update_time)=date(#{updateTime,jdbcType=TIMESTAMP}) </if>
+            <if test="id != null and id != ''"> AND id=#{id} </if>
+            <if test="remark != null and remark != ''"> AND remark=#{remark} </if>
+            <if test="url != null and url != ''"> AND url=#{url} </if>
+            <if test="createTime != null"> AND date(create_time)=date(#{createTime,jdbcType=TIMESTAMP}) </if>
+            <if test="username != null and username != ''"> AND username=#{username} </if>
+            <if test="dbName != null and dbName != ''"> AND db_name=#{dbName} </if>
             <if test="createUser != null and createUser != ''"> AND create_user=#{createUser} </if>
+            <if test="port != null and port != ''"> AND port=#{port} </if>
+            <if test="password != null and password != ''"> AND password=#{password} </if>
         </where>
     </select>
 

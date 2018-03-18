@@ -73,7 +73,7 @@ public class TaskTest {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
         for(Table table : tableList) {
-            if(!"datebase".equals(table.getTableName())) {
+            if("datebase".equals(table.getTableName())) {
                 tableNames.add(table.getTableName());
             }
         }

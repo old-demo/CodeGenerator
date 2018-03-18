@@ -154,10 +154,10 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     @Override
     public PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize) {
         pageNum = pageNum < 0 ? 0 : pageNum;
-        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
+        pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}ByParam($!{entityName}));
-        return new PageInfoUtil($!{entityName}Page.getList(), pageNo, pageSize, $!{entityName}Page.getTotal());
+        return new PageInfoUtil($!{entityName}Page.getList(), pageNum, pageSize, $!{entityName}Page.getTotal());
 	}
 
 }

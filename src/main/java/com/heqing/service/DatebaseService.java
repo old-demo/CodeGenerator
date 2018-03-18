@@ -1,15 +1,16 @@
 package com.heqing.service;
 
-import com.github.pagehelper.PageInfo;
 import com.heqing.entity.orm.Datebase;
+import com.heqing.util.PageInfoUtil;
 
 import java.util.List;
+
 /**
  * 数据库连接信息业务逻辑层接口
  *
  * @author heqing
  * @email  975656343@qq.com
- * @date   2018-03-13 18:06:50
+ * @date   2018-03-18 21:57:48
  */
 public interface DatebaseService {
 
@@ -107,16 +108,16 @@ public interface DatebaseService {
      * @param pageSize 每页数量
      * @return Page<Datebase> 数据库连接信息实例集合
      */
-    PageInfo<Datebase> listDatebaseByPage(int pageNo, int pageSize);
+    PageInfoUtil<Datebase> listDatebaseByPage(int pageNo, int pageSize);
 
     /**
      * 根据分页及条件获取多条数据库连接信息实例
      *
      * @param datebase 数据库连接信息实例:做条件查询使用
-     * @param pageNo 第几页
+     * @param pageNum 第几页
      * @param pageSize 每页数量
      * @return Page<Datebase> 数据库连接信息实例集合
      */
-    PageInfo<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize);
+    PageInfoUtil<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNum, int pageSize);
 
 }

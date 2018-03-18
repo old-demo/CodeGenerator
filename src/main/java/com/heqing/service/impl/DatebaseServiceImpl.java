@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 
 import com.heqing.entity.orm.Datebase;
 import com.heqing.repository.DatebaseRepository;
+import com.heqing.util.PageInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,11 @@ import org.apache.log4j.Logger;
 import com.heqing.service.DatebaseService;
 
 /**
- * 数据库连接信息数据持久层实现类
+ * 数据库连接信息业务逻辑实现类
  *
  * @author heqing
  * @email  975656343@qq.com
- * @date   2018-03-13 18:06:50
+ * @date   2018-03-18 21:57:48
  */
 @Service("datebaseService")
 public class DatebaseServiceImpl implements DatebaseService {
@@ -84,17 +85,20 @@ public class DatebaseServiceImpl implements DatebaseService {
     }
 
     @Override
-    public PageInfo<Datebase> listDatebaseByPage(int pageNo, int pageSize) {
+    public PageInfoUtil<Datebase> listDatebaseByPage(int pageNo, int pageSize) {
+        pageNo = pageNo < 0 ? 0 : pageNo;
+        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
-        List<Datebase> datebaseList = datebaseRepository.listDatebase();
-        return new PageInfo<Datebase>(datebaseList);
+        PageInfo<Datebase> datebasePage = new PageInfo<Datebase>(datebaseRepository.listDatebase());
+        return new PageInfoUtil(datebasePage.getList(), pageNo, pageSize, datebasePage.getTotal());
     }
 
     @Override
-    public PageInfo<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        List<Datebase> datebaseList = datebaseRepository.listDatebaseByParam(datebase);
-        return new PageInfo<Datebase>(datebaseList);
+    public PageInfoUtil<Datebase> listDatebaseByParamAndPage(Datebase datebase, int pageNum, int pageSize) {
+        pageNum = pageNum < 0 ? 0 : pageNum;
+        pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<Datebase> datebasePage = new PageInfo<Datebase>(datebaseRepository.listDatebaseByParam(datebase));
+        return new PageInfoUtil(datebasePage.getList(), pageNum, pageSize, datebasePage.getTotal());
     }
-
 }
