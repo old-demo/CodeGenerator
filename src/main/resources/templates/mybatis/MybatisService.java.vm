@@ -1,6 +1,9 @@
 package $!{classPackage}.service;
 
 import $!{classPackage}.util.PageInfoUtil;
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
 import java.util.List;
 
 import $!{classPackage}.entity.$!{className};
@@ -42,14 +45,23 @@ public interface $!{className}Service {
     int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
 
 #end
-#if($keyFields.size() == 1)
+#if($keyFields.size() > 1)
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{entityName}PKs 主键ID集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs);
+
+#elseif($keyFields.size() == 1)
     /**
      * 根据主键删除多条$!{comment}实例
      *
      * @param $!{keyFields.get(0).entityName}s 主键ID集合
      * @return int 成功数量
      */
-    int deleteBatch$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
 
 #end
     /**
@@ -95,7 +107,7 @@ public interface $!{className}Service {
      * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
      * @return List<T> $!{comment}实例信息
      */
-    List<$!{className}> list$!{className}ByKey(#foreach(${field} in ${keyFields})List<$!{field.type}> $!{field.entityName}s#end);
+    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
 
 #end
     /**
@@ -126,10 +138,10 @@ public interface $!{className}Service {
      * 根据分页及条件获取多条$!{comment}实例
      *
      * @param $!{entityName} $!{comment}实例:做条件查询使用
-     * @param pageNo 第几页
+     * @param pageNum 第几页
      * @param pageSize 每页数量
      * @return Page<$!{className}> $!{comment}实例集合
      */
-    PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNo, int pageSize);
+    PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize);
 
 }

@@ -1,0 +1,119 @@
+package $!{classPackage}.controller.request;
+
+import java.io.Serializable;
+import java.util.List;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+import $!{classPackage}.entity.$!{className};
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+import java.util.ArrayList;
+#end
+
+/**
+ * $!{comment}请求参数
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public class $!{className}Request implements Serializable {
+
+private static final long serialVersionUID = 1L;
+
+    /**
+     * pageNum 当前页
+     */
+    @JSONField(name="page_num")
+    private int pageNum;
+
+    /**
+     * pageSize 每页的数量
+     */
+    @JSONField(name="page_size")
+    private int pageSize;
+
+#if($keyFields.size() > 1)
+    /**
+     * $!{entityName}PKs 主键类集合
+     */
+    @JSONField(name="$!{entityName}pk")
+    List<$!{className}PK> $!{entityName}PKs = new ArrayList<>();
+
+    public void set$!{className}PK(List<$!{className}PK> $!{entityName}PKs) {
+        this.$!{entityName}PKs = $!{entityName}PKs;
+    }
+
+    public List<$!{className}PK> get$!{className}PKs() {
+        return $!{entityName}PKs;
+    }
+
+#end
+#if($keyFields.size() == 1)
+    /**
+     * $!{keyFields.get(0).entityName}s 主键集合
+     */
+    List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s;
+
+    public void set$!{keyFields.get(0).filedName}s(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
+        this.$!{keyFields.get(0).entityName}s = $!{keyFields.get(0).entityName}s;
+    }
+
+    public List<$!{keyFields.get(0).type}> get$!{keyFields.get(0).filedName}s() {
+        return $!{keyFields.get(0).entityName}s;
+    }
+
+#end
+#foreach ($!{field} in $!{fields})
+#if($!{field.type} != "Date")
+    /**
+     * $!{field.entityName} $!{field.comment}
+     */
+    @JSONField(name="$!{field.columnName}")
+    private $!{field.type} $!{field.entityName};
+
+#end
+#end
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+#foreach ($!{field} in $!{fields})
+#if($!{field.type} != "Date")
+    public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        this.$!{field.entityName} = $!{field.entityName};
+    }
+
+    public $!{field.type} get$!{field.filedName}() {
+        return $!{field.entityName};
+    }
+
+#end
+#end
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
+    }
+
+    public $!{className} get$!{className}() {
+        $!{className} $!{entityName} = new $!{className}();
+#foreach ($!{field} in $!{fields})
+#if($!{field.type} != "Date")
+        $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
+#end
+#end
+        return $!{entityName};
+    }
+}

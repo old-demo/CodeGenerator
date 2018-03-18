@@ -1,6 +1,10 @@
 package $!{classPackage}.controller;
 
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
 import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.controller.request.$!{className}Request;
 import $!{classPackage}.service.$!{className}Service;
 import $!{classPackage}.util.ObjectUtil;
 import $!{classPackage}.util.ResponseUtil;
@@ -30,8 +34,8 @@ public class $!{className}Controller {
 
     @RequestMapping(value = "/save$!{className}", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil save$!{className}(@RequestBody $!{className} $!{entityName}Request) {
-        int result = $!{entityName}Service.save$!{className}($!{entityName}Request);
+    public ResponseUtil save$!{className}(@RequestBody $!{className}Request $!{entityName}Request) {
+        int result = $!{entityName}Service.save$!{className}($!{entityName}Request.get$!{className}());
         if(result == 1) {
             return new ResponseUtil(1, "创建$!{comment}成功！", null);
         }
@@ -41,7 +45,7 @@ public class $!{className}Controller {
 
     @RequestMapping(value = "/update$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil update$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+    public ResponseUtil update$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
 #if($notNullfields.size() > 0)
 #foreach ($!{field} in $!{notNullfields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
@@ -49,7 +53,7 @@ public class $!{className}Controller {
         }
 #end
 #end
-        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName}Request);
+        int result = $!{entityName}Service.update$!{className}ByKey($!{entityName}Request.get$!{className}());
         if(result == 1) {
             return new ResponseUtil(1, "修改$!{comment}成功！", null);
         }
@@ -58,7 +62,7 @@ public class $!{className}Controller {
 
     @RequestMapping(value = "/delete$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil delete$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+    public ResponseUtil delete$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
 #if($keyFields.size() > 0)
 #foreach ($!{field} in $!{keyFields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
@@ -73,9 +77,31 @@ public class $!{className}Controller {
         return new ResponseUtil(0, "删除$!{comment}失败！", null);
     }
 
+    @RequestMapping(value = "/deleteBatch$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil deleteBatch$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
+#if($keyFields.size() > 1)
+        List<$!{className}PK> $!{entityName}PKs = $!{entityName}Request.get$!{className}PKs();
+        if($!{entityName}PKs == null || $!{entityName}PKs.size() < 1) {
+            return new ResponseUtil(0, "主键不能为null！", null);
+        }
+        int result = $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
+#elseif($keyFields.size() == 1)
+        List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s = $!{entityName}Request.get$!{keyFields.get(0).filedName}s();
+        if($!{keyFields.get(0).entityName}s == null || $!{keyFields.get(0).entityName}s.size() < 1) {
+            return new ResponseUtil(0, "主键不能为null！", null);
+        }
+        int result = $!{entityName}Service.deleteBatch$!{className}ByKey($!{keyFields.get(0).entityName}s);
+#end
+        if(result > 0) {
+            return new ResponseUtil(1, "删除$!{comment}成功！", result);
+        }
+        return new ResponseUtil(0, "删除$!{comment}失败！", null);
+    }
+
     @RequestMapping(value = "/get$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil get$!{className}ByKey(@RequestBody $!{className} $!{entityName}Request) {
+    public ResponseUtil get$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
 #if($keyFields.size() > 0)
 #foreach ($!{field} in $!{keyFields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
@@ -88,47 +114,17 @@ public class $!{className}Controller {
     }
 
 #end
-    @RequestMapping(value = "/delete$!{className}ByParam", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    @ResponseBody
-    public ResponseUtil deleteBatch$!{className}ByParam(@RequestBody $!{className} $!{entityName}Request) {
-
-        int result = $!{entityName}Service.deleteBatch$!{className}ByParam($!{entityName}Request);
-        if(result > 0) {
-            return new ResponseUtil(1, "删除$!{comment}成功！", $!{entityName}.toString());
-        }
-        return new ResponseUtil(0, "删除$!{comment}失败！", null);
-    }
-
-    @RequestMapping(value = "/list$!{className}ByPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    @ResponseBody
-    public ResponseUtil list$!{className}ByPage(@RequestBody Map map) {
-        int pageIndex = 1, pageSize = 10;
-        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
-            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
-        }
-        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
-            pageSize = Integer.parseInt(map.get("pageSize")+"");
-        }
-
-        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(pageIndex, pageSize);
-        return new ResponseUtil(1, "OK", $!{entityName}List);
-    }
-
     @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseUtil list$!{className}ByParamAndPage(@RequestBody Map map) {
-        int pageIndex = 1, pageSize = 10;
-        if(map.get("pageIndex") != null && !"".equals(map.get("pageIndex"))) {
-            pageIndex = Integer.parseInt(map.get("pageIndex")+"");
+    public ResponseUtil list$!{className}ByParamAndPage(@RequestBody $!{className}Request $!{entityName}Request) {
+        int pageIndex = 1, pageSize = 100;
+        if(schoolRequest.getPageNum() != 0) {
+            pageNum = schoolRequest.getPageNum();
         }
-        if(map.get("pageSize") != null && !"".equals(map.get("pageSize"))) {
-            pageSize = Integer.parseInt(map.get("pageSize")+"");
+        if(schoolRequest.getPageSize() != 0) {
+            pageSize = schoolRequest.getPageSize();
         }
-        if(map.get("$!{entityName}") == null) {
-            return new ResponseUtil(0, "查询条件不能为null！", null);
-        }
-        $!{className} $!{entityName} = ObjectUtil.map2obj((Map<String, Object>)map.get("$!{entityName}"), $!{className}.class);
-        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, pageIndex, pageSize);
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}Request.get$!{className}(), pageNum, pageSize);
         return new ResponseUtil(1, "OK", $!{entityName}List);
     }
 }

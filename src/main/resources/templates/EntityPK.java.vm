@@ -4,17 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-
+#if($!{frame.repositoryFrame} == "HIBERNATE")
 import javax.persistence.Embeddable;
 
+#end
 /**
  * $!{comment}实体类联合主键
- * 
+ *
  * @author $!{authorName}
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
+#if($!{frame.repositoryFrame} == "HIBERNATE")
 @Embeddable
+#end
 public class $!{className}PK implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,28 +26,32 @@ public class $!{className}PK implements Serializable {
 
     public $!{className}PK(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
 #foreach(${field} in ${keyFields})
-		this.$!{field.entityName} = $!{field.entityName};
+        this.$!{field.entityName} = $!{field.entityName};
 #end
     }
 
 #foreach ($!{field} in $!{keyFields})
-	/**
-	 * $!{field.entityName} $!{field.comment}
-	 */
+    /**
+     * $!{field.entityName} $!{field.comment}
+     */
+    @JSONField(name="$!{field.columnName}")
 #if($!{field.type} == "Date")
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
 #end
-	private $!{field.type} $!{field.entityName};
+#if($!{frame.repositoryFrame} == "HIBERNATE")
+    @Column(name="$!{field.columnName}")
+#end
+    private $!{field.type} $!{field.entityName};
 
 #end
 #foreach ($!{field} in $!{keyFields})
-	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
-		this.$!{field.entityName} = $!{field.entityName};
-	}
+    public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        this.$!{field.entityName} = $!{field.entityName};
+    }
 
-	public $!{field.type} get$!{field.filedName}() {
-	    return $!{field.entityName};
-	}
+    public $!{field.type} get$!{field.filedName}() {
+            return $!{field.entityName};
+        }
 
 #end
     @Override

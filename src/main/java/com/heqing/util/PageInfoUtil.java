@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * 分页帮助类
@@ -19,36 +20,43 @@ public class PageInfoUtil<T> implements Serializable {
     /**
      * pageNum 当前页
      */
+    @JSONField(name="page_num")
     private int pageNum;
 
     /**
      * pageSize 每页的数量
      */
+    @JSONField(name="page_size")
     private int pageSize;
 
     /**
      * total 总记录数
      */
+    @JSONField(name="total")
     private long total;
 
     /**
      * pages 总页数
      */
+    @JSONField(name="pages")
     private int pages;
 
     /**
      * list 结果集
      */
+    @JSONField(name="list")
     private List<T> list;
 
     /**
      * isFirstPage 是否为第一页
      */
+    @JSONField(name="is_first_page")
     private boolean isFirstPage = false;
 
     /**
      * isLastPage 是否为最后一页
      */
+    @JSONField(name="is_last_page")
     private boolean isLastPage = false;
 
     /**

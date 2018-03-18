@@ -46,7 +46,7 @@ public enum TemplateEnum {
     /*
      * hibernate实体类
      */
-    HIBERNATE_ENTITY_PK("hibernateEntityPK", "hibernate/HibernateEntityPK.java.vm"),
+    ENTITY_PK("entityPK", "EntityPK.java.vm"),
     /*
      * hibernate持久层接口
      */
@@ -68,13 +68,13 @@ public enum TemplateEnum {
      */
     UTIL_PAGEINFO("pageInfoUtil", "util/PageInfoUtil.java.vm"),
     /*
-     * 类型转换工具类
-     */
-    UTIL_OBJECT("objectUtil", "util/ObjectUtil.java.vm"),
-    /*
      * 返回数据封装类
      */
     UTIL_RESPONSE("responseUtil", "util/ResponseUtil.java.vm"),
+    /*
+     * springController   spring显示控制层
+     */
+    REQUEST("Request", "Request.java.vm"),
     /*
      * springController   spring显示控制层
      */
@@ -112,7 +112,7 @@ public enum TemplateEnum {
         }
 
         switch (template) {
-            case HIBERNATE_ENTITY_PK:
+            case ENTITY_PK:
                 filePatch += "src/main/java/" + packagePath + "/entity/" + className + "PK.java";
                 break;
             case HIBERNATE_ENTITY:
@@ -140,6 +140,9 @@ public enum TemplateEnum {
             case APPLICATION:
                 filePatch += "src/main/java/" + packagePath+ "/" +projectName+"Application.java";
                 break;
+            case REQUEST:
+                filePatch += "src/main/java/" + packagePath + "/controller/request/" + className + "Request.java";
+                break;
             case STRUTS2_CONTROLLER:
             case SPRING_CONTROLLER:
                 filePatch += "src/main/java/" + packagePath + "/controller/" + className + "Controller.java";
@@ -159,9 +162,6 @@ public enum TemplateEnum {
                 break;
             case MYBATIS_CONFIG:
                 filePatch += "src/test/resources/spring_mybatis.xml";
-                break;
-            case UTIL_OBJECT:
-                filePatch += "src/main/java/" + packagePath + "/util/ObjectUtil.java";
                 break;
             case UTIL_RESPONSE:
                 filePatch += "src/main/java/" + packagePath + "/util/ResponseUtil.java";

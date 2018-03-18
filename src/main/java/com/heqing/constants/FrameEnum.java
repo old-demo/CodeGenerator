@@ -58,7 +58,6 @@ public enum FrameEnum {
         int keyNum = taskEntity.getFrame().getKeyNum();
 
         taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_OBJECT);
         taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
 
         FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
@@ -85,7 +84,7 @@ public enum FrameEnum {
             case HIBERNATE:
                 if (keyNum > 0) {
                     if (keyNum > 1) {
-                        taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY_PK);
+                        taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
                     }
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
@@ -116,8 +115,12 @@ public enum FrameEnum {
 
         FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
         if(controllerFrame != null) {
+            taskEntity.getTemplates().add(TemplateEnum.REQUEST);
             switch (controllerFrame) {
                 case SPRINGMVC:
+                    if (keyNum > 1) {
+                        taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
+                    }
                     taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
                     if(serviceFrame == SPRINGBOOT) {
                         taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);

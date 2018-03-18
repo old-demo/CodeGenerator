@@ -21,7 +21,9 @@ public class $!{className} implements Serializable {
 	 * $!{field.entityName} $!{field.comment}
 	 */
 #if($!{field.type} == "Date")
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(name="$!{field.columnName}", format="yyyy-MM-dd HH:mm:ss")
+#else
+	@JSONField(name="$!{field.columnName}")
 #end
 	private $!{field.type} $!{field.entityName};
 

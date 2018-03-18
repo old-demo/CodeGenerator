@@ -98,7 +98,7 @@ public class DatebaseTest {
 
     @Test
     public void testListDatebaseByPage() {
-        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(1,2);
+        PageInfo<Datebase> datebaseList = datebaseService.listDatebaseByPage(10,10);
         System.out.println("-->"+JSON.toJSONString(datebaseList));
     }
 
