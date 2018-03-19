@@ -162,7 +162,7 @@ public interface $!{className}Service {
      *
      * @param $!{field.entityName} $!{field.comment}
      */
-    void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+    int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
 
 #end
 }

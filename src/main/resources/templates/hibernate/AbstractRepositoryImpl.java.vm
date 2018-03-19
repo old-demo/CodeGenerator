@@ -1,0 +1,102 @@
+package $!{classPackage}.repository.impl;
+
+import java.io.Serializable;
+
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * $!{comment}数据访问基础类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Transactional    // @Transactional注解可以被继承，即对子类也有效
+@SuppressWarnings("unchecked")
+public abstract class AbstractRepositoryImpl<T, PK extends Serializable> implements AbstractRepository<T, PK> {
+
+    protected final Class<T> persistentClass;
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public AbstractRepositoryImpl(){
+        ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
+        this.persistentClass = (Class) pt.getActualTypeArguments()[0];
+    }
+
+    protected Session getSession(){
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public int save(T entity) {
+        getSession().saveOrUpdate(entity);
+        return 1;
+    }
+
+    @Override
+    public int saveBatch(List<T> entityList) {
+        int successNum = 0;
+        for(T entity : entityList) {
+            getSession().saveOrUpdate(entity);
+            successNum++;
+        }
+        return successNum;
+    }
+
+    @Override
+    public int deleteByKey(T entity) {
+        getSession().delete(entity);
+        return 1;
+    }
+
+    @Override
+    public int deleteBatchByKey(List<T> entityList) {
+        int successNum = 0;
+        for(T entity : entityList) {
+            getSession().delete(entity);
+            successNum++;
+        }
+        return successNum;
+    }
+
+    @Override
+    public int updateByKey(T entity) {
+        getSession().update(entity);
+        return 1;
+    }
+
+    @Override
+    public int updateBatchByKey(List<T> entityList) {
+        int successNum = 0;
+        for(T entity : entityList) {
+            getSession().update(entity);
+            successNum++;
+        }
+        return successNum;
+    }
+
+    @Override
+    public T getByKey(PK key) {
+        return (T) getSession().get(persistentClass, key);
+    }
+
+    @Override
+    public List<T> listByKey(List<PK> keyList) {
+        List<T> entityList = new ArrayList<>();
+        for(PK key : keyList) {
+            entityList.add((T) getSession().get(persistentClass, key));
+        }
+        return entityList;
+    }
+
+}

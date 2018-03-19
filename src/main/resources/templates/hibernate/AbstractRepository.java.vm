@@ -1,0 +1,78 @@
+package $!{classPackage}.repository;
+
+import java.io.Serializable;
+
+/**
+ * 数据访问基础类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public interface AbstractRepository<T, PK extends Serializable> {
+
+    /**
+     * 增加$!{comment}
+     *
+     * @param entity $!{comment}列
+     * @return int 成功数量
+     */
+    int save(T entity);
+
+    /**
+     * 增加多条$!{comment}
+     *
+     * @param entityList 多条$!{comment}列
+     * @return int 成功数量
+     */
+    int saveBatch(List<T> entityList);
+
+    /**
+     * 根据主键删除$!{comment}
+     *
+     * @param entity $!{comment}列
+     * @return int 成功数量
+     */
+    int deleteByKey(T entity);
+
+    /**
+     * 根据多个主键删除$!{comment}
+     *
+     * @param entityList $!{comment}列
+     * @return int 成功数量
+     */
+    int deleteBatchByKey(List<T> entityList);
+
+    /**
+     * 根据主键修改$!{comment}
+     *
+     * @param entity $!{comment}列
+     * @return int 成功数量
+     */
+    int updateByKey(T entity);
+
+    /**
+     * 根据多个主键修改$!{comment}
+     *
+     * @param entityList $!{comment}列
+     * @return int 成功数量
+     */
+    int updateBatchPersonByKey(List<T> entityList);
+
+    /**
+     * 根据主键获取$!{comment}
+     *
+     * @param key 主键
+     * @return int 成功数量
+     */
+    T getByKey(PK key);
+
+    /**
+     * 根据多个主键获取多条$!{comment}
+     *
+     * @param keyList 主键集合
+     * @return List<T> $!{comment}列信息
+     */
+    List<T> listByKey(List<PK> keyList);
+
+}

@@ -1,0 +1,72 @@
+package $!{classPackage}.repository;
+
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.service.impl.$!{className}ServiceImpl;
+import $!{classPackage}.util.PageInfoUtil;
+import org.apache.log4j.Logger;
+import org.hibernate.SQLQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * $!{comment}数据访问类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+@Repository
+@Transactional
+public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, Integer> implements $!{className}Repository {
+
+    private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
+
+    private static final String FIELD = "#foreach($!{field} in $!{fields})#if($velocityCount == 1)#else, #end$!{field.columnName}#end";
+
+    @Override
+    public List<T> listAll() {
+        String sql = "SELECT "+FIELD+" FROM $!{tableName}";
+        SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
+        return query.list();
+    }
+
+    @Override
+    public PageInfoUtil<T> listAllByPage(int pageNum, int pageSize) {
+        int total = listAll().size();
+        String sql = "SELECT "+FIELD+" FROM $!{tableName}";
+        SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
+        query.setFirstResult((pageNum - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return new PageInfoUtil(query.list(), pageNum, pageSize, total);
+    }
+
+#foreach ($!{field} in $!{noKeyFields})
+
+    @Override
+    public List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%$!{field.entityName}%'";
+        SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
+        return query.list();
+    }
+
+    @Override
+    public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
+        int total = listByName(name).size();
+        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%$!{field.entityName}%'";
+        SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
+        query.setFirstResult((pageNum - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return new PageInfoUtil(query.list(), pageNum, pageSize, total);
+    }
+
+    @Override
+    public void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        String sql = "DELETE FROM $!{tableName} WHERE $!{field.columnName} = $!{field.entityName} ";
+        return getSession().createQuery(sql).executeUpdate();
+    }
+#end
+
+}

@@ -163,8 +163,9 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+    public int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
         $!{entityName}Repository.deleteBy$!{field.filedName}($!{field.entityName});
+        return 1;
     }
 
 #end

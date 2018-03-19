@@ -1,0 +1,61 @@
+package $!{classPackage}.repository;
+
+import $!{classPackage}.util.PageInfoUtil;
+import $!{classPackage}.entity.$!{className};
+
+import java.util.List;
+
+/**
+ * $!{comment}数据访问类
+ *
+ * @author $!{authorName}
+ * @email  $!{authorEmail}
+ * @date   $!{createTime}
+ */
+public interface $!{className}Repository extends AbstractRepository<$!{className}, Integer> {
+
+    /**
+     * 根据表中所有列信息
+     *
+     * @return List<T> $!{comment}列信息
+     */
+    List<T> listAll();
+
+    /**
+     * 根据分页信息表中所有列信息
+     *
+     * @param pageNum 第几页
+     * @param pageSize 每页数量
+     * @return List<T> $!{comment}列信息
+     */
+    PageInfoUtil<T> listAllByPage(int pageNum, int pageSize);
+
+#foreach ($!{field} in $!{noKeyFields})
+    /**
+     * 根据$!{field.comment}获取信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @return List<$!{className}> $!{comment}集合
+     */
+    List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName});
+
+    /**
+     * 根据$!{field.comment}模糊匹配获取分页信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     * @param pageNum 第几页
+     * @param pageSize 每页数量
+     * @return Page<$!{className}> $!{comment}分页信息
+     */
+    PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize);
+
+    /**
+     * 根据$!{field.comment}删除信息
+     *
+     * @param $!{field.entityName} $!{field.comment}
+     */
+    @Transactional
+    void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+#end
+
+}

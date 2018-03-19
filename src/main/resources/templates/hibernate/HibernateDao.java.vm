@@ -40,7 +40,7 @@ public interface $!{className}Repository
      * 根据$!{field.comment}获取信息
      *
      * @param $!{field.entityName} $!{field.comment}
-     * @return List<Person> $!{comment}集合
+     * @return List<$!{className}> $!{comment}集合
      */
     List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName});
 
