@@ -109,9 +109,26 @@ private static final long serialVersionUID = 1L;
 
     public $!{className} get$!{className}() {
         $!{className} $!{entityName} = new $!{className}();
+#if($!{frame.repositoryFrame} == "MYBATIS")
 #foreach ($!{field} in $!{fields})
 #if($!{field.type} != "Date")
         $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
+#end
+#end
+#elseif($!{frame.repositoryFrame} == "HIBERNATE")
+#if($keyFields.size() > 1)
+        $!{className}PK $!{entityName}PK = new $!{className}PK();
+#foreach ($!{field} in $!{keyFields})
+        $!{entityName}PK.set$!{field.filedName}(this.get$!{field.filedName}());
+#end
+        $!{entityName}.set$!{className}PK($!{entityName}PK);
+#elseif($keyFields.size() ==1)
+        $!{entityName}.set$!{keyFields.get(0).filedName}(this.get$!{keyFields.get(0).filedName}());
+#end
+#foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} != "Date")
+        $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
+#end
 #end
 #end
         return $!{entityName};

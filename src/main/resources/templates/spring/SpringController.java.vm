@@ -6,17 +6,13 @@ import $!{classPackage}.entity.$!{className}PK;
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.controller.request.$!{className}Request;
 import $!{classPackage}.service.$!{className}Service;
-import $!{classPackage}.util.ObjectUtil;
 import $!{classPackage}.util.ResponseUtil;
 import $!{classPackage}.util.PageInfoUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.alibaba.fastjson.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * $!{comment}对外接口层
@@ -78,7 +74,15 @@ public class $!{className}Controller {
         }
 #end
 #end
+#if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
+        $!{className}PK $!{entityName}PK = new $!{className}PK();
+#foreach(${field} in ${keyFields})
+        $!{entityName}PK.set$!{field.filedName}($!{entityName}Request.get$!{field.filedName}());
+#end
+        int result = $!{entityName}Service.delete$!{className}ByKey($!{entityName}PK);
+#else
         int result = $!{entityName}Service.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{entityName}Request.get$!{field.filedName}()#else, $!{entityName}Request.get$!{field.filedName}()#end#end);
+#end
         if(result > 0) {
             return new ResponseUtil(1, "删除$!{comment}成功！", null);
         }
@@ -89,13 +93,13 @@ public class $!{className}Controller {
     @ResponseBody
     public ResponseUtil deleteBatch$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
 #if($keyFields.size() > 1)
-        List<$!{className}PK> $!{entityName}PKs = $!{entityName}Request.get$!{className}PKs();
+        List<$!{className}PK> $!{entityName}PKs = $!{entityName}Request.get$!{className}PKList();
         if($!{entityName}PKs == null || $!{entityName}PKs.size() < 1) {
             return new ResponseUtil(0, "主键不能为null！", null);
         }
         int result = $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
 #elseif($keyFields.size() == 1)
-        List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s = $!{entityName}Request.get$!{keyFields.get(0).filedName}s();
+        List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s = $!{entityName}Request.get$!{keyFields.get(0).filedName}List();
         if($!{keyFields.get(0).entityName}s == null || $!{keyFields.get(0).entityName}s.size() < 1) {
             return new ResponseUtil(0, "主键不能为null！", null);
         }
@@ -117,11 +121,20 @@ public class $!{className}Controller {
         }
 #end
 #end
+#if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
+        $!{className}PK $!{entityName}PK = new $!{className}PK();
+#foreach(${field} in ${keyFields})
+        $!{entityName}PK.set$!{field.filedName}($!{entityName}Request.get$!{field.filedName}());
+#end
+        $!{className} $!{entityName} = $!{entityName}Service.get$!{className}ByKey($!{entityName}PK);
+#else
         $!{className} $!{entityName} = $!{entityName}Service.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{entityName}Request.get$!{field.filedName}()#else, $!{entityName}Request.get$!{field.filedName}()#end#end);
-        return new ResponseUtil(1, "OK", $!{entityName}.toString());
+#end
+        return new ResponseUtil(1, "OK", $!{entityName});
     }
 
 #end
+#if($!{frame.repositoryFrame} == "MYBATIS")
     @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil list$!{className}ByParamAndPage(@RequestBody $!{className}Request $!{entityName}Request) {
@@ -139,4 +152,20 @@ public class $!{className}Controller {
         PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, pageNum, pageSize);
         return new ResponseUtil(1, "OK", $!{entityName}List);
     }
+#elseif($!{frame.repositoryFrame} == "HIBERNATE")
+    @RequestMapping(value = "/list$!{className}", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseUtil list$!{className}(@RequestBody $!{className}Request $!{entityName}Request) {
+        int pageNum = 1, pageSize = 100;
+        if($!{entityName}Request.getPageNum() != 0) {
+            pageNum = $!{entityName}Request.getPageNum();
+        }
+        if($!{entityName}Request.getPageSize() != 0) {
+            pageSize = $!{entityName}Request.getPageSize();
+        }
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}(pageNum, pageSize);
+        return new ResponseUtil(1, "OK", $!{entityName}List);
+    }
+#end
+
 }

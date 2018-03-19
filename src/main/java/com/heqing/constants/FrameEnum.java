@@ -102,28 +102,40 @@ public enum FrameEnum {
         FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
         switch (serviceFrame) {
             case SPRING:
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG_TEST);
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
                 break;
             case SPRINGBOOT:
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
                 taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
                 break;
-            default:
-                ;
+            default:;
         }
 
         FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
         if(controllerFrame != null) {
-            taskEntity.getTemplates().add(TemplateEnum.REQUEST);
+            switch (serviceFrame) {
+                case SPRING:
+                    taskEntity.getTemplates().add(TemplateEnum.WEB);
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
+                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
+                    break;
+                case SPRINGBOOT:
+                    taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
+                    break;
+                default:;
+            }
             switch (controllerFrame) {
                 case SPRINGMVC:
-                    if (keyNum > 1) {
-                        taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
-                    }
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
-                    if(serviceFrame == SPRINGBOOT) {
-                        taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+                    if (repositoryFrame == MYBATIS || keyNum > 0) {
+                        taskEntity.getTemplates().add(TemplateEnum.REQUEST);
+                        if (keyNum > 1) {
+                            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
+                        }
+                        taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
+                        if (serviceFrame == SPRINGBOOT) {
+                            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+                        }
                     }
                     break;
                 case STRUTS2:

@@ -64,7 +64,7 @@ public class TaskTest {
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
         frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
-        frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+        frameEntity.setServiceFrame(FrameEnum.SPRING);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
@@ -73,7 +73,7 @@ public class TaskTest {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
         for(Table table : tableList) {
-            if("datebase".equals(table.getTableName())) {
+            if(!"datebase".equals(table.getTableName())) {
                 tableNames.add(table.getTableName());
             }
         }

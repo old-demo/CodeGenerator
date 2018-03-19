@@ -40,6 +40,10 @@ public enum TemplateEnum {
      */
     MYBATIS_CONFIG("mybatisConfig", "mybatis/MybatisConfig.xml.vm"),
     /*
+     * mybatis配置
+     */
+    MYBATIS_CONFIG_TEST("mybatisConfigTest", "mybatis/MybatisConfig.xml.vm"),
+    /*
      * hibernate实体类
      */
     HIBERNATE_ENTITY("hibernateEntity", "hibernate/HibernateEntity.java.vm"),
@@ -78,7 +82,7 @@ public enum TemplateEnum {
     /*
      * springController   spring显示控制层
      */
-    SPRING_CONTROLLER("springController", "SpringController.java.vm"),
+    SPRING_CONTROLLER("springController", "spring/SpringController.java.vm"),
     /*
      * strutsControllre   struts2显示控制层
      */
@@ -88,21 +92,33 @@ public enum TemplateEnum {
      */
     POM("pom", "pom.xml.vm"),
     /*
+     * web  web项目
+     */
+    WEB("web", "Web.xml.vm"),
+    /*
      * application springboot主类
      */
-    APPLICATION("application", "Application.java.vm"),
+    APPLICATION("application", "spring/Application.java.vm"),
     /*
      * application_properties springboot配置文件
      */
-    APPLICATION_PROPERTIES("application_properties", "Application.properties.vm"),
+    APPLICATION_PROPERTIES("application_properties", "spring/Application.properties.vm"),
     /*
      * application_properties_test springboot配置文件
      */
-    APPLICATION_PROPERTIES_TEST("application_properties_test", "Application.properties.vm"),
+    APPLICATION_PROPERTIES_TEST("application_properties_test", "spring/Application.properties.vm"),
+    /*
+     * springmvc spring框架配置
+     */
+    SPRING_MVC("springMVC", "spring/SpringMVC.xml.vm"),
     /*
      * spring_core  spring框架配置
      */
-    SPRING_CONFIG("springConfig", "SpringConfig.xml.vm");
+    SPRING_CONFIG("springConfig", "spring/SpringConfig.xml.vm"),
+    /*
+     * spring_core  spring框架配置
+     */
+    SPRING_CONFIG_TEST("springConfigTest", "spring/SpringConfig.xml.vm");
 
     public static String getFilePath(String projectName, TemplateEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -157,10 +173,19 @@ public enum TemplateEnum {
             case APPLICATION_PROPERTIES_TEST:
                 filePatch += "src/test/resources/application.properties";
                 break;
+            case SPRING_MVC:
+                filePatch += "src/main/resources/spring_mvc.xml";
+                break;
             case SPRING_CONFIG:
+                filePatch += "src/main/resources/spring_core.xml";
+                break;
+            case SPRING_CONFIG_TEST:
                 filePatch += "src/test/resources/spring_core.xml";
                 break;
             case MYBATIS_CONFIG:
+                filePatch += "src/main/resources/spring_mybatis.xml";
+                break;
+            case MYBATIS_CONFIG_TEST:
                 filePatch += "src/test/resources/spring_mybatis.xml";
                 break;
             case UTIL_RESPONSE:
@@ -168,6 +193,9 @@ public enum TemplateEnum {
                 break;
             case UTIL_PAGEINFO:
                 filePatch += "src/main/java/" + packagePath + "/util/PageInfoUtil.java";
+                break;
+            case WEB:
+                filePatch += "src/main/webapp/WEB-INF/web.xml";
                 break;
             default: filePatch = "";
         }

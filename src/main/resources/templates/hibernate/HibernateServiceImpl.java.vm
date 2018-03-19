@@ -138,6 +138,15 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         return $!{entityName}Repository.findAll();
     }
 
+    @Override
+    public PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize) {
+        pageNum = pageNum < 0 ? 0 : pageNum;
+        pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+        Pageable pageable = new PageRequest(pageNum-1, pageSize);
+        Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findAll(pageable);
+        return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
+    }
+
 #foreach ($!{field} in $!{noKeyFields})
     @Override
     public List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
@@ -145,12 +154,12 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNo, int pageSize) {
-        pageNo = pageNo < 0 ? 0 : pageNo;
-        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
-        Pageable pageable = new PageRequest(pageNo-1, pageSize);
+    public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
+        pageNum = pageNum < 0 ? 0 : pageNum;
+        pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+        Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageable);
-        return new PageInfoUtil($!{entityName}Page.getContent(), pageNo, pageSize, $!{entityName}Page.getTotalElements());
+        return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
     }
 
     @Override

@@ -129,6 +129,15 @@ public interface $!{className}Service {
      */
     List<$!{className}> list$!{className}();
 
+    /**
+     * 获取所有$!{comment}实例信息
+     * @param pageNum 第几页
+     * @param pageSize 每页数量
+     *
+     * @return List<$!{className}> $!{comment}主键集合
+     */
+    PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize);
+
 #foreach ($!{field} in $!{noKeyFields})
     /**
      * 根据$!{field.comment}获取信息
@@ -142,11 +151,11 @@ public interface $!{className}Service {
      * 根据$!{field.comment}模糊匹配获取分页信息
      *
      * @param $!{field.entityName} $!{field.comment}
-     * @param pageNo 第几页
+     * @param pageNum 第几页
      * @param pageSize 每页数量
      * @return PageInfoUtil<$!{className}> $!{comment}分页信息
      */
-    PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNo, int pageSize);
+    PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize);
 
     /**
      * 根据$!{field.comment}删除信息
