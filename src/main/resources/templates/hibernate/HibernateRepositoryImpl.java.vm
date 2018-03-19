@@ -1,5 +1,8 @@
 package $!{classPackage}.repository;
 
+#if($keyFields.size() > 1)
+import $!{classPackage}.entity.$!{className}PK;
+#end
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.impl.$!{className}ServiceImpl;
 import $!{classPackage}.util.PageInfoUtil;
@@ -20,7 +23,11 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, Integer> implements $!{className}Repository {
+#if($keyFields.size() > 1)
+public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, $!{className}PK> implements $!{className}Repository {
+#elseif($keyFields.size() == 1)
+public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, $!{keyFields.get(0).type}> implements $!{className}Repository {
+#end
 
     private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
 

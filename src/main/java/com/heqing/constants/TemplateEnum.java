@@ -64,7 +64,27 @@ public enum TemplateEnum {
      */
     HIBERNATE_SERVICEIMPL("hibernateServiceImpl", "hibernate/HibernateServiceImpl.java.vm"),
     /*
-     * hibernatec测试类
+     * hibernate 数据访问层接口
+     */
+    HBERNATE_REPOSITORY("hibernateRepository", "hibernate/HibernateRepository.java.vm"),
+    /*
+     * hibernate 数据访问层实现类
+     */
+    HBERNATE_REPOSITORY_IMPL("hibernateRepositoryImpl", "hibernate/HibernateRepositoryImpl.java.vm"),
+    /*
+     * hibernate 数据访问层基础接口
+     */
+    HBERNATE_ABSTRACT("hibernateAbstract", "hibernate/AbstractRepository.java.vm"),
+    /*
+     * hibernate 数据访问层基础实现类
+     */
+    HBERNATE_ABSTRACT_IMPL("hibernateAbstractImpl", "hibernate/AbstractRepositoryImpl.java.vm"),
+    /*
+     * hibernate数据访问层基础接口
+     */
+    HBERNATE_CONFIG("hibernateConfig", "hibernate/HibernateConfig.xml.vm"),
+    /*
+     * hibernate测试类
      */
     HIBERNATE_TEST("hibernateTest", "hibernate/HibernateTest.java.vm"),
     /*
@@ -142,9 +162,21 @@ public enum TemplateEnum {
             case MYBATIS_MAPPER:
                 filePatch += "src/main/resources/" +packagePath + "/repository/mapper/" + className + "RepositoryMapper.xml";
                 break;
+            case HBERNATE_ABSTRACT:
+                filePatch += "src/main/java/" + packagePath + "/repository/AbstractRepository.java";
+                break;
+            case HBERNATE_ABSTRACT_IMPL:
+                filePatch += "src/main/java/" + packagePath + "/repository/impl/AbstractRepositoryImpl.java";
+                break;
             case HIBERNATE_SERVICE:
             case MYBATIS_SERVICE:
                 filePatch += "src/main/java/" + packagePath + "/service/" + className + "Service.java";
+                break;
+            case HBERNATE_REPOSITORY:
+                filePatch += "src/main/java/" + packagePath + "/repository/" + className + "Repository.java";
+                break;
+            case HBERNATE_REPOSITORY_IMPL:
+                filePatch += "src/main/java/" + packagePath + "/repository/impl/" + className + "RepositoryImpl.java";
                 break;
             case HIBERNATE_SERVICEIMPL:
             case MYBATIS_SERVICEIMPL:
@@ -184,6 +216,9 @@ public enum TemplateEnum {
                 break;
             case MYBATIS_CONFIG:
                 filePatch += "src/main/resources/spring_mybatis.xml";
+                break;
+            case HBERNATE_CONFIG:
+                filePatch += "src/test/resources/spring_hibernate.xml";
                 break;
             case MYBATIS_CONFIG_TEST:
                 filePatch += "src/test/resources/spring_mybatis.xml";

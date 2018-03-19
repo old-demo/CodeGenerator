@@ -87,7 +87,6 @@ public enum FrameEnum {
                         taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
                     }
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICEIMPL);
                     taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
@@ -103,9 +102,26 @@ public enum FrameEnum {
         switch (serviceFrame) {
             case SPRING:
                 taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG_TEST);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
+                if(repositoryFrame == MYBATIS) {
+                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
+                } else if(repositoryFrame == HIBERNATE) {
+                    if (keyNum > 0) {
+                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_CONFIG);
+                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_ABSTRACT);
+                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_ABSTRACT_IMPL);
+                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_REPOSITORY);
+                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_REPOSITORY_IMPL);
+                    }else {
+                        taskEntity.getTemplates().clear();
+                    }
+                }
                 break;
             case SPRINGBOOT:
+                if(repositoryFrame == HIBERNATE) {
+                    if (keyNum > 0) {
+                        taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
+                    }
+                }
                 taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
                 break;
             default:;
@@ -131,6 +147,8 @@ public enum FrameEnum {
                         taskEntity.getTemplates().add(TemplateEnum.REQUEST);
                         if (keyNum > 1) {
                             taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
+                        }else {
+                            taskEntity.getTemplates().clear();
                         }
                         taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
                         if (serviceFrame == SPRINGBOOT) {
