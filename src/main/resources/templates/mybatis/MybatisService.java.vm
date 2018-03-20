@@ -1,12 +1,12 @@
 package $!{classPackage}.service;
 
 import $!{classPackage}.util.PageInfoUtil;
+import $!{classPackage}.entity.$!{className};
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
 #end
-import java.util.List;
 
-import $!{classPackage}.entity.$!{className};
+import java.util.List;
 
 /**
  * $!{comment}业务逻辑层接口
@@ -33,37 +33,40 @@ public interface $!{className}Service {
      */
     int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
 
-#if($keyFields.size() > 0)
     /**
-     * 根据主键删除$!{comment}实例
+     * 获取所有$!{comment}实例信息
      *
-#foreach(${field} in ${keyFields})
-     * @param $!{field.entityName} $!{field.comment}
-#end
-     * @return int 成功数量
+     * @return List<$!{className}> $!{comment}主键集合
      */
-    int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+    List<$!{className}> list$!{className}();
 
-#end
-#if($keyFields.size() > 1)
     /**
-     * 根据主键删除多条$!{comment}实例
+     * 根据条件获取多条$!{comment}实例
      *
-     * @param $!{entityName}PKs 主键ID集合
-     * @return int 成功数量
+     * @param $!{entityName} $!{comment}实例:做条件查询使用
+     * @return List<$!{className}> $!{comment}实例集合
      */
-    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs);
+    List<$!{className}> list$!{className}ByParam($!{className} $!{entityName});
 
-#elseif($keyFields.size() == 1)
     /**
-     * 根据主键删除多条$!{comment}实例
+     * 根据分页获取多条$!{comment}实例
      *
-     * @param $!{keyFields.get(0).entityName}s 主键ID集合
-     * @return int 成功数量
+     * @param pageNo 第几页
+     * @param pageSize 每页数量
+     * @return Page<$!{className}> $!{comment}实例集合
      */
-    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
+    PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNum, int pageSize);
 
-#end
+    /**
+     * 根据分页及条件获取多条$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例:做条件查询使用
+     * @param pageNum 第几页
+     * @param pageSize 每页数量
+     * @return Page<$!{className}> $!{comment}实例集合
+     */
+    PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize);
+
     /**
      * 根据条件删除多条$!{comment}实例
      *
@@ -88,60 +91,74 @@ public interface $!{className}Service {
      * @return int 是否成功
      */
     int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+#end
 
+#if($keyFields.size() > 1)
     /**
      * 根据主键获取$!{comment}实例信息
      *
-#foreach(${field} in ${keyFields})
-     * @param $!{field.entityName} $!{field.comment}
-#end
-     * @return $!{className} $!{comment}信息
+     * @param $!{entityName}PK  $!{comment}主键
+     * @return List<T> $!{comment}实例信息
      */
-     $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end);
+     $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK);
 
-#end
-#if($keyFields.size() == 1)
     /**
-     * 根据主键获取$!{comment}实例信息
+     * 根据多个主键获取$!{comment}实例信息
      *
      * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
      * @return List<T> $!{comment}实例信息
      */
-    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
+    List<$!{className}> list$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKList);
 
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{entityName}PK 主键
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey($!{className}PK $!{entityName}PK);
+
+    /**
+     * 根据多个主键删除多条$!{comment}实例
+     *
+     * @param $!{entityName}PKs 主键集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
 #end
+
+#if($keyFields.size() == 1)
     /**
-     * 获取所有$!{comment}实例信息
+     * 根据主键获取$!{comment}实例信息
      *
-     * @return List<$!{className}> $!{comment}主键集合
+     * @param $!{keyFields.get(0).entityName}  $!{comment}实例
+     * @return List<T> $!{comment}实例信息
      */
-    List<$!{className}> list$!{className}();
+    $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
 
     /**
-     * 根据条件获取多条$!{comment}实例
+     * 根据多个主键获取$!{comment}实例信息
      *
-     * @param $!{entityName} $!{comment}实例:做条件查询使用
-     * @return List<$!{className}> $!{comment}实例集合
+     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
+     * @return List<T> $!{comment}实例信息
      */
-    List<$!{className}> list$!{className}ByParam($!{className} $!{entityName});
+    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
 
     /**
-     * 根据分页获取多条$!{comment}实例
+     * 根据主键删除多条$!{comment}实例
      *
-     * @param pageNo 第几页
-     * @param pageSize 每页数量
-     * @return Page<$!{className}> $!{comment}实例集合
+     * @param $!{keyFields.get(0).entityName} 主键
+     * @return int 成功数量
      */
-    PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNo, int pageSize);
+    int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
 
     /**
-     * 根据分页及条件获取多条$!{comment}实例
+     * 根据多个主键删除多条$!{comment}实例
      *
-     * @param $!{entityName} $!{comment}实例:做条件查询使用
-     * @param pageNum 第几页
-     * @param pageSize 每页数量
-     * @return Page<$!{className}> $!{comment}实例集合
+     * @param $!{keyFields.get(0).entityName}s 主键集合
+     * @return int 成功数量
      */
-    PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize);
+    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
+#end
 
 }

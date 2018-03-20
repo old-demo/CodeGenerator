@@ -59,6 +59,11 @@ public enum FrameEnum {
 
         taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
         taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
+        if (keyNum > 1) {
+            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
+        }else {
+            taskEntity.getTemplates().clear();
+        }
 
         FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
         switch (projectFrame) {
@@ -122,6 +127,7 @@ public enum FrameEnum {
                         taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
                     }
                 }
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
                 taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
                 break;
             default:;
@@ -137,7 +143,6 @@ public enum FrameEnum {
                     taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
                     break;
                 case SPRINGBOOT:
-                    taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
                     break;
                 default:;
             }
@@ -145,11 +150,6 @@ public enum FrameEnum {
                 case SPRINGMVC:
                     if (repositoryFrame == MYBATIS || keyNum > 0) {
                         taskEntity.getTemplates().add(TemplateEnum.REQUEST);
-                        if (keyNum > 1) {
-                            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
-                        }else {
-                            taskEntity.getTemplates().clear();
-                        }
                         taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
                         if (serviceFrame == SPRINGBOOT) {
                             taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);

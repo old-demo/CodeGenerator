@@ -33,123 +33,52 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
-        return $!{entityName}Repository.save$!{className}($!{entityName});
-	}
-
-    @Override
-    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
-        return $!{entityName}Repository.saveBatch$!{className}($!{entityName}List);
-	}
-
-#if($keyFields.size() > 0)
-    @Override
-    public int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
-        return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
-	}
-
-#end
-#if($keyFields.size() > 1)
-    @Override
-    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs) {
-        int isSuccess = 0;
-        for($!{className}PK $!{entityName}PK : $!{entityName}PKs) {
-#foreach ($!{field} in $!{keyFields})
-            if($!{entityName}PK.get$!{field.filedName}() == null || "".equals($!{entityName}PK.get$!{field.filedName}())) {
-                continue;
-            }
-#end
-            isSuccess += $!{entityName}Repository.delete$!{className}ByKey(#foreach ($!{field} in $!{keyFields})#if($velocityCount == 1)$!{entityName}PK.get$!{field.filedName}()#else, $!{entityName}PK.get$!{field.filedName}()#end#end);
+        if($!{entityName} == null) {
+            LOGGER.error("--> $!{entityName} 不能为null！" );
+            return 0;
         }
-        return isSuccess;
-    }
-
-#elseif($keyFields.size() == 1)
-    @Override
-    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
-        return $!{entityName}Repository.deleteBatch$!{className}ByKey($!{keyFields.get(0).entityName}s);
-	}
-
-#end
-    @Override
-    public int deleteBatch$!{className}ByParam($!{className} $!{entityName}) {
-        return $!{entityName}Repository.deleteBatch$!{className}ByParam($!{entityName});
-    }
-
-#if($keyFields.size() > 0)
-    @Override
-    public int update$!{className}ByKey($!{className} $!{entityName}) {
-#if($notNullfields.size() > 0)
 #foreach ($!{field} in $!{notNullfields})
         if($!{entityName}.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{field.comment} 不能为null！" );
+            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
             return 0;
         }
 #end
-#end
-        return $!{entityName}Repository.update$!{className}ByKey($!{entityName});
-	}
+        return $!{entityName}Repository.save$!{className}($!{entityName});
+    }
 
     @Override
-    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
-#if($notNullfields.size() > 0)
+    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
+        int successNum = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
 #foreach ($!{field} in $!{notNullfields})
             if($!{entityName}.get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
-                return 0;
+                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
+                continue;
             }
 #end
+            successNum += save$!{className}($!{entityName});
         }
-#end
-        return $!{entityName}Repository.updateBatch$!{className}ByKey($!{entityName}List);
-#elseif($!{frame.serviceFrame} == "SPRING")
-        int isScuess = 0;
-#if($notNullfields.size() > 0)
-        for($!{className} $!{entityName} : $!{entityName}List) {
-#foreach ($!{field} in $!{notNullfields})
-                if($!{entityName}.get$!{field.filedName}() == null) {
-                break;
-            }
-#end
-            isScuess += update$!{className}ByKey($!{entityName});
-        }
-#end
-        return isScuess;
-#end
-	}
+        return successNum;
+    }
 
-    @Override
-    public $!{className} get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.type} $!{field.entityName}#else, $!{field.type} $!{field.entityName}#end#end) {
-        return $!{entityName}Repository.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)$!{field.entityName}#else, $!{field.entityName}#end#end);
-	}
-
-#end
-#if($keyFields.size() == 1)
-    @Override
-    public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
-        return $!{entityName}Repository.list$!{className}ByKey($!{keyFields.get(0).entityName}s);
-	}
-
-#end
     @Override
     public List<$!{className}> list$!{className}() {
         return $!{entityName}Repository.list$!{className}();
-	}
+    }
 
     @Override
     public List<$!{className}> list$!{className}ByParam($!{className} $!{entityName}) {
         return $!{entityName}Repository.list$!{className}ByParam($!{entityName});
-	}
+    }
 
     @Override
-    public PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNo, int pageSize) {
-        pageNo = pageNo < 0 ? 0 : pageNo;
+    public PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNum, int pageSize) {
+        pageNum = pageNum < 0 ? 0 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNo, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}());
-        return new PageInfoUtil($!{entityName}Page.getList(), pageNo, pageSize, $!{entityName}Page.getTotal());
-	}
+        return new PageInfoUtil($!{entityName}Page.getList(), pageNum, pageSize, $!{entityName}Page.getTotal());
+    }
 
     @Override
     public PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize) {
@@ -158,6 +87,129 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}ByParam($!{entityName}));
         return new PageInfoUtil($!{entityName}Page.getList(), pageNum, pageSize, $!{entityName}Page.getTotal());
-	}
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByParam($!{className} $!{entityName}) {
+        return $!{entityName}Repository.deleteBatch$!{className}ByParam($!{entityName});
+    }
+
+#if($keyFields.size() > 0)
+    @Override
+    public int update$!{className}ByKey($!{className} $!{entityName}) {
+        if($!{entityName} == null) {
+            LOGGER.error("--> $!{entityName} 不能为null！" );
+            return 0;
+        }
+#foreach ($!{field} in $!{notNullfields})
+        if($!{entityName}.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
+            return 0;
+        }
+#end
+        return $!{entityName}Repository.update$!{className}ByKey($!{entityName});
+    }
+
+    @Override
+    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+        int successNum = 0;
+        for($!{className} $!{entityName} : $!{entityName}List) {
+#foreach ($!{field} in $!{notNullfields})
+            if($!{entityName}.get$!{field.filedName}() == null) {
+                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！" + $!{entityName});
+                continue;
+            }
+#end
+            successNum += update$!{className}ByKey($!{className} $!{entityName});
+        }
+        return successNum;
+    }
+#end
+
+#if($keyFields.size() > 1)
+    @Override
+    public $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        if($!{entityName}PK == null) {
+            LOGGER.error("--> $!{entityName}PK 不能为null！" );
+            return null;
+        }
+#foreach ($!{field} in $!{keyFields})
+        if($!{entityName}PK.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{entityName}PK $!{field.comment} 不能为null！" + $!{entityName}PK);
+            return null;
+        }
+#end
+        return $!{entityName}Repository.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
+    }
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKList) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{className}PK} $!{entityName}PK : $!{entityName}PKList) {
+            $!{className} $!{entityName} = get$!{className}ByKey($!{entityName}PK);
+            if($!{entityName} != null) {
+                $!{entityName}List.add($!{entityName});
+            }
+        }
+        return $!{entityName}List;
+    }
+
+    @Override
+    public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        if($!{entityName}PK == null) {
+            LOGGER.error("--> $!{entityName}PK 不能为null！" );
+            return 0;
+        }
+#foreach ($!{field} in $!{keyFields})
+        if($!{entityName}PK.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{entityName}PK $!{field.comment} 不能为null！" + $!{entityName}PK);
+            return 0;
+        }
+#end
+        return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
+        int successNum = 0;
+        for($!{className}PK} $!{entityName}PK : $!{entityName}PKList) {
+            successNum += deleteBatch$!{className}ByKey($!{entityName}PK);
+        }
+        return successNum;
+    }
+#end
+
+#if($keyFields.size() == 1)
+    @Override
+    public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        return $!{entityName}Repository.get$!{className}ByKey($!{keyFields.get(0).entityName});
+    }
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
+            $!{className} $!{entityName} = get$!{className}ByKey($!{keyFields.get(0).entityName});
+            if($!{entityName} != null) {
+                $!{entityName}List.add($!{entityName});
+            }
+        }
+        return $!{entityName}List;
+    }
+
+    @Override
+    public delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+        int successNum = 0;
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
+            successNum += delete$!{className}ByKey($!{keyFields.get(0).entityName});
+        }
+        return successNum;
+    }
+#end
 
 }
