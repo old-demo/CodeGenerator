@@ -79,13 +79,13 @@ public class TaskTest {
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("TestHibernate");
+        taskEntity.setArtifactId("TestHibernate1");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("this is test");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("TestHibernate");
+        taskEntity.setProjectName("TestHibernate1");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing.yyw");

@@ -1,9 +1,11 @@
 package $!{classPackage}.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+#end
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -36,7 +38,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
-        if($!{entityName}Repository.save($!{entityName}) != null) {
+        if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
             return 1;
         }
         return 0;
@@ -46,7 +48,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
         int isSuccess = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
-            if($!{entityName}Repository.save($!{entityName}) != null) {
+            if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
                 isSuccess += 1;
             }
         }
@@ -70,7 +72,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #end
 #end
 #end
-        if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
+        if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
             return 1;
         }
         return 0;
@@ -94,7 +96,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             }
 #end
 #end
-            if($!{entityName}Repository.saveAndFlush($!{entityName}) != null) {
+            if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
                 isSuccess += 1;
             }
 #end
@@ -142,12 +144,17 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize) {
         pageNum = pageNum < 0 ? 0 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findAll(pageable);
         return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
+#elseif($!{frame.serviceFrame} == "SPRING")
+        return $!{entityName}Repository.findAllByPage(pageNum, pageSize);
+#end
     }
 
 #foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} != "Date")
     @Override
     public List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
         return $!{entityName}Repository.findBy$!{field.filedName}($!{field.entityName});
@@ -157,9 +164,13 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
         pageNum = pageNum < 0 ? 0 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageable);
         return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
+#elseif($!{frame.serviceFrame} == "SPRING")
+        return $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageNum, pageSize);
+#end
     }
 
     @Override
@@ -190,19 +201,18 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #if($keyFields.size() == 1)
     @Override
     public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
-        $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
-        return 1;
+        return $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
     }
 
     @Override
     public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
         int isSuccess = 0;
         for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
-            $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
-            isSuccess += 1;
+            isSuccess += $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
         }
         return isSuccess;
     }
 
+#end
 #end
 }

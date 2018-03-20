@@ -36,6 +36,7 @@ public interface $!{className}Repository
 #end
 
 #foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} != "Date")
     /**
      * 根据$!{field.comment}获取信息
      *
@@ -60,5 +61,6 @@ public interface $!{className}Repository
      */
     @Transactional
     void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+#end
 #end
 }

@@ -1,18 +1,19 @@
-package $!{classPackage}.repository;
+package $!{classPackage}.repository.impl;
 
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
 #end
 import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.impl.$!{className}ServiceImpl;
+import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.util.PageInfoUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * $!{comment}数据访问类
@@ -34,15 +35,15 @@ public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{class
     private static final String FIELD = "#foreach($!{field} in $!{fields})#if($velocityCount == 1)#else, #end$!{field.columnName}#end";
 
     @Override
-    public List<T> listAll() {
+    public List<$!{className}> findAll() {
         String sql = "SELECT "+FIELD+" FROM $!{tableName}";
         SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
         return query.list();
     }
 
     @Override
-    public PageInfoUtil<T> listAllByPage(int pageNum, int pageSize) {
-        int total = listAll().size();
+    public PageInfoUtil<$!{className}> findAllByPage(int pageNum, int pageSize) {
+        int total = findAll().size();
         String sql = "SELECT "+FIELD+" FROM $!{tableName}";
         SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
         query.setFirstResult((pageNum - 1) * pageSize);
@@ -51,18 +52,18 @@ public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{class
     }
 
 #foreach ($!{field} in $!{noKeyFields})
-
+#if($!{field.type} != "Date")
     @Override
     public List<$!{className}> findBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
-        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%$!{field.entityName}%'";
+        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%"+$!{field.entityName}+"%'";
         SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
         return query.list();
     }
 
     @Override
     public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
-        int total = listByName(name).size();
-        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%$!{field.entityName}%'";
+        int total = findBy$!{field.filedName}($!{field.entityName}).size();
+        String sql = "SELECT "+FIELD+" FROM $!{tableName} WHERE $!{field.columnName} like '%"+$!{field.entityName}+"%'";
         SQLQuery query = getSession().createSQLQuery(sql).addEntity(persistentClass);
         query.setFirstResult((pageNum - 1) * pageSize);
         query.setMaxResults(pageSize);
@@ -70,10 +71,12 @@ public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{class
     }
 
     @Override
-    public void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
-        String sql = "DELETE FROM $!{tableName} WHERE $!{field.columnName} = $!{field.entityName} ";
-        return getSession().createQuery(sql).executeUpdate();
+    public int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
+        String sql = "DELETE FROM $!{tableName} WHERE $!{field.columnName}=:$!{field.entityName}";
+        return getSession().createSQLQuery(sql).set$!{field.type}("$!{field.entityName}", $!{field.entityName}).executeUpdate();
     }
+
+#end
 #end
 
 }

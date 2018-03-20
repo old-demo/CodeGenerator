@@ -139,6 +139,7 @@ public interface $!{className}Service {
     PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize);
 
 #foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} != "Date")
     /**
      * 根据$!{field.comment}获取信息
      *
@@ -165,4 +166,6 @@ public interface $!{className}Service {
     int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
 
 #end
+#end
+
 }

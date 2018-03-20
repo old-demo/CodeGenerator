@@ -7,6 +7,7 @@ import $!{classPackage}.entity.$!{className}PK;
 #end
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * $!{comment}数据访问类
@@ -24,20 +25,21 @@ public interface $!{className}Repository extends AbstractRepository<$!{className
     /**
      * 根据表中所有列信息
      *
-     * @return List<T> $!{comment}列信息
+     * @return List<$!{className}> $!{comment}列信息
      */
-    List<T> listAll();
+    List<$!{className}> findAll();
 
     /**
      * 根据分页信息表中所有列信息
      *
      * @param pageNum 第几页
      * @param pageSize 每页数量
-     * @return List<T> $!{comment}列信息
+     * @return List<$!{className}> $!{comment}列信息
      */
-    PageInfoUtil<T> listAllByPage(int pageNum, int pageSize);
+    PageInfoUtil<$!{className}> findAllByPage(int pageNum, int pageSize);
 
 #foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} != "Date")
     /**
      * 根据$!{field.comment}获取信息
      *
@@ -61,8 +63,9 @@ public interface $!{className}Repository extends AbstractRepository<$!{className
      *
      * @param $!{field.entityName} $!{field.comment}
      */
-    @Transactional
-    void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+    int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
+
+#end
 #end
 
 }

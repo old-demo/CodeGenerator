@@ -1,6 +1,7 @@
 package $!{classPackage}.repository;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 数据访问基础类
@@ -30,18 +31,18 @@ public interface AbstractRepository<T, PK extends Serializable> {
     /**
      * 根据主键删除$!{comment}
      *
-     * @param entity $!{comment}列
+     * @param pk $!{comment}列
      * @return int 成功数量
      */
-    int deleteByKey(T entity);
+    int delete(PK pk);
 
     /**
      * 根据多个主键删除$!{comment}
      *
-     * @param entityList $!{comment}列
+     * @param pkList $!{comment}列
      * @return int 成功数量
      */
-    int deleteBatchByKey(List<T> entityList);
+    int deleteBatch(List<PK> pkList);
 
     /**
      * 根据主键修改$!{comment}
@@ -49,7 +50,7 @@ public interface AbstractRepository<T, PK extends Serializable> {
      * @param entity $!{comment}列
      * @return int 成功数量
      */
-    int updateByKey(T entity);
+    int saveAndFlush(T entity);
 
     /**
      * 根据多个主键修改$!{comment}
@@ -57,7 +58,7 @@ public interface AbstractRepository<T, PK extends Serializable> {
      * @param entityList $!{comment}列
      * @return int 成功数量
      */
-    int updateBatchPersonByKey(List<T> entityList);
+    int saveAndFlushBatch(List<T> entityList);
 
     /**
      * 根据主键获取$!{comment}
@@ -65,7 +66,7 @@ public interface AbstractRepository<T, PK extends Serializable> {
      * @param key 主键
      * @return int 成功数量
      */
-    T getByKey(PK key);
+    T getOne(PK key);
 
     /**
      * 根据多个主键获取多条$!{comment}

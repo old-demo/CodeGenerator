@@ -221,6 +221,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <!-- 提供对事务的支持，事务的相关处理以及实现类 -->
         <dependency>
             <groupId>org.springframework</groupId>
