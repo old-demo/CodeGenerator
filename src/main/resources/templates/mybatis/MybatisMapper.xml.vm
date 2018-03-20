@@ -28,58 +28,41 @@
     <insert id="save$!{className}" parameterMap="$!{entityName}ParameterMap" #if($keyFields.size()==1 && $!{keyFields.get(0).type}=="Integer")keyProperty="$!{keyFields.get(0).columnName}" useGeneratedKeys="true"#end>
         INSERT INTO
           $!{tableName}( <include refid="$!{entityName}Fields"/> )
-        VALUES (#foreach($!field in $!fields) #if($velocityCount == 1)?#else, ?#end#end);
+        VALUES (#foreach($!field in $!fields) #if($velocityCount != 1), #else#end?#end);
     </insert>
 
-    <!-- 增加多条$!{comment} -->
-    <insert id="saveBatch$!{className}" parameterType="java.util.List">
-        INSERT INTO
-          $!{tableName}( <include refid="$!{entityName}Fields"/> )
-        VALUES
-        <foreach collection="list" item="item" index="index" separator=",">
-        (
-#foreach ($!{field} in $!{fields})
-            #if($velocityCount == 1)#else,#end#{item.$!{field.entityName}}
-#end
-        )
-        </foreach>
-        ;
-    </insert>
+    <!-- 获取所有$!{comment} -->
+    <select id="list$!{className}" resultMap="$!{entityName}ResultMap">
+        SELECT
+          <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+    </select>
 
-#if($keyFields.size() > 0)
-    <!-- 根据主键删除$!{comment} -->
-    <delete id="delete$!{className}ByKey" parameterType="java.util.Map">
-        DELETE FROM $!{tableName}
+    <!-- 根据条件获取多条$!{comment} -->
+    <select id="list$!{className}ByParam" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
+        SELECT
+          <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
         <where>
-#foreach(${field} in ${keyFields})
-            AND $!{field.columnName}=#{$!{field.entityName}}
+#foreach ($!{field} in $!{fields})
+ #if($!{field.type} == "Date")
+          <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+ #else
+          <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
+#end
 #end
         </where>
-        ;
-    </delete>
-#end
+    </select>
 
-#if($keyFields.size() == 1)
-    <!-- 根据多个主键删除多条$!{comment} -->
-    <delete id="deleteBatch$!{className}ByKey" parameterType="java.util.List">
-        DELETE FROM $!{tableName}
-        WHERE #foreach(${field} in ${keyFields})$!{field.columnName}#end IN
-        <foreach item="id" collection="list" open="(" separator="," close=")">
-            #{#foreach(${field} in ${keyFields})$!{field.columnName}#end}
-        </foreach>
-        ;
-    </delete>
-
-#end
     <!-- 根据条件删除多条$!{comment} -->
-    <delete id="deleteBatch$!{className}ByParam" parameterMap="$!{entityName}ParameterMap">
+    <delete id="delete$!{className}ByParam" parameterMap="$!{entityName}ParameterMap">
         DELETE FROM $!{tableName}
         <where>
 #foreach ($!{field} in $!{fields})
 #if($!{field.type} == "Date")
-            <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
+          <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
 #else
-            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
+          <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
 #end
 #end
         </where>
@@ -93,79 +76,40 @@
           $!{tableName}
         <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-            <if test="$!{field.entityName} != null">, $!{field.columnName}=#{$!{field.entityName}}</if>
+          <if test="$!{field.entityName} != null">, $!{field.columnName}=#{$!{field.entityName}}</if>
 #end
         </trim>
         <where>
 #foreach(${field} in ${keyFields})
-            AND $!{field.columnName}=#{$!{field.entityName}}
+          AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
         ;
     </update>
 
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
-    <!-- 根据多个主键批量修改$!{comment} -->
-    <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            UPDATE $!{tableName}
-            <trim prefix="SET" prefixOverrides=",">
-#foreach ($!{field} in $!{fields})
-                <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
-#end
-            </trim>
-            <where>
-#foreach(${field} in ${keyFields})
-                AND $!{field.columnName}=#{item.$!{field.entityName}}
-#end
-            </where>
-        </foreach>
-    </update>
-
-#end
     <!-- 根据主键获取$!{comment} -->
     <select id="get$!{className}ByKey" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
-        SELECT <include refid="$!{entityName}Fields"/>
+        SELECT
+          <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}
         <where>
 #foreach(${field} in ${keyFields})
-            AND $!{field.columnName}=#{$!{field.entityName}}
+          AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
         ;
     </select>
 
-    <!-- 根据多个主键获取$!{comment} -->
-    <select id="list$!{className}ByKey" parameterType="java.util.List" resultMap="$!{entityName}ResultMap">
-        SELECT <include refid="$!{entityName}Fields"/>
-        FROM $!{tableName}
-        WHERE #foreach(${field} in ${keyFields})$!{field.columnName}#end IN
-        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
-            #{#foreach(${field} in ${keyFields})$!{field.columnName}#end}
-        </foreach>
-        ;
-    </select>
-#end
-
-    <!-- 获取所有$!{comment} -->
-    <select id="list$!{className}" resultMap="$!{entityName}ResultMap">
-        SELECT <include refid="$!{entityName}Fields"/>
-        FROM $!{tableName}
-    </select>
-
-    <!-- 根据条件获取多条$!{comment} -->
-    <select id="list$!{className}ByParam" parameterType="java.util.Map" resultMap="$!{entityName}ResultMap">
-        SELECT <include refid="$!{entityName}Fields"/>
-        FROM $!{tableName}
+    <!-- 根据主键删除$!{comment} -->
+    <delete id="delete$!{className}ByKey" parameterType="java.util.Map">
+        DELETE FROM $!{tableName}
         <where>
-#foreach ($!{field} in $!{fields})
-#if($!{field.type} == "Date")
-            <if test="$!{field.entityName} != null"> AND date($!{field.columnName})=date(#{$!{field.entityName},jdbcType=TIMESTAMP}) </if>
-#else
-            <if test="$!{field.entityName} != null and $!{field.entityName} != ''"> AND $!{field.columnName}=#{$!{field.entityName}} </if>
-#end
+#foreach(${field} in ${keyFields})
+          AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
-    </select>
+        ;
+    </delete>
+#end
 
 </mapper>

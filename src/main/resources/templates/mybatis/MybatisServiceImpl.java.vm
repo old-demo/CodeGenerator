@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 #if($keyFields.size() > 1)
@@ -74,8 +75,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     @Override
     public PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNum, int pageSize) {
         pageNum = pageNum < 0 ? 0 : pageNum;
-        pageSize = pageSize < 1 ? 1 : pageNo > 100 ? 100 : pageSize;
-        PageHelper.startPage(pageNo, pageSize);
+        pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}());
         return new PageInfoUtil($!{entityName}Page.getList(), pageNum, pageSize, $!{entityName}Page.getTotal());
     }
@@ -90,8 +91,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByParam($!{className} $!{entityName}) {
-        return $!{entityName}Repository.deleteBatch$!{className}ByParam($!{entityName});
+    public int delete$!{className}ByParam($!{className} $!{entityName}) {
+        return $!{entityName}Repository.delete$!{className}ByParam($!{entityName});
     }
 
 #if($keyFields.size() > 0)
@@ -120,7 +121,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
                 continue;
             }
 #end
-            successNum += update$!{className}ByKey($!{className} $!{entityName});
+            successNum += update$!{className}ByKey($!{entityName});
         }
         return successNum;
     }
@@ -143,9 +144,9 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKList) {
+    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for($!{className}PK} $!{entityName}PK : $!{entityName}PKList) {
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             $!{className} $!{entityName} = get$!{className}ByKey($!{entityName}PK);
             if($!{entityName} != null) {
                 $!{entityName}List.add($!{entityName});
@@ -172,8 +173,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     @Override
     public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
         int successNum = 0;
-        for($!{className}PK} $!{entityName}PK : $!{entityName}PKList) {
-            successNum += deleteBatch$!{className}ByKey($!{entityName}PK);
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
+            successNum += delete$!{className}ByKey($!{entityName}PK);
         }
         return successNum;
     }
@@ -198,8 +199,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
-        return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
+    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        return $!{entityName}Repository.delete$!{className}ByKey($!{keyFields.get(0).entityName});
     }
 
     @Override

@@ -6,12 +6,12 @@
     <groupId>$!{groupId}</groupId>
     <artifactId>$!{artifactId}</artifactId>
     <version>$!{version}</version>
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
-    <packaging>jar</packaging>
-#elseif($!{frame.serviceFrame} == "SPRING")
+#if($!{frame.serviceFrame} == "SPRING" && $!{frame.controllerFrame} != "")
     <!--clean install -Dmaven.test.skip=true -Dfile.encoding=UTF-8-->
     <!--jetty:run -Djetty.port=8080 -Dfile.encoding=UTF-8-->
     <packaging>war</packaging>
+#else
+    <packaging>jar</packaging>
 #end
 
     <name>$!{projectName}</name>
@@ -126,7 +126,7 @@
         <jetty.version>9.4.8.v20171121</jetty.version>
 #if($!{frame.repositoryFrame} == "HIBERNATE")
         <hibernate.version>5.0.8.Final</hibernate.version>
-#elseif($!{frame.repositoryFrame} == "MYBATIS")'
+#elseif($!{frame.repositoryFrame} == "MYBATIS")
         <mybatis-spring.version>1.3.0</mybatis-spring.version>
         <mybatis.version>3.4.0</mybatis.version>
         <pagehelper.version>5.0.0</pagehelper.version>
@@ -297,7 +297,7 @@
                 </configuration>
             </plugin>
 
-#if($!{frame.serviceFrame} == "SPRING")
+#if($!{frame.serviceFrame} == "SPRING" && $!{frame.controllerFrame} != "")
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>

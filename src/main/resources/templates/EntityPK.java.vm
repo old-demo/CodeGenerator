@@ -7,8 +7,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 #if($!{frame.repositoryFrame} == "HIBERNATE")
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
 #end
+
 /**
  * $!{comment}实体类联合主键
  *

@@ -64,7 +64,7 @@ public class TaskTest {
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
 //        frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
-        frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+        frameEntity.setServiceFrame(FrameEnum.SPRING);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
@@ -88,7 +88,7 @@ public class TaskTest {
         taskEntity.setProjectName("Test");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
-        taskEntity.setPackageName("com.heqing.yyw");
+        taskEntity.setPackageName("com.heqing");
 
         taskEntity.setFrame(frameEntity);
         taskEntity.setDatebase(datebase);

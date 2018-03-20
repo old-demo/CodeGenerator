@@ -48,32 +48,9 @@ public class $!{className}Test {
     $!{className}Service $!{entityName}Service;
 
     @Test
-    public void testSave$!{className}() {
-        $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{fields})
-#if($!{field.type} == "String")
-        $!{entityName}.set$!{field.filedName}("1");
-#elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
-#elseif($!{field.type} == "Integer")
-        $!{entityName}.set$!{field.filedName}(1);
-#elseif($!{field.type} == "Long")
-        $!{entityName}.set$!{field.filedName}(1L);
-#elseif($!{field.type} == "Float")
-        $!{entityName}.set$!{field.filedName}(1F);
-#elseif($!{field.type} == "Double")
-        $!{entityName}.set$!{field.filedName}(1D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
-#end
-#end
-        System.out.println("-->"+$!{entityName}Service.save$!{className}($!{entityName}));
-    }
-
-    @Test
     public void testSaveBatch$!{className}() {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for(int i=2;i<5;i++) {
+        for(int i=1;i<5;i++) {
             $!{className} $!{entityName} = new $!{className}();
 #foreach ($!{field} in $!{fields})
 #if($!{field.type} == "String")
@@ -97,85 +74,6 @@ public class $!{className}Test {
         System.out.println("-->"+$!{entityName}Service.saveBatch$!{className}($!{entityName}List));
     }
 
-#if($keyFields.size() > 0)
-    @Test
-    public void testGet$!{className}ByKey() {
-        System.out.println("-->"+$!{entityName}Service.get$!{className}ByKey(
-#foreach(${field} in ${keyFields})
-#if($velocityCount == 1)
-#if($!{field.type} == "String")
-            "1"
-#elseif($!{field.type} == "Integer")
-            1
-#elseif($!{field.type} == "Long")
-            1L
-#elseif($!{field.type} == "Float")
-            1F
-#elseif($!{field.type} == "Double")
-            1D
-#elseif($!{field.type} == "Date")
-            new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
-#end
-#else
-#if($!{field.type} == "String")
-            , ""+1
-#elseif($!{field.type} == "Integer")
-            , 1
-#elseif($!{field.type} == "Long")
-            , 1L
-#elseif($!{field.type} == "Float")
-            , 1F
-#elseif($!{field.type} == "Double")
-            , 1D
-#elseif($!{field.type} == "Date")
-            , new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            , new java.math.BigDecimal(1)
-#end
-#end
-#end
-        ));
-    }
-
-#end
-#if($keyFields.size() == 1)
-    @Test
-    public void testList$!{className}ByKey() {
-#if($!{keyFields.get(0).type} == "String")
-        List<String> ids = new ArrayList<>();
-        ids.add("1");
-        ids.add("2");
-#elseif($!{keyFields.get(0).type} == "Integer")
-        List<Integer> ids = new ArrayList<>();
-        ids.add(1);
-        ids.add(2);
-#elseif($!{keyFields.get(0).type} == "Long")
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-#elseif($!{keyFields.get(0).type} == "Float")
-        List<Float> ids = new ArrayList<>();
-        ids.add(1F);
-        ids.add(2F);
-#elseif($!{keyFields.get(0).type} == "Double")
-        List<Double> ids = new ArrayList<>();
-        ids.add(1D);
-        ids.add(2D);
-#elseif($!{keyFields.get(0).type} == "Date")
-        List<Date> ids = new ArrayList<>();
-        ids.add(new Date());
-        ids.add(new Date());
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> ids = new ArrayList<>();
-        ids.add( new java.math.BigDecimal(1));
-        ids.add( new java.math.BigDecimal(2));
-#end
-        System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey(ids));
-    }
-
- #end
     @Test
     public void testList$!{className}() {
         System.out.println("-->"+$!{entityName}Service.list$!{className}());
@@ -208,7 +106,7 @@ public class $!{className}Test {
 
     @Test
     public void testList$!{className}ByPage() {
-        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(1,2);
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByPage(1, 2);
         System.out.println("-->"+JSON.toJSONString($!{entityName}List));
     }
 
@@ -234,19 +132,17 @@ public class $!{className}Test {
 #end
 #end
 #end
-        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, 1,2);
+        PageInfoUtil<$!{className}> $!{entityName}List = $!{entityName}Service.list$!{className}ByParamAndPage($!{entityName}, 1, 2);
         System.out.println("-->"+JSON.toJSONString($!{entityName}List));
     }
 
-#if($keyFields.size() > 0)
     @Test
-    public void testUpdate$!{className}ByKey() {
+    public void testDelete$!{className}ByParam() {
         $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{keyFields})
+#foreach ($!{field} in $!{noKeyFields})
+#if($velocityCount == 1)
 #if($!{field.type} == "String")
         $!{entityName}.set$!{field.filedName}("1");
-#elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
 #elseif($!{field.type} == "Integer")
         $!{entityName}.set$!{field.filedName}(1);
 #elseif($!{field.type} == "Long")
@@ -255,34 +151,21 @@ public class $!{className}Test {
         $!{entityName}.set$!{field.filedName}(1F);
 #elseif($!{field.type} == "Double")
         $!{entityName}.set$!{field.filedName}(1D);
+#elseif($!{field.type} == "Date")
+        $!{entityName}.set$!{field.filedName}(new Date());
 #elseif($!{field.type} == "java.math.BigDecimal")
         $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
 #end
 #end
-#foreach ($!{field} in $!{noKeyFields})
-#if($!{field.type} == "String")
-        $!{entityName}.set$!{field.filedName}(""+6);
-#elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
-#elseif($!{field.type} == "Integer")
-        $!{entityName}.set$!{field.filedName}(1+5);
-#elseif($!{field.type} == "Long")
-        $!{entityName}.set$!{field.filedName}(1L+5);
-#elseif($!{field.type} == "Float")
-        $!{entityName}.set$!{field.filedName}(1F+5);
-#elseif($!{field.type} == "Double")
-        $!{entityName}.set$!{field.filedName}(1D+5);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(6));
 #end
-#end
-        System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}));
+        System.out.println("-->"+$!{entityName}Service.delete$!{className}ByParam($!{entityName}));
     }
 
+#if($keyFields.size() > 0)
     @Test
     public void testUpdateBatch$!{className}ByKey() {
         List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for(int i=7;i<10;i++) {
+        for(int i=6;i<10;i++) {
             $!{className} $!{entityName} = new $!{className}();
 #foreach ($!{field} in $!{keyFields})
 #if($!{field.type} == "String")
@@ -322,53 +205,12 @@ public class $!{className}Test {
         }
         System.out.println("-->"+$!{entityName}Service.updateBatch$!{className}ByKey($!{entityName}List));
     }
+#end
 
-    @Test
-    public void testDelete$!{className}ByKey() {
-        System.out.println("-->"+$!{entityName}Service.delete$!{className}ByKey(
-#foreach(${field} in ${keyFields})
-#if($velocityCount == 1)
-#if($!{field.type} == "String")
-            "1"
-#elseif($!{field.type} == "Integer")
-            1
-#elseif($!{field.type} == "Long")
-            1L
-#elseif($!{field.type} == "Float")
-            1F
-#elseif($!{field.type} == "Double")
-            1D
-#elseif($!{field.type} == "Date")
-            new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
-#end
-#else
-#if($!{field.type} == "String")
-            , "1"
-#elseif($!{field.type} == "Integer")
-            , 1
-#elseif($!{field.type} == "Long")
-            , 1L
-#elseif($!{field.type} == "Float")
-            , 1F
-#elseif($!{field.type} == "Double")
-            , 1D
-#elseif($!{field.type} == "Date")
-            , new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            , new java.math.BigDecimal(1)
-#end
-#end
-#end
-        ));
-    }
-
-#end
-    @Test
-    public void testDeleteBatch$!{className}ByKey() {
 #if($keyFields.size() > 1)
-        List<$!{className}PK> $!{entityName}PKs = new ArrayList<>();
+    @Test
+    public void testList$!{className}ByKey() {
+        List<$!{className}PK> $!{entityName}PKList = new ArrayList<>();
         $!{className}PK $!{entityName}PK1 = new $!{className}PK();
         $!{className}PK $!{entityName}PK2 = new $!{className}PK();
 #foreach ($!{field} in $!{keyFields})
@@ -395,65 +237,114 @@ public class $!{className}Test {
         $!{entityName}PK2.set$!{field.filedName}(new java.math.BigDecimal(2));
 #end
 #end
-        $!{entityName}PKs.add($!{entityName}PK1);
-        $!{entityName}PKs.add($!{entityName}PK2);
-        $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
-#elseif($keyFields.size() == 1)
-#if($!{keyFields.get(0).type} == "String")
-        List<String> ids = new ArrayList<>();
-        ids.add("1");
-        ids.add("2");
-#elseif($!{keyFields.get(0).type} == "Integer")
-        List<Integer> ids = new ArrayList<>();
-        ids.add(1);
-        ids.add(2);
-#elseif($!{keyFields.get(0).type} == "Long")
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-#elseif($!{keyFields.get(0).type} == "Float")
-        List<Float> ids = new ArrayList<>();
-        ids.add(1F);
-        ids.add(2F);
-#elseif($!{keyFields.get(0).type} == "Double")
-        List<Double> ids = new ArrayList<>();
-        ids.add(1D);
-        ids.add(2D);
-#elseif($!{keyFields.get(0).type} == "Date")
-        List<Date> ids = new ArrayList<>();
-        ids.add(new Date());
-        ids.add(new Date());
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> ids = new ArrayList<>();
-        ids.add( new java.math.BigDecimal(1));
-        ids.add( new java.math.BigDecimal(2));
-#end
-        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey(ids));
-#end
+        $!{entityName}PKList.add($!{entityName}PK1);
+        $!{entityName}PKList.add($!{entityName}PK2);
+        System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey($!{entityName}PKList));
     }
 
     @Test
-    public void testDeleteBatch$!{className}ByParam() {
-        $!{className} $!{entityName} = new $!{className}();
-#foreach ($!{field} in $!{noKeyFields})
-#if($velocityCount == 1)
+    public void testDeleteBatch$!{className}ByKey() {
+        List<$!{className}PK> $!{entityName}PKList = new ArrayList<>();
+        $!{className}PK $!{entityName}PK1 = new $!{className}PK();
+        $!{className}PK $!{entityName}PK2 = new $!{className}PK();
+#foreach ($!{field} in $!{keyFields})
 #if($!{field.type} == "String")
-        $!{entityName}.set$!{field.filedName}("1");
-#elseif($!{field.type} == "Integer")
-        $!{entityName}.set$!{field.filedName}(1);
-#elseif($!{field.type} == "Long")
-        $!{entityName}.set$!{field.filedName}(1L);
-#elseif($!{field.type} == "Float")
-        $!{entityName}.set$!{field.filedName}(1F);
-#elseif($!{field.type} == "Double")
-        $!{entityName}.set$!{field.filedName}(1D);
+        $!{entityName}PK1.set$!{field.filedName}("1");
+        $!{entityName}PK2.set$!{field.filedName}("2");
 #elseif($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
+        $!{entityName}PK1.set$!{field.filedName}(new Date());
+        $!{entityName}PK2.set$!{field.filedName}(new Date());
+#elseif($!{field.type} == "Integer")
+        $!{entityName}PK1.set$!{field.filedName}(1);
+        $!{entityName}PK2.set$!{field.filedName}(2);
+#elseif($!{field.type} == "Long")
+        $!{entityName}PK1.set$!{field.filedName}(1L);
+        $!{entityName}PK2.set$!{field.filedName}(2L);
+#elseif($!{field.type} == "Float")
+        $!{entityName}PK1.set$!{field.filedName}(1F);
+        $!{entityName}PK2.set$!{field.filedName}(2F);
+#elseif($!{field.type} == "Double")
+        $!{entityName}PK1.set$!{field.filedName}(1D);
+        $!{entityName}PK2.set$!{field.filedName}(2D);
 #elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
+        $!{entityName}PK1.set$!{field.filedName}(new java.math.BigDecimal(1));
+        $!{entityName}PK2.set$!{field.filedName}(new java.math.BigDecimal(2));
 #end
 #end
-#end
-        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByParam($!{entityName}));
+        $!{entityName}PKList.add($!{entityName}PK1);
+        $!{entityName}PKList.add($!{entityName}PK2);
+        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKList));
     }
+#end
+
+#if($keyFields.size() == 1)
+    @Test
+    public void testList$!{className}ByKey() {
+#if($!{keyFields.get(0).type} == "String")
+        List<String> keyList = new ArrayList<>();
+        keyList.add("1");
+        keyList.add("2");
+#elseif($!{keyFields.get(0).type} == "Integer")
+        List<Integer> keyList = new ArrayList<>();
+        keyList.add(1);
+        keyList.add(2);
+#elseif($!{keyFields.get(0).type} == "Long")
+        List<Long> keyList = new ArrayList<>();
+        keyList.add(1L);
+        keyList.add(2L);
+#elseif($!{keyFields.get(0).type} == "Float")
+        List<Float> keyList = new ArrayList<>();
+        keyList.add(1F);
+        keyList.add(2F);
+#elseif($!{keyFields.get(0).type} == "Double")
+        List<Double> keyList = new ArrayList<>();
+        keyList.add(1D);
+        keyList.add(2D);
+#elseif($!{keyFields.get(0).type} == "Date")
+        List<Date> keyList = new ArrayList<>();
+        keyList.add(new Date());
+        keyList.add(new Date());
+#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
+        List<java.math.BigDecimal> keyList = new ArrayList<>();
+        keyList.add( new java.math.BigDecimal(1));
+        keyList.add( new java.math.BigDecimal(2));
+#end
+        System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey(keyList));
+    }
+
+    @Test
+    public void testDeleteBatch$!{className}ByKey() {
+#if($!{keyFields.get(0).type} == "String")
+        List<String> keyList = new ArrayList<>();
+        keyList.add("1");
+        keyList.add("2");
+#elseif($!{keyFields.get(0).type} == "Integer")
+        List<Integer> keyList = new ArrayList<>();
+        keyList.add(1);
+        keyList.add(2);
+#elseif($!{keyFields.get(0).type} == "Long")
+        List<Long> keyList = new ArrayList<>();
+        keyList.add(1L);
+        keyList.add(2L);
+#elseif($!{keyFields.get(0).type} == "Float")
+        List<Float> keyList = new ArrayList<>();
+        keyList.add(1F);
+        keyList.add(2F);
+#elseif($!{keyFields.get(0).type} == "Double")
+        List<Double> keyList = new ArrayList<>();
+        keyList.add(1D);
+        keyList.add(2D);
+#elseif($!{keyFields.get(0).type} == "Date")
+        List<Date> keyList = new ArrayList<>();
+        keyList.add(new Date());
+        keyList.add(new Date());
+#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
+        List<java.math.BigDecimal> keyList = new ArrayList<>();
+        keyList.add( new java.math.BigDecimal(1));
+        keyList.add( new java.math.BigDecimal(2));
+#end
+        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey(keyList));
+    }
+#end
+
 }

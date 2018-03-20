@@ -51,7 +51,7 @@ public interface $!{className}Service {
     /**
      * 根据分页获取多条$!{comment}实例
      *
-     * @param pageNo 第几页
+     * @param pageNum 第几页
      * @param pageSize 每页数量
      * @return Page<$!{className}> $!{comment}实例集合
      */
@@ -73,7 +73,7 @@ public interface $!{className}Service {
      * @param $!{entityName} $!{comment}实例:做条件删除使用
      * @return int 成功数量
      */
-    int deleteBatch$!{className}ByParam($!{className} $!{entityName});
+    int delete$!{className}ByParam($!{className} $!{entityName});
 
 #if($keyFields.size() > 0)
     /**
@@ -105,10 +105,10 @@ public interface $!{className}Service {
     /**
      * 根据多个主键获取$!{comment}实例信息
      *
-     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
+     * @param $!{entityName}PKList  $!{comment}实例集合
      * @return List<T> $!{comment}实例信息
      */
-    List<$!{className}> list$!{className}ByKey(List<$!{className}PK}> $!{entityName}PKList);
+    List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
 
     /**
      * 根据主键删除多条$!{comment}实例
@@ -121,7 +121,7 @@ public interface $!{className}Service {
     /**
      * 根据多个主键删除多条$!{comment}实例
      *
-     * @param $!{entityName}PKs 主键集合
+     * @param $!{entityName}PKList 主键集合
      * @return int 成功数量
      */
     int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
@@ -139,7 +139,7 @@ public interface $!{className}Service {
     /**
      * 根据多个主键获取$!{comment}实例信息
      *
-     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
+     * @param $!{keyFields.get(0).entityName}List  $!{comment}实例集合
      * @return List<T> $!{comment}实例信息
      */
     List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
@@ -155,7 +155,7 @@ public interface $!{className}Service {
     /**
      * 根据多个主键删除多条$!{comment}实例
      *
-     * @param $!{keyFields.get(0).entityName}s 主键集合
+     * @param $!{keyFields.get(0).entityName}List 主键集合
      * @return int 成功数量
      */
     int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
