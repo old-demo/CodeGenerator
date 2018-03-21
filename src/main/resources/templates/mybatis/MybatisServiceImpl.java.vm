@@ -200,7 +200,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int delete$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
-        return  $!{entityName}Repository.deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
+        return  $!{entityName}Repository.deleteBatch$!{className}ByKey($!{keyFields.get(0).entityName}List);
     }
 #end
 

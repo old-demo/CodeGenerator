@@ -222,7 +222,7 @@ public class $!{className}Test {
         $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(1));
 #end
 #end
-        System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}List));
+        System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}));
     }
 
     @Test

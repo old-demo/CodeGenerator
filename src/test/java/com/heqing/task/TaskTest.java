@@ -63,8 +63,8 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
-//        frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
-        frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+        frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
+        frameEntity.setServiceFrame(FrameEnum.SPRING);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
@@ -85,7 +85,7 @@ public class TaskTest {
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("Test");
+        taskEntity.setProjectName("Test1");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing");
