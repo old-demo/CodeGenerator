@@ -27,65 +27,57 @@ public class $!{className} implements Serializable {
 	@EmbeddedId
 	private $!{className}PK $!{entityName}PK;
 
-#else
-#foreach ($!{field} in $!{keyFields})
-    /**
-     * $!{field.entityName} $!{field.comment}
-     */
-    @Id
-#if($!{isAutoIncr})
-	@GeneratedValue(strategy= GenerationType.AUTO)
-#end
-    @Column(name="$!{field.columnName}")
-    @JSONField(name="$!{field.columnName}")
-    private $!{field.type} $!{field.entityName};
+	public void set$!{className}PK($!{className}PK $!{entityName}PK){
+        this.$!{entityName}PK = $!{entityName}PK;
+    }
 
+	public $!{className}PK get$!{className}PK(){
+        return $!{entityName}PK;
+    }
 #end
+
+#if($keyFields.size() == 1)
+	/**
+	 * $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
+	 */
+	@Id
+#if($!{isAutoIncr})
+    @GeneratedValue(strategy= GenerationType.AUTO)
 #end
+	@Column(name="$!{keyFields.get(0).columnName}")
+	@JSONField(name="$!{keyFields.get(0).columnName}")
+	private $!{keyFields.get(0).type} $!{keyFields.get(0).entityName};
+
+	public void set$!{keyFields.get(0).filedName}($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        this.$!{keyFields.get(0).entityName} = $!{keyFields.get(0).entityName};
+	}
+
+	public $!{keyFields.get(0).type} get$!{keyFields.get(0).filedName}() {
+        return $!{keyFields.get(0).entityName};
+	}
+#end
+
 #foreach ($!{field} in $!{noKeyFields})
-    /**
+	/**
 	 * $!{field.entityName} $!{field.comment}
 	 */
 #if($!{field.type} == "Date")
     @JSONField(name="$!{field.columnName}", format="yyyy-MM-dd HH:mm:ss")
 #else
-	@JSONField(name="$!{field.columnName}")
+    @JSONField(name="$!{field.columnName}")
 #end
 	@Column(name="$!{field.columnName}")
 	private $!{field.type} $!{field.entityName};
 
-#end
-#if($keyFields.size() > 1)
-	public void set$!{className}PK($!{className}PK $!{entityName}PK){
-	    this.$!{entityName}PK = $!{entityName}PK;
-	}
-
-	public $!{className}PK get$!{className}PK(){
-        return $!{entityName}PK;
-	}
-
-#else
-#foreach ($!{field} in $!{keyFields})
 	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
-		this.$!{field.entityName} = $!{field.entityName};
+        this.$!{field.entityName} = $!{field.entityName};
 	}
 
 	public $!{field.type} get$!{field.filedName}() {
         return $!{field.entityName};
 	}
-
 #end
-#end
-#foreach ($!{field} in $!{noKeyFields})
-	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
-		this.$!{field.entityName} = $!{field.entityName};
-	}
 
-	public $!{field.type} get$!{field.filedName}() {
-	    return $!{field.entityName};
-	}
-
-#end
     @Override
     public String toString() {
         return JSONObject.toJSONString(this);

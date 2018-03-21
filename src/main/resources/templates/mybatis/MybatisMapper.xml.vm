@@ -31,11 +31,30 @@
         VALUES (#foreach($!field in $!fields) #if($velocityCount != 1), #else#end?#end);
     </insert>
 
+    <!-- 增加多条$!{comment} -->
+    <insert id="saveBatch$!{className}" parameterType="java.util.List">
+        INSERT INTO
+          $!{tableName}( <include refid="$!{entityName}Fields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #foreach ($!{field} in $!{fields})
+                #if($velocityCount == 1)#else,#end#{item.$!{field.entityName}}
+            #end
+            )
+        </foreach>
+        ;
+    </insert>
+
     <!-- 获取所有$!{comment} -->
     <select id="list$!{className}" resultMap="$!{entityName}ResultMap">
         SELECT
           <include refid="$!{entityName}Fields"/>
         FROM $!{tableName}
+#if($keyFields.size() > 0)
+        ORDER BY
+          #foreach($!field in $!keyFields) #if($velocityCount != 1), #else#end$!{field.columnName} DESC#end
+#end
     </select>
 
     <!-- 根据条件获取多条$!{comment} -->
@@ -52,6 +71,10 @@
 #end
 #end
         </where>
+#if($keyFields.size() > 0)
+        ORDER BY
+          #foreach($!field in $!keyFields) #if($velocityCount != 1), #else#end$!{field.columnName} DESC#end
+#end
     </select>
 
     <!-- 根据条件删除多条$!{comment} -->
@@ -66,8 +89,32 @@
 #end
 #end
         </where>
+#if($keyFields.size() > 0)
+        ORDER BY
+          #foreach($!field in $!keyFields) #if($velocityCount != 1), #else#end$!{field.columnName} DESC#end
+#end
         ;
     </delete>
+
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
+    <!-- 根据多个主键批量修改$!{comment} -->
+    <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE $!{tableName}
+            <trim prefix="SET" prefixOverrides=",">
+#foreach ($!{field} in $!{fields})
+              <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
+#end
+            </trim>
+            <where>
+#foreach(${field} in ${keyFields})
+              AND $!{field.columnName}=#{item.$!{field.entityName}}
+#end
+            </where>
+        </foreach>
+    </update>
+
+#end
 
 #if($keyFields.size() > 0)
     <!-- 根据主键修改$!{comment} -->
@@ -110,6 +157,29 @@
         </where>
         ;
     </delete>
+#end
+
+#if($keyFields.size() == 1)
+    <!-- 根据多个主键删除多条$!{comment} -->
+    <delete id="deleteBatch$!{className}ByKey" parameterType="java.util.List">
+        DELETE FROM $!{tableName}
+          WHERE $!{$!{keyFields.get(0).columnName} IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{$!{keyFields.get(0).columnName}}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取$!{comment} -->
+    <select id="list$!{className}ByKey" parameterType="java.util.List" resultMap="$!{entityName}ResultMap">
+        SELECT <include refid="$!{entityName}Fields"/>
+        FROM $!{tableName}
+        WHERE $!{keyFields.get(0).columnName} IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{$!{keyFields.get(0).columnName}}
+        </foreach>
+        ;
+    </select>
 #end
 
 </mapper>

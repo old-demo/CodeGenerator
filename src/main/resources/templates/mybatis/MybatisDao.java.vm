@@ -25,6 +25,14 @@ public interface $!{className}Repository {
     int save$!{className}($!{className} $!{entityName});
 
     /**
+     * 增加多条$!{comment}
+     *
+     * @param $!{entityName}List 多条$!{comment}列
+     * @return int 成功数量
+     */
+    int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
+
+    /**
      * 获取所有$!{comment}
      *
      * @return List<$!{className}> $!{comment}主键集合
@@ -46,6 +54,16 @@ public interface $!{className}Repository {
      * @return int 成功数量
      */
     int delete$!{className}ByParam($!{className} $!{entityName});
+
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
+    /**
+     * 根据多个主键批量修改$!{comment}
+     *
+     * @param $!{entityName}List 多条$!{comment}列信息
+     * @return int 是否成功
+     */
+    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+#end
 
 #if($keyFields.size() > 0)
     /**
@@ -75,6 +93,24 @@ public interface $!{className}Repository {
      * @return int 成功数量
      */
     int delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount == 1)@Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#else, @Param("$!{field.entityName}")$!{field.type} $!{field.entityName}#end#end);
+#end
+
+#if($keyFields.size() == 1)
+    /**
+     * 根据多个主键删除多条$!{comment}
+     *
+     * @param $!{keyFields.get(0).entityName}List  $!{comment}列集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
+
+    /**
+     * 根据多个主键获取$!{comment}
+     *
+     * @param $!{keyFields.get(0).entityName}List $!{comment}列集合
+     * @return List<T> $!{comment}列实体信息
+     */
+    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
 #end
 
 }

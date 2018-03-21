@@ -41,17 +41,15 @@ public class $!{className}Controller {
         }
         return new ResponseUtil(0, "创建$!{comment}失败！", null);
     }
-#if($keyFields.size() > 0)
 
+#if($keyFields.size() > 0)
     @RequestMapping(value = "/update$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil update$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#if($notNullfields.size() > 0)
 #foreach ($!{field} in $!{notNullfields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
             return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
         }
-#end
 #end
         $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
         if($!{entityName} == null) {
@@ -67,12 +65,10 @@ public class $!{className}Controller {
     @RequestMapping(value = "/delete$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil delete$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#if($keyFields.size() > 0)
 #foreach ($!{field} in $!{keyFields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
             return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
         }
-#end
 #end
 #if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
@@ -114,12 +110,10 @@ public class $!{className}Controller {
     @RequestMapping(value = "/get$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil get$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#if($keyFields.size() > 0)
 #foreach ($!{field} in $!{keyFields})
         if($!{entityName}Request.get$!{field.filedName}() == null) {
             return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
         }
-#end
 #end
 #if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
@@ -132,8 +126,8 @@ public class $!{className}Controller {
 #end
         return new ResponseUtil(1, "OK", $!{entityName});
     }
-
 #end
+
 #if($!{frame.repositoryFrame} == "MYBATIS")
     @RequestMapping(value = "/list$!{className}ByParamAndPage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody

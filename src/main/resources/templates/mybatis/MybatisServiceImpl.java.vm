@@ -48,18 +48,22 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
-        int successNum = 0;
+    public int save$!{className}(List<$!{className}> $!{entityName}List) {
+        List<$!{className}> temp$!{entityName}List = new ArrayList<>();
         for($!{className} $!{entityName} : $!{entityName}List) {
+            if($!{entityName} == null) {
+                LOGGER.error("--> $!{entityName} 不能为null！" );
+                continue;
+            }
 #foreach ($!{field} in $!{notNullfields})
             if($!{entityName}.get$!{field.filedName}() == null) {
                 LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
                 continue;
             }
 #end
-            successNum += save$!{className}($!{entityName});
+            temp$!{entityName}List.add($!{entityName});
         }
-        return successNum;
+        return $!{entityName}Repository.saveBatch$!{className}(temp$!{entityName}List);
     }
 
     @Override
@@ -74,7 +78,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfoUtil<$!{className}> list$!{className}ByPage(int pageNum, int pageSize) {
-        pageNum = pageNum < 0 ? 0 : pageNum;
+        pageNum = pageNum < 1 ? 1 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}());
@@ -83,7 +87,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfoUtil<$!{className}> list$!{className}ByParamAndPage($!{className} $!{entityName}, int pageNum, int pageSize) {
-        pageNum = pageNum < 0 ? 0 : pageNum;
+        pageNum = pageNum < 1 ? 1 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<$!{className}> $!{entityName}Page = new PageInfo<$!{className}>($!{entityName}Repository.list$!{className}ByParam($!{entityName}));
@@ -112,18 +116,16 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+    public int update$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+#if($!{frame.serviceFrame} == "SPRINGBOOT")
+        return $!{entityName}Repository.updateBatch$!{className}ByKey($!{entityName}List);
+#else
         int successNum = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
-#foreach ($!{field} in $!{notNullfields})
-            if($!{entityName}.get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！" + $!{entityName});
-                continue;
-            }
-#end
             successNum += update$!{className}ByKey($!{entityName});
         }
         return successNum;
+#end
     }
 #end
 
@@ -171,7 +173,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
+    public int delete$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
         int successNum = 0;
         for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             successNum += delete$!{className}ByKey($!{entityName}PK);
@@ -188,14 +190,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
-        List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
-            $!{className} $!{entityName} = get$!{className}ByKey($!{keyFields.get(0).entityName});
-            if($!{entityName} != null) {
-                $!{entityName}List.add($!{entityName});
-            }
-        }
-        return $!{entityName}List;
+        return $!{entityName}Repository.list$!{className}ByKey($!{keyFields.get(0).entityName}List);
     }
 
     @Override
@@ -204,12 +199,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
-        int successNum = 0;
-        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
-            successNum += delete$!{className}ByKey($!{keyFields.get(0).entityName});
-        }
-        return successNum;
+    public int delete$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+        return  $!{entityName}Repository.deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
     }
 #end
 

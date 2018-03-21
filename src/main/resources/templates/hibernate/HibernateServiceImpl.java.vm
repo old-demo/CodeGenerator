@@ -1,12 +1,12 @@
 package $!{classPackage}.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 #if($!{frame.serviceFrame} == "SPRINGBOOT")
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 #end
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -38,6 +38,16 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
+        if($!{entityName} == null) {
+            LOGGER.error("--> $!{entityName} 不能为null！" );
+            return 0;
+        }
+        #foreach ($!{field} in $!{notNullfields})
+            if($!{entityName}#if($keyFields.size() > 1).get$!{className}PK()#end.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
+            return 0;
+        }
+        #end
         if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
             return 1;
         }
@@ -48,93 +58,11 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
         int isSuccess = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
-            if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
-                isSuccess += 1;
-            }
+            isSuccess += save$!{className}($!{entityName});
         }
         return isSuccess;
     }
 
-    @Override
-    public int update$!{className}ByKey($!{className} $!{entityName}) {
-#if($notNullfields.size() > 0)
-#foreach ($!{field} in $!{notNullfields})
-#if($keyFields.size() > 1)
-        if($!{entityName}.get$!{className}PK().get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
-            return 0;
-        }
-#else
-        if($!{entityName}.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
-            return 0;
-        }
-#end
-#end
-#end
-        if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
-            return 1;
-        }
-        return 0;
-    }
-
-    @Override
-    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
-        int isSuccess = 0;
-        for($!{className} $!{entityName} : $!{entityName}List) {
-#if($notNullfields.size() > 0)
-#foreach ($!{field} in $!{notNullfields})
-#if($keyFields.size() > 1)
-            if($!{entityName}.get$!{className}PK().get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
-                break;
-            }
-#else
-            if($!{entityName}.get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
-                break;
-            }
-#end
-#end
-            if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
-                isSuccess += 1;
-            }
-#end
-        }
-        return isSuccess;
-    }
-
-#if($keyFields.size() > 1)
-    @Override
-    public $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK) {
-        return $!{entityName}Repository.getOne($!{entityName}PK);
-    }
-
-    @Override
-    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs) {
-        List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for($!{className}PK $!{entityName}PK : $!{entityName}PKs) {
-            $!{entityName}List.add($!{entityName}Repository.getOne($!{entityName}PK));
-        }
-        return $!{entityName}List;
-    }
-
-#elseif($keyFields.size() == 1)
-    @Override
-    public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
-        return $!{entityName}Repository.getOne($!{keyFields.get(0).entityName});
-    }
-
-    @Override
-    public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
-        List<$!{className}> $!{entityName}List = new ArrayList<>();
-        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
-            $!{entityName}List.add($!{entityName}Repository.getOne($!{keyFields.get(0).entityName}));
-        }
-        return $!{entityName}List;
-    }
-
-#end
     @Override
     public List<$!{className}> list$!{className}() {
         return $!{entityName}Repository.findAll();
@@ -142,8 +70,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize) {
-        pageNum = pageNum < 0 ? 0 : pageNum;
-        pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+        pageNum = pageNum < 1 ? 1 : pageNum;
+        pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
 #if($!{frame.serviceFrame} == "SPRINGBOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findAll(pageable);
@@ -162,8 +90,8 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
-        pageNum = pageNum < 0 ? 0 : pageNum;
-        pageSize = pageSize < 1 ? 1 : pageNum > 100 ? 100 : pageSize;
+        pageNum = pageNum < 1 ? 1 : pageNum;
+        pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
 #if($!{frame.serviceFrame} == "SPRINGBOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageable);
@@ -175,44 +103,120 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName}) {
-        $!{entityName}Repository.deleteBy$!{field.filedName}($!{field.entityName});
+        try {
+            $!{entityName}Repository.deleteBy$!{field.filedName}($!{field.entityName});
+        } catch(Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
         return 1;
     }
+#end
+#end
 
+#if($keyFields.size() > 0)
+    @Override
+    public int update$!{className}ByKey($!{className} $!{entityName}) {
+        if($!{entityName} == null #if($keyFields.size() > 1) || $!{entityName}.get$!{className}PK() == null#end) {
+            LOGGER.error("--> $!{entityName} 不能为null！" );
+            return 0;
+        }
+#foreach ($!{field} in $!{notNullfields})
+        if($!{entityName}#if($keyFields.size() > 1).get$!{className}PK()#end.get$!{field.filedName}() == null) {
+            LOGGER.error("--> $!{field.comment} 不能为null！" + $!{entityName});
+            return 0;
+        }
+#end
+        if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+        int isSuccess = 0;
+        for($!{className} $!{entityName} : $!{entityName}List) {
+            isSuccess += update$!{className}ByKey($!{entityName});
+        }
+        return isSuccess;
+    }
 #end
 
 #if($keyFields.size() > 1)
     @Override
+    public $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK) {
+        return $!{entityName}Repository.getOne($!{entityName}PK);
+    }
+
+    @Override
+    public List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
+            $!{className} $!{entityName} = get$!{className}ByKey($!{entityName}PK);
+            if($!{entityName} != null) {
+                $!{entityName}List.add();
+            }
+        }
+        return $!{entityName}List;
+    }
+
+    @Override
     public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
-        $!{entityName}Repository.delete($!{entityName}PK);
+        try {
+            $!{entityName}Repository.delete($!{entityName}PK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         return 1;
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs) {
+    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
         int isSuccess = 0;
-        for($!{className}PK $!{entityName}PK : $!{entityName}PKs) {
-            $!{entityName}Repository.delete($!{entityName}PK);
-            isSuccess++;
+        for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
+            isSuccess += delete$!{className}ByKey($!{entityName}PK);
         }
         return isSuccess;
     }
 #end
+
 #if($keyFields.size() == 1)
     @Override
-    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
-        return $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+    public $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        return $!{entityName}Repository.getOne($!{keyFields.get(0).entityName});
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s) {
+    public List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+        List<$!{className}> $!{entityName}List = new ArrayList<>();
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
+            $!{className} $!{entityName} = get$!{className}ByKey($!{keyFields.get(0).entityName});
+            if($!{entityName} != null) {
+                $!{entityName}List.add($!{entityName});
+            }
+        }
+        return $!{entityName}List;
+    }
+
+    @Override
+    public int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName}) {
+        try {
+            $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    @Override
+    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
         int isSuccess = 0;
-        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}s) {
-            isSuccess += $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
+        for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
+            isSuccess += delete$!{className}ByKey($!{keyFields.get(0).entityName});
         }
         return isSuccess;
     }
+#end
 
-#end
-#end
 }

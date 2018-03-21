@@ -1,10 +1,10 @@
 package $!{classPackage}.repository;
 
-import $!{classPackage}.util.PageInfoUtil;
-import $!{classPackage}.entity.$!{className};
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
 #end
+import $!{classPackage}.entity.$!{className};
+import $!{classPackage}.util.PageInfoUtil;
 
 import java.util.List;
 import java.util.Date;
@@ -16,11 +16,7 @@ import java.util.Date;
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
-#if($keyFields.size() > 1)
-public interface $!{className}Repository extends AbstractRepository<$!{className}, $!{className}PK> {
-#elseif($keyFields.size() == 1)
-public interface $!{className}Repository extends AbstractRepository<$!{className}, $!{keyFields.get(0).type}> {
-#end
+public interface $!{className}Repository extends AbstractRepository<$!{className}, #if($keyFields.size() > 1)$!{className}PK#elseif($keyFields.size() == 1)$!{keyFields.get(0).type}#end> {
 
     /**
      * 根据表中所有列信息
@@ -64,7 +60,6 @@ public interface $!{className}Repository extends AbstractRepository<$!{className
      * @param $!{field.entityName} $!{field.comment}
      */
     int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
-
 #end
 #end
 

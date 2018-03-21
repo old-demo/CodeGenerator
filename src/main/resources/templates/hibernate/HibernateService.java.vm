@@ -34,94 +34,6 @@ public interface $!{className}Service {
      */
     int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
 
-#if($keyFields.size() > 1)
-    /**
-     * 根据主键删除$!{comment}实例
-     *
-     * @param $!{entityName}PK 联合主键
-     * @return int 成功数量
-     */
-    int delete$!{className}ByKey($!{className}PK $!{entityName}PK);
-
-    /**
-     * 根据主键删除多条$!{comment}实例
-     *
-     * @param $!{entityName}PKs 主键ID集合
-     * @return int 成功数量
-     */
-    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs);
-
-#end
-#if($keyFields.size() == 1)
-    /**
-     * 根据主键删除$!{comment}实例
-     *
-#foreach(${field} in ${keyFields})
-    * @param $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
-#end
-     * @return int 成功数量
-     */
-    int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
-
-    /**
-     * 根据主键删除多条$!{comment}实例
-     *
-     * @param $!{keyFields.get(0).entityName}s 主键ID集合
-     * @return int 成功数量
-     */
-    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
-
-#end
-    /**
-     * 修改$!{comment}实例
-     *
-     * @param $!{entityName} $!{comment}实例信息
-     * @return int 成功数量
-     */
-    int update$!{className}ByKey($!{className} $!{entityName});
-
-    /**
-     * 批量修改$!{comment}实例
-     *
-     * @param $!{entityName}List 多条$!{comment}实例信息
-     * @return int 是否成功
-     */
-    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
-#if($keyFields.size() > 1)
-    /**
-     * 根据主键获取$!{comment}实例信息
-     *
-     * @param $!{entityName}PK $!{comment}主键
-     * @return $!{className} $!{comment}信息
-     */
-     $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK);
-
-    /**
-     * 根据主键获取$!{comment}实例信息
-     *
-     * @param $!{entityName}PKs $!{comment}主键集合
-     * @return List<T> $!{comment}实例信息
-     */
-    List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKs);
-
-#elseif($keyFields.size() == 1)
-    /**
-     * 根据主键获取$!{comment}实例信息
-     *
-     * @param $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
-     * @return $!{className} $!{comment}信息
-     */
-     $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
-
-    /**
-     * 根据主键获取$!{comment}实例信息
-     *
-     * @param $!{keyFields.get(0).entityName}s  $!{comment}实例集合
-     * @return List<T> $!{comment}实例信息
-     */
-    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s);
-
-#end
     /**
      * 获取所有$!{comment}实例信息
      *
@@ -164,8 +76,93 @@ public interface $!{className}Service {
      * @param $!{field.entityName} $!{field.comment}
      */
     int deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
-
 #end
+#end
+
+#if($keyFields.size() > 0)
+    /**
+     * 修改$!{comment}实例
+     *
+     * @param $!{entityName} $!{comment}实例信息
+     * @return int 成功数量
+     */
+    int update$!{className}ByKey($!{className} $!{entityName});
+
+    /**
+     * 批量修改$!{comment}实例
+     *
+     * @param $!{entityName}List 多条$!{comment}实例信息
+     * @return int 是否成功
+     */
+    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+#end
+
+#if($keyFields.size() > 1)
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{entityName}PK $!{comment}主键
+     * @return $!{className} $!{comment}信息
+     */
+    $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK);
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{entityName}PKList $!{comment}主键集合
+     * @return List<T> $!{comment}实例信息
+     */
+    List<$!{className}> list$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
+
+    /**
+     * 根据主键删除$!{comment}实例
+     *
+     * @param $!{entityName}PK 联合主键
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey($!{className}PK $!{entityName}PK);
+
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{entityName}PKList 主键ID集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
+#end
+
+#if($keyFields.size() == 1)
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{keyFields.get(0).entityName} $!{keyFields.get(0).comment}
+     * @return $!{className} $!{comment}信息
+     */
+    $!{className} get$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
+
+    /**
+     * 根据主键获取$!{comment}实例信息
+     *
+     * @param $!{keyFields.get(0).entityName}List  $!{comment}实例集合
+     * @return List<T> $!{comment}实例信息
+     */
+    List<$!{className}> list$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
+
+    /**
+     * 根据主键删除多条$!{comment}实例
+     *
+     * @param $!{keyFields.get(0).entityName} 主键
+     * @return int 成功数量
+     */
+    int delete$!{className}ByKey($!{keyFields.get(0).type} $!{keyFields.get(0).entityName});
+
+    /**
+     * 根据多个主键删除多条$!{comment}实例
+     *
+     * @param $!{keyFields.get(0).entityName}List 主键集合
+     * @return int 成功数量
+     */
+    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
 #end
 
 }

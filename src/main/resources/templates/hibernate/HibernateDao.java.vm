@@ -26,14 +26,7 @@ import $!{classPackage}.entity.$!{className}PK;
 @Repository
 @Table(name="$!{tableName}")
 @Qualifier("$!{entityName}Repository")
-public interface $!{className}Repository
-#if($keyFields.size() == 1)
-        extends JpaRepository<$!{className}, $!{keyFields.get(0).type}> {
-#elseif($keyFields.size() > 1)
-        extends JpaRepository<$!{className}, $!{className}PK> {
-#else
-        extends JpaRepository<$!{className}, Integer> {
-#end
+public interface $!{className}Repository extends JpaRepository<$!{className},#if($keyFields.size() == 1)$!{keyFields.get(0).type}#elseif($keyFields.size() > 1)$!{className}PK#else Integer#end> {
 
 #foreach ($!{field} in $!{noKeyFields})
 #if($!{field.type} != "Date")
@@ -63,4 +56,5 @@ public interface $!{className}Repository
     void deleteBy$!{field.filedName}($!{field.type} $!{field.entityName});
 #end
 #end
+
 }

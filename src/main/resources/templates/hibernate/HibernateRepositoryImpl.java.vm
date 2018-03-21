@@ -7,6 +7,7 @@ import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.service.impl.$!{className}ServiceImpl;
 import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.util.PageInfoUtil;
+
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
@@ -24,11 +25,7 @@ import java.util.Date;
  */
 @Repository
 @Transactional
-#if($keyFields.size() > 1)
-public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, $!{className}PK> implements $!{className}Repository {
-#elseif($keyFields.size() == 1)
-public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, $!{keyFields.get(0).type}> implements $!{className}Repository {
-#end
+public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{className}, #if($keyFields.size() > 1)$!{className}PK#elseif($keyFields.size() == 1)$!{keyFields.get(0).type}#end> implements $!{className}Repository {
 
     private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
 
@@ -75,7 +72,6 @@ public class $!{className}RepositoryImpl extends AbstractRepositoryImpl<$!{class
         String sql = "DELETE FROM $!{tableName} WHERE $!{field.columnName}=:$!{field.entityName}";
         return getSession().createSQLQuery(sql).set$!{field.type}("$!{field.entityName}", $!{field.entityName}).executeUpdate();
     }
-
 #end
 #end
 
