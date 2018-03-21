@@ -6,7 +6,7 @@
     <groupId>$!{groupId}</groupId>
     <artifactId>$!{artifactId}</artifactId>
     <version>$!{version}</version>
-#if($!{frame.serviceFrame} == "SPRING" && $!{frame.controllerFrame} != "")
+#if($!{frame.serviceFrame} == "SPRING" && ($!{frame.controllerFrame} == "SPRINGMVC" || $!{frame.controllerFrame} == "STRUTS2"))
     <!--clean install -Dmaven.test.skip=true -Dfile.encoding=UTF-8-->
     <!--jetty:run -Djetty.port=8080 -Dfile.encoding=UTF-8-->
     <packaging>war</packaging>
@@ -297,7 +297,7 @@
                 </configuration>
             </plugin>
 
-#if($!{frame.serviceFrame} == "SPRING" && $!{frame.controllerFrame} != "")
+#if($!{frame.serviceFrame} == "SPRING" && ($!{frame.controllerFrame} == "SPRINGMVC" || $!{frame.controllerFrame} == "STRUTS2"))
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>

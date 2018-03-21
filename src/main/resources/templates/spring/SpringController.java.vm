@@ -70,7 +70,7 @@ public class $!{className}Controller {
             return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
         }
 #end
-#if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
+#if($keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
 #foreach(${field} in ${keyFields})
         $!{entityName}PK.set$!{field.filedName}($!{entityName}Request.get$!{field.filedName}());
@@ -93,13 +93,13 @@ public class $!{className}Controller {
         if($!{entityName}PKs == null || $!{entityName}PKs.size() < 1) {
             return new ResponseUtil(0, "主键不能为null！", null);
         }
-        int result = $!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs);
+        int result = $!{entityName}Service.delete$!{className}ByKey($!{entityName}PKs);
 #elseif($keyFields.size() == 1)
         List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}s = $!{entityName}Request.get$!{keyFields.get(0).filedName}List();
         if($!{keyFields.get(0).entityName}s == null || $!{keyFields.get(0).entityName}s.size() < 1) {
             return new ResponseUtil(0, "主键不能为null！", null);
         }
-        int result = $!{entityName}Service.deleteBatch$!{className}ByKey($!{keyFields.get(0).entityName}s);
+        int result = $!{entityName}Service.delete$!{className}ByKey($!{keyFields.get(0).entityName}s);
 #end
         if(result > 0) {
             return new ResponseUtil(1, "删除$!{comment}成功！", result);
@@ -115,7 +115,7 @@ public class $!{className}Controller {
             return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
         }
 #end
-#if($!{frame.repositoryFrame} == "HIBERNATE" && $keyFields.size() > 1)
+#if($keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
 #foreach(${field} in ${keyFields})
         $!{entityName}PK.set$!{field.filedName}($!{entityName}Request.get$!{field.filedName}());

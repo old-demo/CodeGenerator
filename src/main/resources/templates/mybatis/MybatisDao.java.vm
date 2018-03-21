@@ -55,6 +55,7 @@ public interface $!{className}Repository {
      */
     int delete$!{className}ByParam($!{className} $!{entityName});
 
+#if($keyFields.size() > 0)
 #if($!{frame.serviceFrame} == "SPRINGBOOT")
     /**
      * 根据多个主键批量修改$!{comment}
@@ -65,7 +66,6 @@ public interface $!{className}Repository {
     int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
 #end
 
-#if($keyFields.size() > 0)
     /**
      * 根据主键修改$!{comment}
      *

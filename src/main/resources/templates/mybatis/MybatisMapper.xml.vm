@@ -38,9 +38,9 @@
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (
-            #foreach ($!{field} in $!{fields})
-                #if($velocityCount == 1)#else,#end#{item.$!{field.entityName}}
-            #end
+#foreach ($!{field} in $!{fields})
+              #if($velocityCount == 1)#else,#end#{item.$!{field.entityName}}
+#end
             )
         </foreach>
         ;
@@ -89,34 +89,29 @@
 #end
 #end
         </where>
-#if($keyFields.size() > 0)
-        ORDER BY
-          #foreach($!field in $!keyFields) #if($velocityCount != 1), #else#end$!{field.columnName} DESC#end
-#end
         ;
     </delete>
 
+#if($keyFields.size() > 0)
 #if($!{frame.serviceFrame} == "SPRINGBOOT")
     <!-- 根据多个主键批量修改$!{comment} -->
     <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            UPDATE $!{tableName}
-            <trim prefix="SET" prefixOverrides=",">
+<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+        UPDATE $!{tableName}
+        <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-              <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
+          <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
 #end
-            </trim>
-            <where>
+        </trim>
+        <where>
 #foreach(${field} in ${keyFields})
-              AND $!{field.columnName}=#{item.$!{field.entityName}}
+          AND $!{field.columnName}=#{item.$!{field.entityName}}
 #end
-            </where>
-        </foreach>
+        </where>
+</foreach>
     </update>
-
 #end
 
-#if($keyFields.size() > 0)
     <!-- 根据主键修改$!{comment} -->
     <update id="update$!{className}ByKey" parameterMap="$!{entityName}ParameterMap">
         UPDATE
@@ -144,7 +139,6 @@
           AND $!{field.columnName}=#{$!{field.entityName}}
 #end
         </where>
-        ;
     </select>
 
     <!-- 根据主键删除$!{comment} -->
@@ -163,7 +157,7 @@
     <!-- 根据多个主键删除多条$!{comment} -->
     <delete id="deleteBatch$!{className}ByKey" parameterType="java.util.List">
         DELETE FROM $!{tableName}
-          WHERE $!{$!{keyFields.get(0).columnName} IN
+          WHERE $!{keyFields.get(0).columnName} IN
         <foreach item="id" collection="list" open="(" separator="," close=")">
             #{$!{keyFields.get(0).columnName}}
         </foreach>
@@ -178,7 +172,6 @@
         <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
             #{$!{keyFields.get(0).columnName}}
         </foreach>
-        ;
     </select>
 #end
 

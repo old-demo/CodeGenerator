@@ -26,7 +26,7 @@ import $!{classPackage}.entity.$!{className}PK;
 @Repository
 @Table(name="$!{tableName}")
 @Qualifier("$!{entityName}Repository")
-public interface $!{className}Repository extends JpaRepository<$!{className},#if($keyFields.size() == 1)$!{keyFields.get(0).type}#elseif($keyFields.size() > 1)$!{className}PK#else Integer#end> {
+public interface $!{className}Repository extends JpaRepository<$!{className},#if($keyFields.size() == 1) $!{keyFields.get(0).type}#elseif($keyFields.size() > 1) $!{className}PK#end> {
 
 #foreach ($!{field} in $!{noKeyFields})
 #if($!{field.type} != "Date")

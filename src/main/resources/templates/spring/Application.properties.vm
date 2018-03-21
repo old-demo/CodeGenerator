@@ -28,17 +28,17 @@ pagehelper.reasonable=true
 pagehelper.supportMethodsArguments=true
 pagehelper.params=count=countSql
 
-logging.level.org.mybatis=debug
+logging.level.org.mybatis=error
 #elseif($!{frame.repositoryFrame} == "HIBERNATE")
 spring.jpa.database = MYSQL
 spring.jpa.show-sql = true
 spring.jpa.hibernate.ddl-auto = update
 spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
 spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
-
 #end
+
 #日志配置
-logging.level.$!{packageName}=debug
-logging.level.org.springframework.web=debug
-logging.level.org.springframework.transaction=debug
+logging.level.$!{packageName}=error
+logging.level.org.springframework.web=error
+logging.level.org.springframework.transaction=error
 

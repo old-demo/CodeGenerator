@@ -85,7 +85,7 @@ public class TaskTest {
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("Test1");
+        taskEntity.setProjectName("Test");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.heqing");

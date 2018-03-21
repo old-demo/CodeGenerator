@@ -56,7 +56,7 @@ public class $!{className}Test {
 #elseif($!{field.type} == "Date")
         $!{entityName}.set$!{field.filedName}(new Date());
 #elseif($!{field.type} == "Integer")
-         $!{entityName}.set$!{field.filedName}(1);
+        $!{entityName}.set$!{field.filedName}(1);
 #elseif($!{field.type} == "Long")
         $!{entityName}.set$!{field.filedName}((long)1);
 #elseif($!{field.type} == "Float")

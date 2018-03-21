@@ -155,7 +155,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             $!{className} $!{entityName} = get$!{className}ByKey($!{entityName}PK);
             if($!{entityName} != null) {
-                $!{entityName}List.add();
+                $!{entityName}List.add($!{entityName});
             }
         }
         return $!{entityName}List;
@@ -167,6 +167,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             $!{entityName}Repository.delete($!{entityName}PK);
         } catch(Exception e) {
             e.printStackTrace();
+            return 0;
         }
         return 1;
     }
@@ -205,6 +206,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             $!{entityName}Repository.delete($!{keyFields.get(0).entityName});
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
         return 1;
     }

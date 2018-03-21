@@ -178,7 +178,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             successNum += delete$!{className}ByKey($!{entityName}PK);
         }
-        return successNum;
+        return $!{entityName}Repository.deleteBatch$!{className}ByKey();
     }
 #end
 
