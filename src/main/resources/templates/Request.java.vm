@@ -1,6 +1,7 @@
 package $!{classPackage}.controller.request;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import com.alibaba.fastjson.JSONObject;
@@ -65,14 +66,12 @@ private static final long serialVersionUID = 1L;
 
 #end
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} != "Date")
     /**
      * $!{field.entityName} $!{field.comment}
      */
     @JSONField(name="$!{field.columnName}")
     private $!{field.type} $!{field.entityName};
 
-#end
 #end
     public int getPageNum() {
         return pageNum;
@@ -91,7 +90,6 @@ private static final long serialVersionUID = 1L;
     }
 
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} != "Date")
     public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
         this.$!{field.entityName} = $!{field.entityName};
     }
@@ -100,7 +98,6 @@ private static final long serialVersionUID = 1L;
         return $!{field.entityName};
     }
 
-#end
 #end
     @Override
     public String toString() {
@@ -111,9 +108,7 @@ private static final long serialVersionUID = 1L;
         $!{className} $!{entityName} = new $!{className}();
 #if($!{frame.repositoryFrame} == "MYBATIS")
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} != "Date")
         $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
-#end
 #end
 #elseif($!{frame.repositoryFrame} == "HIBERNATE")
 #if($keyFields.size() > 1)
@@ -126,9 +121,7 @@ private static final long serialVersionUID = 1L;
         $!{entityName}.set$!{keyFields.get(0).filedName}(this.get$!{keyFields.get(0).filedName}());
 #end
 #foreach ($!{field} in $!{noKeyFields})
-#if($!{field.type} != "Date")
         $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
-#end
 #end
 #end
         return $!{entityName};

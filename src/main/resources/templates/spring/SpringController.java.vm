@@ -32,9 +32,6 @@ public class $!{className}Controller {
     @ResponseBody
     public ResponseUtil save$!{className}(@RequestBody $!{className}Request $!{entityName}Request) {
         $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
-        if($!{entityName} == null) {
-            return new ResponseUtil(0, "$!{comment}不能为null！", null);
-        }
         int result = $!{entityName}Service.save$!{className}($!{entityName});
         if(result == 1) {
             return new ResponseUtil(1, "创建$!{comment}成功！", null);
@@ -52,9 +49,6 @@ public class $!{className}Controller {
         }
 #end
         $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
-        if($!{entityName} == null) {
-            return new ResponseUtil(0, "$!{comment}不能为null！", null);
-        }
         int result = $!{entityName}Service.update$!{className}ByKey($!{entityName});
         if(result == 1) {
             return new ResponseUtil(1, "修改$!{comment}成功！", null);

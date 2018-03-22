@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.RoomRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="roomFields">
+        room_unit_id
+        , room_owner_id
+        , room_info
+        , room_id
+        , room_shape
+        , room_area
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="roomParameterMap" type="com.jingye.entity.Room">
+        <parameter property="roomUnitId"/>
+        <parameter property="roomOwnerId"/>
+        <parameter property="roomInfo"/>
+        <parameter property="roomId"/>
+        <parameter property="roomShape"/>
+        <parameter property="roomArea"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="roomResultMap" type="com.jingye.entity.Room">
+        <result property="roomUnitId" column="room_unit_id" />
+        <result property="roomOwnerId" column="room_owner_id" />
+        <result property="roomInfo" column="room_info" />
+        <result property="roomId" column="room_id" />
+        <result property="roomShape" column="room_shape" />
+        <result property="roomArea" column="room_area" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveRoom" parameterMap="roomParameterMap" keyProperty="room_id" useGeneratedKeys="true">
+        INSERT INTO
+          room( <include refid="roomFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchRoom" parameterType="java.util.List">
+        INSERT INTO
+          room( <include refid="roomFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.roomUnitId}
+              ,#{item.roomOwnerId}
+              ,#{item.roomInfo}
+              ,#{item.roomId}
+              ,#{item.roomShape}
+              ,#{item.roomArea}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listRoom" resultMap="roomResultMap">
+        SELECT
+          <include refid="roomFields"/>
+        FROM room
+        ORDER BY
+           room_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listRoomByParam" parameterType="java.util.Map" resultMap="roomResultMap">
+        SELECT
+          <include refid="roomFields"/>
+        FROM room
+        <where>
+           <if test="roomUnitId != null and roomUnitId != ''"> AND room_unit_id=#{roomUnitId} </if>
+           <if test="roomOwnerId != null and roomOwnerId != ''"> AND room_owner_id=#{roomOwnerId} </if>
+           <if test="roomInfo != null and roomInfo != ''"> AND room_info=#{roomInfo} </if>
+           <if test="roomId != null and roomId != ''"> AND room_id=#{roomId} </if>
+           <if test="roomShape != null and roomShape != ''"> AND room_shape=#{roomShape} </if>
+           <if test="roomArea != null and roomArea != ''"> AND room_area=#{roomArea} </if>
+        </where>
+        ORDER BY
+           room_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteRoomByParam" parameterMap="roomParameterMap">
+        DELETE FROM room
+        <where>
+          <if test="roomUnitId != null and roomUnitId != ''"> AND room_unit_id=#{roomUnitId} </if>
+          <if test="roomOwnerId != null and roomOwnerId != ''"> AND room_owner_id=#{roomOwnerId} </if>
+          <if test="roomInfo != null and roomInfo != ''"> AND room_info=#{roomInfo} </if>
+          <if test="roomId != null and roomId != ''"> AND room_id=#{roomId} </if>
+          <if test="roomShape != null and roomShape != ''"> AND room_shape=#{roomShape} </if>
+          <if test="roomArea != null and roomArea != ''"> AND room_area=#{roomArea} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateRoomByKey" parameterMap="roomParameterMap">
+        UPDATE
+          room
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="roomUnitId != null">, room_unit_id=#{roomUnitId}</if>
+          <if test="roomOwnerId != null">, room_owner_id=#{roomOwnerId}</if>
+          <if test="roomInfo != null">, room_info=#{roomInfo}</if>
+          <if test="roomId != null">, room_id=#{roomId}</if>
+          <if test="roomShape != null">, room_shape=#{roomShape}</if>
+          <if test="roomArea != null">, room_area=#{roomArea}</if>
+        </trim>
+        <where>
+          AND room_id=#{roomId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getRoomByKey" parameterType="java.util.Map" resultMap="roomResultMap">
+        SELECT
+          <include refid="roomFields"/>
+        FROM room
+        <where>
+          AND room_id=#{roomId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteRoomByKey" parameterType="java.util.Map">
+        DELETE FROM room
+        <where>
+          AND room_id=#{roomId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchRoomByKey" parameterType="java.util.List">
+        DELETE FROM room
+          WHERE room_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{room_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listRoomByKey" parameterType="java.util.List" resultMap="roomResultMap">
+        SELECT <include refid="roomFields"/>
+        FROM room
+        WHERE room_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{room_id}
+        </foreach>
+    </select>
+
+</mapper>

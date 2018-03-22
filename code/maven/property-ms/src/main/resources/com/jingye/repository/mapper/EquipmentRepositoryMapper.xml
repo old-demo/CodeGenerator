@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.EquipmentRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="equipmentFields">
+        equipment_info
+        , equipment_name
+        , equipment_id
+        , equipment_number
+        , equipment_cycle
+        , equipment_produce
+        , equipment_vendor
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="equipmentParameterMap" type="com.jingye.entity.Equipment">
+        <parameter property="equipmentInfo"/>
+        <parameter property="equipmentName"/>
+        <parameter property="equipmentId"/>
+        <parameter property="equipmentNumber"/>
+        <parameter property="equipmentCycle"/>
+        <parameter property="equipmentProduce"/>
+        <parameter property="equipmentVendor"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="equipmentResultMap" type="com.jingye.entity.Equipment">
+        <result property="equipmentInfo" column="equipment_info" />
+        <result property="equipmentName" column="equipment_name" />
+        <result property="equipmentId" column="equipment_id" />
+        <result property="equipmentNumber" column="equipment_number" />
+        <result property="equipmentCycle" column="equipment_cycle" />
+        <result property="equipmentProduce" column="equipment_produce" />
+        <result property="equipmentVendor" column="equipment_vendor" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveEquipment" parameterMap="equipmentParameterMap" keyProperty="equipment_id" useGeneratedKeys="true">
+        INSERT INTO
+          equipment( <include refid="equipmentFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchEquipment" parameterType="java.util.List">
+        INSERT INTO
+          equipment( <include refid="equipmentFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.equipmentInfo}
+              ,#{item.equipmentName}
+              ,#{item.equipmentId}
+              ,#{item.equipmentNumber}
+              ,#{item.equipmentCycle}
+              ,#{item.equipmentProduce}
+              ,#{item.equipmentVendor}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listEquipment" resultMap="equipmentResultMap">
+        SELECT
+          <include refid="equipmentFields"/>
+        FROM equipment
+        ORDER BY
+           equipment_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listEquipmentByParam" parameterType="java.util.Map" resultMap="equipmentResultMap">
+        SELECT
+          <include refid="equipmentFields"/>
+        FROM equipment
+        <where>
+           <if test="equipmentInfo != null and equipmentInfo != ''"> AND equipment_info=#{equipmentInfo} </if>
+           <if test="equipmentName != null and equipmentName != ''"> AND equipment_name=#{equipmentName} </if>
+           <if test="equipmentId != null and equipmentId != ''"> AND equipment_id=#{equipmentId} </if>
+           <if test="equipmentNumber != null and equipmentNumber != ''"> AND equipment_number=#{equipmentNumber} </if>
+           <if test="equipmentCycle != null and equipmentCycle != ''"> AND equipment_cycle=#{equipmentCycle} </if>
+           <if test="equipmentProduce != null and equipmentProduce != ''"> AND equipment_produce=#{equipmentProduce} </if>
+           <if test="equipmentVendor != null and equipmentVendor != ''"> AND equipment_vendor=#{equipmentVendor} </if>
+        </where>
+        ORDER BY
+           equipment_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteEquipmentByParam" parameterMap="equipmentParameterMap">
+        DELETE FROM equipment
+        <where>
+          <if test="equipmentInfo != null and equipmentInfo != ''"> AND equipment_info=#{equipmentInfo} </if>
+          <if test="equipmentName != null and equipmentName != ''"> AND equipment_name=#{equipmentName} </if>
+          <if test="equipmentId != null and equipmentId != ''"> AND equipment_id=#{equipmentId} </if>
+          <if test="equipmentNumber != null and equipmentNumber != ''"> AND equipment_number=#{equipmentNumber} </if>
+          <if test="equipmentCycle != null and equipmentCycle != ''"> AND equipment_cycle=#{equipmentCycle} </if>
+          <if test="equipmentProduce != null and equipmentProduce != ''"> AND equipment_produce=#{equipmentProduce} </if>
+          <if test="equipmentVendor != null and equipmentVendor != ''"> AND equipment_vendor=#{equipmentVendor} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateEquipmentByKey" parameterMap="equipmentParameterMap">
+        UPDATE
+          equipment
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="equipmentInfo != null">, equipment_info=#{equipmentInfo}</if>
+          <if test="equipmentName != null">, equipment_name=#{equipmentName}</if>
+          <if test="equipmentId != null">, equipment_id=#{equipmentId}</if>
+          <if test="equipmentNumber != null">, equipment_number=#{equipmentNumber}</if>
+          <if test="equipmentCycle != null">, equipment_cycle=#{equipmentCycle}</if>
+          <if test="equipmentProduce != null">, equipment_produce=#{equipmentProduce}</if>
+          <if test="equipmentVendor != null">, equipment_vendor=#{equipmentVendor}</if>
+        </trim>
+        <where>
+          AND equipment_id=#{equipmentId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getEquipmentByKey" parameterType="java.util.Map" resultMap="equipmentResultMap">
+        SELECT
+          <include refid="equipmentFields"/>
+        FROM equipment
+        <where>
+          AND equipment_id=#{equipmentId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteEquipmentByKey" parameterType="java.util.Map">
+        DELETE FROM equipment
+        <where>
+          AND equipment_id=#{equipmentId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchEquipmentByKey" parameterType="java.util.List">
+        DELETE FROM equipment
+          WHERE equipment_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{equipment_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listEquipmentByKey" parameterType="java.util.List" resultMap="equipmentResultMap">
+        SELECT <include refid="equipmentFields"/>
+        FROM equipment
+        WHERE equipment_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{equipment_id}
+        </foreach>
+    </select>
+
+</mapper>

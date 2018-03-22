@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.ParkingRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="parkingFields">
+        parking_id
+        , parking_area
+        , parking_owner_id
+        , parking_car_number
+        , parking_info
+        , parking_car_kind
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="parkingParameterMap" type="com.jingye.entity.Parking">
+        <parameter property="parkingId"/>
+        <parameter property="parkingArea"/>
+        <parameter property="parkingOwnerId"/>
+        <parameter property="parkingCarNumber"/>
+        <parameter property="parkingInfo"/>
+        <parameter property="parkingCarKind"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="parkingResultMap" type="com.jingye.entity.Parking">
+        <result property="parkingId" column="parking_id" />
+        <result property="parkingArea" column="parking_area" />
+        <result property="parkingOwnerId" column="parking_owner_id" />
+        <result property="parkingCarNumber" column="parking_car_number" />
+        <result property="parkingInfo" column="parking_info" />
+        <result property="parkingCarKind" column="parking_car_kind" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveParking" parameterMap="parkingParameterMap" keyProperty="parking_id" useGeneratedKeys="true">
+        INSERT INTO
+          parking( <include refid="parkingFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchParking" parameterType="java.util.List">
+        INSERT INTO
+          parking( <include refid="parkingFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.parkingId}
+              ,#{item.parkingArea}
+              ,#{item.parkingOwnerId}
+              ,#{item.parkingCarNumber}
+              ,#{item.parkingInfo}
+              ,#{item.parkingCarKind}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listParking" resultMap="parkingResultMap">
+        SELECT
+          <include refid="parkingFields"/>
+        FROM parking
+        ORDER BY
+           parking_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listParkingByParam" parameterType="java.util.Map" resultMap="parkingResultMap">
+        SELECT
+          <include refid="parkingFields"/>
+        FROM parking
+        <where>
+           <if test="parkingId != null and parkingId != ''"> AND parking_id=#{parkingId} </if>
+           <if test="parkingArea != null and parkingArea != ''"> AND parking_area=#{parkingArea} </if>
+           <if test="parkingOwnerId != null and parkingOwnerId != ''"> AND parking_owner_id=#{parkingOwnerId} </if>
+           <if test="parkingCarNumber != null and parkingCarNumber != ''"> AND parking_car_number=#{parkingCarNumber} </if>
+           <if test="parkingInfo != null and parkingInfo != ''"> AND parking_info=#{parkingInfo} </if>
+           <if test="parkingCarKind != null and parkingCarKind != ''"> AND parking_car_kind=#{parkingCarKind} </if>
+        </where>
+        ORDER BY
+           parking_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteParkingByParam" parameterMap="parkingParameterMap">
+        DELETE FROM parking
+        <where>
+          <if test="parkingId != null and parkingId != ''"> AND parking_id=#{parkingId} </if>
+          <if test="parkingArea != null and parkingArea != ''"> AND parking_area=#{parkingArea} </if>
+          <if test="parkingOwnerId != null and parkingOwnerId != ''"> AND parking_owner_id=#{parkingOwnerId} </if>
+          <if test="parkingCarNumber != null and parkingCarNumber != ''"> AND parking_car_number=#{parkingCarNumber} </if>
+          <if test="parkingInfo != null and parkingInfo != ''"> AND parking_info=#{parkingInfo} </if>
+          <if test="parkingCarKind != null and parkingCarKind != ''"> AND parking_car_kind=#{parkingCarKind} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateParkingByKey" parameterMap="parkingParameterMap">
+        UPDATE
+          parking
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="parkingId != null">, parking_id=#{parkingId}</if>
+          <if test="parkingArea != null">, parking_area=#{parkingArea}</if>
+          <if test="parkingOwnerId != null">, parking_owner_id=#{parkingOwnerId}</if>
+          <if test="parkingCarNumber != null">, parking_car_number=#{parkingCarNumber}</if>
+          <if test="parkingInfo != null">, parking_info=#{parkingInfo}</if>
+          <if test="parkingCarKind != null">, parking_car_kind=#{parkingCarKind}</if>
+        </trim>
+        <where>
+          AND parking_id=#{parkingId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getParkingByKey" parameterType="java.util.Map" resultMap="parkingResultMap">
+        SELECT
+          <include refid="parkingFields"/>
+        FROM parking
+        <where>
+          AND parking_id=#{parkingId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteParkingByKey" parameterType="java.util.Map">
+        DELETE FROM parking
+        <where>
+          AND parking_id=#{parkingId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchParkingByKey" parameterType="java.util.List">
+        DELETE FROM parking
+          WHERE parking_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{parking_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listParkingByKey" parameterType="java.util.List" resultMap="parkingResultMap">
+        SELECT <include refid="parkingFields"/>
+        FROM parking
+        WHERE parking_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{parking_id}
+        </foreach>
+    </select>
+
+</mapper>

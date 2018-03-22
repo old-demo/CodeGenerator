@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.BuildingRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="buildingFields">
+        building_id
+        , building_kind
+        , buliding_level
+        , building_head
+        , buliding_area
+        , building_info
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="buildingParameterMap" type="com.jingye.entity.Building">
+        <parameter property="buildingId"/>
+        <parameter property="buildingKind"/>
+        <parameter property="bulidingLevel"/>
+        <parameter property="buildingHead"/>
+        <parameter property="bulidingArea"/>
+        <parameter property="buildingInfo"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="buildingResultMap" type="com.jingye.entity.Building">
+        <result property="buildingId" column="building_id" />
+        <result property="buildingKind" column="building_kind" />
+        <result property="bulidingLevel" column="buliding_level" />
+        <result property="buildingHead" column="building_head" />
+        <result property="bulidingArea" column="buliding_area" />
+        <result property="buildingInfo" column="building_info" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveBuilding" parameterMap="buildingParameterMap" keyProperty="building_id" useGeneratedKeys="true">
+        INSERT INTO
+          building( <include refid="buildingFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchBuilding" parameterType="java.util.List">
+        INSERT INTO
+          building( <include refid="buildingFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.buildingId}
+              ,#{item.buildingKind}
+              ,#{item.bulidingLevel}
+              ,#{item.buildingHead}
+              ,#{item.bulidingArea}
+              ,#{item.buildingInfo}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listBuilding" resultMap="buildingResultMap">
+        SELECT
+          <include refid="buildingFields"/>
+        FROM building
+        ORDER BY
+           building_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listBuildingByParam" parameterType="java.util.Map" resultMap="buildingResultMap">
+        SELECT
+          <include refid="buildingFields"/>
+        FROM building
+        <where>
+           <if test="buildingId != null and buildingId != ''"> AND building_id=#{buildingId} </if>
+           <if test="buildingKind != null and buildingKind != ''"> AND building_kind=#{buildingKind} </if>
+           <if test="bulidingLevel != null and bulidingLevel != ''"> AND buliding_level=#{bulidingLevel} </if>
+           <if test="buildingHead != null and buildingHead != ''"> AND building_head=#{buildingHead} </if>
+           <if test="bulidingArea != null and bulidingArea != ''"> AND buliding_area=#{bulidingArea} </if>
+           <if test="buildingInfo != null and buildingInfo != ''"> AND building_info=#{buildingInfo} </if>
+        </where>
+        ORDER BY
+           building_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteBuildingByParam" parameterMap="buildingParameterMap">
+        DELETE FROM building
+        <where>
+          <if test="buildingId != null and buildingId != ''"> AND building_id=#{buildingId} </if>
+          <if test="buildingKind != null and buildingKind != ''"> AND building_kind=#{buildingKind} </if>
+          <if test="bulidingLevel != null and bulidingLevel != ''"> AND buliding_level=#{bulidingLevel} </if>
+          <if test="buildingHead != null and buildingHead != ''"> AND building_head=#{buildingHead} </if>
+          <if test="bulidingArea != null and bulidingArea != ''"> AND buliding_area=#{bulidingArea} </if>
+          <if test="buildingInfo != null and buildingInfo != ''"> AND building_info=#{buildingInfo} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateBuildingByKey" parameterMap="buildingParameterMap">
+        UPDATE
+          building
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="buildingId != null">, building_id=#{buildingId}</if>
+          <if test="buildingKind != null">, building_kind=#{buildingKind}</if>
+          <if test="bulidingLevel != null">, buliding_level=#{bulidingLevel}</if>
+          <if test="buildingHead != null">, building_head=#{buildingHead}</if>
+          <if test="bulidingArea != null">, buliding_area=#{bulidingArea}</if>
+          <if test="buildingInfo != null">, building_info=#{buildingInfo}</if>
+        </trim>
+        <where>
+          AND building_id=#{buildingId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getBuildingByKey" parameterType="java.util.Map" resultMap="buildingResultMap">
+        SELECT
+          <include refid="buildingFields"/>
+        FROM building
+        <where>
+          AND building_id=#{buildingId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteBuildingByKey" parameterType="java.util.Map">
+        DELETE FROM building
+        <where>
+          AND building_id=#{buildingId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchBuildingByKey" parameterType="java.util.List">
+        DELETE FROM building
+          WHERE building_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{building_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listBuildingByKey" parameterType="java.util.List" resultMap="buildingResultMap">
+        SELECT <include refid="buildingFields"/>
+        FROM building
+        WHERE building_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{building_id}
+        </foreach>
+    </select>
+
+</mapper>
