@@ -63,6 +63,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             checkParams(taskEntity);
 
             for(String tableName : taskEntity.getTableNames()) {
+
+
                 LOGGER.info("开始合成参数！");
                 combileParams(taskEntity, tableName);
 

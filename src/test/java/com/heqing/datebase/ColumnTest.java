@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -63,4 +64,36 @@ public class ColumnTest {
             sqlSession.close();
         }
     }
+
+    @Test
+    public void testKeyWord() {
+        List<Column> columnList = tableService.listColumnByTable(sqlSession, "test");
+        for(Column column : columnList) {
+            System.out.println("-->"+toName(column.getColumnName()));
+        }
+    }
+
+    public String toName(String word){
+        word = word.replace(" ", "");
+        String[] delimiters = new String[]{"_", "-", "/", "*", "+"};
+        for(String delimiter : delimiters) {
+            word=toName(word, delimiter);
+        }
+        return word;
+    }
+
+    public String toName(String word, String key){
+        if(word.contains(key)) {
+            int index = word.indexOf(key);
+            if((index+2) <= word.length()) {
+                String start = word.substring(index + 1, index + 2);
+                word = word.replace(key + start, start.toUpperCase());
+            } else {
+                word = word.replace(key, "");
+            }
+            word = toName(word, key);
+        }
+        return word;
+    }
+
 }
