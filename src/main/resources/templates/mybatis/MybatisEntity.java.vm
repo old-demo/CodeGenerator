@@ -17,6 +17,13 @@ public class $!{className} implements Serializable {
     private static final long serialVersionUID = 1L;
 
 #foreach ($!{field} in $!{fields})
+#if($!{field.type} == "String") #set ($vale=$!{field.filedDefault})
+#elseif($!{field.type} == "Integer") #set ($vale=$!{field.filedDefault})
+#elseif($!{field.type} == "Long") #set ($vale=$!{field.filedDefault}+"L")
+#elseif($!{field.type} == "Float") #set ($vale=$!{field.filedDefault}+"F")
+#elseif($!{field.type} == "Double") #set ($vale=$!{field.filedDefault}+"D")
+#elseif($!{field.type} == "java.math.BigDecimal") #set ($vale="new java.math.BigDecimal($!{field.filedDefault})")
+#end
     /**
 	 * $!{field.entityName} $!{field.comment}
 	 */
@@ -25,7 +32,7 @@ public class $!{className} implements Serializable {
 #else
 	@JSONField(name="$!{field.columnName}")
 #end
-	private $!{field.type} $!{field.entityName};
+	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{vale}"#else$!{vale}#end#end;
 
 #end
 #foreach ($!{field} in $!{fields})

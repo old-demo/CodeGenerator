@@ -58,6 +58,13 @@ public class $!{className} implements Serializable {
 #end
 
 #foreach ($!{field} in $!{noKeyFields})
+#if($!{field.type} == "String") #set ($vale=$!{field.filedDefault})
+#elseif($!{field.type} == "Integer") #set ($vale=$!{field.filedDefault})
+#elseif($!{field.type} == "Long") #set ($vale=$!{field.filedDefault}+"L")
+#elseif($!{field.type} == "Float") #set ($vale=$!{field.filedDefault}+"F")
+#elseif($!{field.type} == "Double") #set ($vale=$!{field.filedDefault}+"D")
+#elseif($!{field.type} == "java.math.BigDecimal") #set ($vale="new java.math.BigDecimal($!{field.filedDefault})")
+#end
 	/**
 	 * $!{field.entityName} $!{field.comment}
 	 */
@@ -67,7 +74,7 @@ public class $!{className} implements Serializable {
     @JSONField(name="$!{field.columnName}")
 #end
 	@Column(name="$!{field.columnName}")
-	private $!{field.type} $!{field.entityName};
+	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{vale}"#else$!{vale}#end#end;
 
 	public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
         this.$!{field.entityName} = $!{field.entityName};

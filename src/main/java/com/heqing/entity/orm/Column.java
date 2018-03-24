@@ -89,10 +89,16 @@ public class Column implements Serializable {
     private String comment;
 
     /**
-     * comment 额外的
+     * extra 额外的
      */
     @JSONField(name="extra")
     private String extra;
+
+    /**
+     * column_default 默认值
+     */
+    @JSONField(name="column_default")
+    private String columnDefault;
 
     public String getDbName() {
         return dbName;
@@ -196,6 +202,14 @@ public class Column implements Serializable {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public String getColumnDefault() {
+        return columnDefault;
+    }
+
+    public void setColumnDefault(String columnDefault) {
+        this.columnDefault = columnDefault;
     }
 
     @Override

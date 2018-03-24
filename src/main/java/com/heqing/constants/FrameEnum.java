@@ -2,11 +2,8 @@ package com.heqing.constants;
 
 import com.heqing.entity.task.TaskEntity;
 
-import java.util.Map;
-import java.util.Set;
-
 /**
- * 生成代码中所包含的框架
+ * 根据配置，添加需要的代码模板
  *
  * @author heqing
  * @email 975656343@qq.com
@@ -14,153 +11,116 @@ import java.util.Set;
  */
 public enum FrameEnum {
 
-    /*
-     * jar jar项目
-     */
+    // 普通java项目
     JAR("jar"),
-    /*
-     * maven maven项目
-     */
+
+    // maven项目
     MAVEN("maven"),
-    /*
-     * spring Spring框架
-     */
+
+    // Spring框架
     SPRING("spring"),
-    /*
-     * springboot springboot框架
-     */
-    SPRINGBOOT("springboot"),
-    /*
-     * hibernate hibernate框架
-     */
+
+    // springBoot框架
+    SPRING_BOOT("spring_Boot"),
+
+    // hibernate框架
     HIBERNATE("hibernate"),
-    /*
-     * mybatis mybatis框架
-     */
+
+    // mybatis框架
     MYBATIS("mybatis"),
-    /*
-     * springmvc springmvc框架
-     */
-    SPRINGMVC("springmvc"),
-    /*
-     * strtus2 strtus2框架
-     */
+
+    // spring_mvc框架
+    SPRING_MVC("SPRING_MVC"),
+
+    // struts2框架
     STRUTS2("struts2");
-
-    private final String frame;
-
-    private FrameEnum(String frame) {
-        this.frame = frame;
-    }
 
     public static void addTemplates(TaskEntity taskEntity) {
         taskEntity.getTemplates().clear();
+
+        // 表中主键数量
         int keyNum = taskEntity.getFrame().getKeyNum();
-
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGEINFO);
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
-        if (keyNum > 1) {
-            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
-        }else {
-            taskEntity.getTemplates().clear();
-        }
-
+        // 项目框架
         FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
-        switch (projectFrame) {
-            case MAVEN:
-                taskEntity.getTemplates().add(TemplateEnum.POM);
-                break;
-            case JAR:
-                break;
-            default:
-                ;
-        }
-
-        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
-        switch (repositoryFrame) {
-            case MYBATIS:
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_DAO);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_MAPPER);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICEIMPL);
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_TEST);
-                break;
-            case HIBERNATE:
-                if (keyNum > 0) {
-                    if (keyNum > 1) {
-                        taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
-                    }
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICEIMPL);
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
-                } else {
-                    taskEntity.getTemplates().clear();
-                }
-                break;
-            default:
-                ;
-        }
-
+        // 底层框架
         FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
-        switch (serviceFrame) {
-            case SPRING:
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG_TEST);
-                if(repositoryFrame == MYBATIS) {
-                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
-                } else if(repositoryFrame == HIBERNATE) {
-                    if (keyNum > 0) {
-                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_CONFIG);
-                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_ABSTRACT);
-                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_ABSTRACT_IMPL);
-                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_REPOSITORY);
-                        taskEntity.getTemplates().add(TemplateEnum.HBERNATE_REPOSITORY_IMPL);
-                    }else {
-                        taskEntity.getTemplates().clear();
-                    }
-                }
-                break;
-            case SPRINGBOOT:
-                if(repositoryFrame == HIBERNATE) {
-                    if (keyNum > 0) {
-                        taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
-                    }
-                }
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
-                break;
-            default:;
+        // 数据访问层框架
+        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
+        // 控制层框架
+        FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
+
+        if(keyNum > 1) {
+            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
+        } else if(keyNum < 1 && repositoryFrame == HIBERNATE) {
+            return ;
         }
 
-        FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
-        if(controllerFrame != null) {
-            switch (serviceFrame) {
-                case SPRING:
-                    taskEntity.getTemplates().add(TemplateEnum.WEB);
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
-                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
-                    break;
-                case SPRINGBOOT:
-                    break;
-                default:;
+        if(projectFrame == MAVEN) {
+            taskEntity.getTemplates().add(TemplateEnum.POM);
+        }
+
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
+        if(repositoryFrame == MYBATIS) {
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_DAO);
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_MAPPER);
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE);
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE_IMPL);
+            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_TEST);
+        } else if(repositoryFrame == HIBERNATE) {
+            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
+            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
+            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE_IMPL);
+            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
+        }
+
+        if(serviceFrame == SPRING) {
+            taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG_TEST);
+            if(repositoryFrame == MYBATIS) {
+                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
+            }else if(repositoryFrame == HIBERNATE) {
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_CONFIG_TEST);
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ABSTRACT);
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ABSTRACT_IMPL);
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_REPOSITORY);
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_REPOSITORY_IMPL);
             }
-            switch (controllerFrame) {
-                case SPRINGMVC:
-                    if (repositoryFrame == MYBATIS || keyNum > 0) {
-                        taskEntity.getTemplates().add(TemplateEnum.REQUEST);
-                        taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
-                        if (serviceFrame == SPRINGBOOT) {
-                            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
-                        }
-                    }
-                    break;
-                case STRUTS2:
-                    break;
-                default:;
+        } else if(serviceFrame == SPRING_BOOT) {
+            if(repositoryFrame == HIBERNATE) {
+                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
+            }
+            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_TEST);
+            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
+        }
+
+        if(controllerFrame != null) {
+            taskEntity.getTemplates().add(TemplateEnum.REQUEST);
+            taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
+            if(serviceFrame == SPRING) {
+                taskEntity.getTemplates().add(TemplateEnum.WEB);
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
+                if(repositoryFrame == MYBATIS) {
+                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
+                }else if(repositoryFrame == HIBERNATE) {
+                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_CONFIG);
+                }
+            }else if(serviceFrame == SPRING_BOOT) {
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
+                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
+            }
+            if (controllerFrame == SPRING_MVC) {
+                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
+                if(serviceFrame == SPRING) {
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
+                }
             }
         }
+    }
+
+    String frame;
+
+    FrameEnum(String frame) {
+        this.frame = frame;
     }
 
 }

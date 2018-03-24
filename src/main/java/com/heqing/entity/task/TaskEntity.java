@@ -3,6 +3,7 @@ package com.heqing.entity.task;
 import com.alibaba.fastjson.JSONObject;
 import com.heqing.constants.TemplateEnum;
 import com.heqing.entity.orm.Datebase;
+import com.heqing.util.FileUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,17 @@ public class TaskEntity {
      * frame    项目框架
      */
     private FrameEntity frame;
+
+    private static List<String> javaKey;
+
+    static {
+        String filePath = System.getProperty("user.dir")+"/src/main/resources/keyWord.txt";
+        javaKey = FileUtil.readFile(filePath);
+    }
+
+    public static List<String> getJavaKey() {
+        return javaKey;
+    }
 
     public Datebase getDatebase() {
         return datebase;

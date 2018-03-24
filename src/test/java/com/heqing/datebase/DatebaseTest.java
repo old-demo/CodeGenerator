@@ -2,6 +2,7 @@ package com.heqing.datebase;
 
 import com.alibaba.fastjson.JSON;
 import com.heqing.entity.orm.Datebase;
+import com.heqing.service.DatebaseService;
 import com.heqing.util.PageInfoUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.heqing.service.DatebaseService;
 
 /**
  * 数据库连接信息数据持久层接口

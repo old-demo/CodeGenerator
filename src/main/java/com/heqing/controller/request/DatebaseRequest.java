@@ -1,11 +1,12 @@
 package com.heqing.controller.request;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.heqing.entity.orm.Datebase;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 数据库连接信息请求参数

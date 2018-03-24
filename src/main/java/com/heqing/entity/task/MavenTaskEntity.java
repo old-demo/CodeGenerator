@@ -11,9 +11,24 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class MavenTaskEntity extends TaskEntity {
 
+    /**
+     * groupId 项目组织唯一的标识符
+     */
     private String groupId;
+
+    /**
+     *  artifactId 项目的唯一的标识符
+     */
     private String artifactId;
+
+    /**
+     * version 版本号
+     */
     private String version;
+
+    /**
+     * description 描述
+     */
     private String description;
 
     public String getGroupId() {

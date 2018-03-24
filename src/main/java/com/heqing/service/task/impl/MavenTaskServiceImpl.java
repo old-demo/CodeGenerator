@@ -1,6 +1,5 @@
 package com.heqing.service.task.impl;
 
-import com.heqing.constants.TemplateEnum;
 import com.heqing.entity.task.MavenTaskEntity;
 import com.heqing.service.task.MavenTaskService;
 import org.springframework.stereotype.Service;

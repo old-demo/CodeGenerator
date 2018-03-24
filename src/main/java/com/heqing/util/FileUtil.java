@@ -1,6 +1,8 @@
 package com.heqing.util;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -268,4 +270,36 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
+
+    public static List<String> readFile(String fileName) {
+        List<String> stringList = new ArrayList<>();
+        FileInputStream fis = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                return stringList;
+            }
+            fis = new FileInputStream(file);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+            String str = "";
+            while ((str = br.readLine()) != null) {
+                stringList.add(str);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+                isr.close();
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return stringList;
+     }
 }

@@ -74,6 +74,6 @@ public class TableServiceImpl implements TableService {
     public PageInfo<Table> listTableByParamAndPage(SqlSession sqlSession, String tableName, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         List<Table> tableList = sqlSession.selectList("com.heqing.repository.TableRepository.listTableByParamAndPage", tableName);
-        return new PageInfo<Table>(tableList);
+        return new PageInfo<>(tableList);
     }
 }

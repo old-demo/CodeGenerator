@@ -9,6 +9,7 @@ import com.heqing.service.TableService;
 import com.heqing.service.impl.DatebaseServiceImplExt;
 import com.heqing.service.task.MavenTaskService;
 
+import com.heqing.util.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +64,7 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
-        frameEntity.setControllerFrame(FrameEnum.SPRINGMVC);
+        frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setServiceFrame(FrameEnum.SPRING);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
@@ -93,6 +94,12 @@ public class TaskTest {
         taskEntity.setFrame(frameEntity);
         taskEntity.setDatebase(datebase);
         mavenTaskService.execute(taskEntity);
+    }
+
+    @Test
+    public void testKey() {
+        String filePath = System.getProperty("user.dir")+"/src/main/resources/keyWord.txt";
+        System.out.println("---->"+FileUtil.readFile(filePath));
     }
 
 }

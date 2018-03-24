@@ -18,6 +18,7 @@
         , COLUMN_KEY
         , COLUMN_COMMENT
         , EXTRA
+        , COLUMN_DEFAULT
     </sql>
 
     <!-- 属性 -->
@@ -35,6 +36,7 @@
         <parameter property="key"/>
         <parameter property="comment"/>
         <parameter property="extra"/>
+        <parameter property="columnDefault"/>
     </parameterMap>
 
     <!-- 表字段与对象属性映射 -->
@@ -52,6 +54,7 @@
         <result property="key" column="COLUMN_KEY" />
         <result property="comment" column="COLUMN_COMMENT" />
         <result property="extra" column="EXTRA" />
+        <result property="columnDefault" column="COLUMN_DEFAULT" />
     </resultMap>
 
     <!-- 查询表中所有列 -->

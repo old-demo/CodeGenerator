@@ -2,30 +2,28 @@ package com.heqing.service.task.impl;
 
 import com.heqing.constants.FrameEnum;
 import com.heqing.constants.TemplateEnum;
+import com.heqing.entity.orm.Column;
+import com.heqing.entity.orm.Table;
+import com.heqing.entity.task.ClassEntity;
+import com.heqing.entity.task.FieldEntity;
 import com.heqing.entity.task.FrameEntity;
 import com.heqing.entity.task.TaskEntity;
-import com.heqing.entity.task.ClassEntity;
-import com.heqing.entity.orm.Column;
-import com.heqing.entity.task.FieldEntity;
-import com.heqing.entity.orm.Table;
 import com.heqing.service.ColumnService;
 import com.heqing.service.DatebaseServiceExt;
 import com.heqing.service.TableService;
 import com.heqing.service.task.BaseTaskService;
 import com.heqing.util.FileUtil;
 import com.heqing.util.ObjectUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -63,7 +61,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             checkParams(taskEntity);
 
             for(String tableName : taskEntity.getTableNames()) {
-
 
                 LOGGER.info("开始合成参数！");
                 combileParams(taskEntity, tableName);
@@ -106,7 +103,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             if (taskEntity.getFrame() == null) {
                 FrameEntity frameEntity = new FrameEntity();
                 frameEntity.setProjectFrame(FrameEnum.MAVEN);
-                frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+                frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
                 frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
                 taskEntity.setFrame(frameEntity);
             } else {
@@ -115,7 +112,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
                     frameEntity.setProjectFrame(FrameEnum.MAVEN);
                 }
                 if(frameEntity.getServiceFrame() == null) {
-                    frameEntity.setServiceFrame(FrameEnum.SPRINGBOOT);
+                    frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
                 }
                 if(frameEntity.getRepositoryFrame() == null) {
                     frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
@@ -161,8 +158,9 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         for(Column column : columnList) {
             FieldEntity field = new FieldEntity();
             field.setColumnName(column.getColumnName());
-            field.setFiledName(dbToJava(column.getColumnName()));
+            field.setFiledName(specialWord(column.getColumnName()));
             field.setEntityName(StringUtils.uncapitalize(field.getFiledName()));
+            field.setFiledDefault(column.getColumnDefault() == null ? "null" : column.getColumnDefault());
             String type = getJavaType(column.getType(), "(");
             try {
                 field.setType(BUNDLE.getString(type));
@@ -191,7 +189,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         LOGGER.info("合成中 --> 将表的信息转为类！");
         classEntity.setFields(new LinkedList<>(fields));
         classEntity.setClassPackage(taskEntity.getPackageName());
-        classEntity.setClassName(dbToJava(tableName));
+        classEntity.setClassName(specialWord(tableName));
         classEntity.setEntityName(StringUtils.uncapitalize(classEntity.getClassName()));
         classEntity.setComment(table.getComment()==null ? "" : table.getComment());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -209,6 +207,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskMap.put("notNullfields", new LinkedList<>(notNullfields));
         taskMap.put("isAutoIncr", table.getAutoIncrement());
 
+        // 去掉注释显示嵌入关键字
 //        System.out.println("------------------------------------------");
 //        Iterator entries = taskMap.entrySet().iterator();
 //        while (entries.hasNext()) {
@@ -235,6 +234,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             tpl.merge(context, sw);
             String fileName = TemplateEnum.getFilePath(taskEntity.getProjectName(), template, (String)taskMap.get("classPackage"), (String)taskMap.get("className"));
 
+            // 去掉注释控制台显示文件内容
 //            System.out.println("------------------------------------------");
 //            System.out.println(sw.toString());
 //            System.out.println("------------------------------------------");
@@ -257,34 +257,50 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     }
 
     /**
-     * 数据库命名格式 转化成 java 命名格式
+     * 数据库命名 转 JAVA命名
      *
-     * @param tableName 表名
-     * @return String java驼峰命名
+     * @param word 数据库命名
+     * @return String java类型
      */
-    public String dbToJava(String tableName){
-        char[] delimiters = new char[]{'_'};
-        int delimLen = (delimiters == null ? -1 : delimiters.length);
-        if (tableName == null || tableName.length() == 0 || delimLen == 0) {
-            return tableName;
+    public String specialWord(String word){
+        // 清空命名中的空字符串
+        word = word.replace(" ", "");
+        // 可能存在的特殊字符
+        String[] delimiters = new String[]{"_", "-", "/", "*", "+"};
+        for(String delimiter : delimiters) {
+            // 转为java命名规范
+            word = toJavaName(word, delimiter);
         }
-        tableName = tableName.toLowerCase();
-        int strLen = tableName.length();
-        StringBuffer buffer = new StringBuffer(strLen);
-        boolean capitalizeNext = true;
-        for (int i = 0; i < strLen; i++) {
-            char ch = tableName.charAt(i);
-            if (isDelimiter(ch, delimiters)) {
-                buffer.append(ch);
-                capitalizeNext = true;
-            } else if (capitalizeNext) {
-                buffer.append(Character.toTitleCase(ch));
-                capitalizeNext = false;
+        if(TaskEntity.getJavaKey().contains(word.toLowerCase())) {
+            LOGGER.error("该字段名与java保留关键字相同，增加T以区别");
+            word = word+"T";
+        }
+        return word;
+    }
+
+    /**
+     * 检查数据表命名中是否存在特殊字符，并转为java命名格式
+     *
+     * @param word 数据库命名
+     * @param key 特殊字符
+     * @return String java类型
+     */
+    public String toJavaName(String word, String key){
+        // 单词中是否存在特殊字符
+        if(word.contains(key)) {
+            // 特殊字符在单词中的位置。
+            int index = word.indexOf(key) + 1;
+            //如果在中间将后一个单词大写并前移一位，如果在最后则变空字符串
+            int wordLength = 1;
+            if((index + wordLength) <= word.length()) {
+                String start = word.substring(index, index + wordLength);
+                word = word.replace(key + start, start.toUpperCase());
             } else {
-                buffer.append(ch);
+                word = word.replace(key, "");
             }
+            word = toJavaName(word, key);
         }
-        return buffer.toString().replaceAll("_","");
+        return word;
     }
 
     /**
@@ -299,21 +315,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             return dbType;
         }
         return dbType.substring(0, dbType.indexOf(special));
-    }
-
-    /**
-     * 是否有特殊字符
-     */
-    public boolean isDelimiter(char ch, char[] delimiters) {
-        if (delimiters == null) {
-            return Character.isWhitespace(ch);
-        }
-        for (int i = 0, isize = delimiters.length; i < isize; i++) {
-            if (ch == delimiters[i]) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

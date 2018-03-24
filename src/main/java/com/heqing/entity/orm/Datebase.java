@@ -1,9 +1,10 @@
 package com.heqing.entity.orm;
 
-import java.io.Serializable;
-import java.util.Date;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 数据库连接信息实体类

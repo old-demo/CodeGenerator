@@ -36,6 +36,11 @@ public class FieldEntity {
      */
     private String columnName;
 
+    /**
+     * filedDefault   默认值
+     */
+    private String filedDefault;
+
     public String getFiledName() {
         return filedName;
     }
@@ -84,6 +89,14 @@ public class FieldEntity {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    public String getFiledDefault() {
+        return filedDefault;
+    }
+
+    public void setFiledDefault(String filedDefault) {
+        this.filedDefault = filedDefault;
     }
 
     @Override
