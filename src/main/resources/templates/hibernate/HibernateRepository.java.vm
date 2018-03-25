@@ -8,6 +8,7 @@ import $!{classPackage}.util.PageInfoUtil;
 
 import java.util.List;
 import java.util.Date;
+import java.math.BigDecimal;
 
 /**
  * $!{comment}数据访问类

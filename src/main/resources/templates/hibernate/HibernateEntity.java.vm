@@ -2,6 +2,7 @@ package $!{classPackage}.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.math.BigDecimal;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -63,7 +64,7 @@ public class $!{className} implements Serializable {
 #elseif($!{field.type} == "Long") #set ($vale=$!{field.filedDefault}+"L")
 #elseif($!{field.type} == "Float") #set ($vale=$!{field.filedDefault}+"F")
 #elseif($!{field.type} == "Double") #set ($vale=$!{field.filedDefault}+"D")
-#elseif($!{field.type} == "java.math.BigDecimal") #set ($vale="new java.math.BigDecimal($!{field.filedDefault})")
+#elseif($!{field.type} == "BigDecimal") #set ($vale="new BigDecimal($!{field.filedDefault})")
 #end
 	/**
 	 * $!{field.entityName} $!{field.comment}

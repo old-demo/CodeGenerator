@@ -17,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by heqing on 2018/1/6.
@@ -66,7 +64,7 @@ public class TaskTest {
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
         frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setServiceFrame(FrameEnum.SPRING);
-        frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+        frameEntity.setRepositoryFrame(FrameEnum.HIBERNATE);
     }
 
     @Test
@@ -94,6 +92,14 @@ public class TaskTest {
         taskEntity.setFrame(frameEntity);
         taskEntity.setDatebase(datebase);
         mavenTaskService.execute(taskEntity);
+
+        Iterator entries = taskEntity.getErrorMap().entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            String key = (String) entry.getKey();
+            Object value = (Object) entry.getValue();
+            System.out.println("Key = " + key + ", Value = " + value);
+        }
     }
 
     @Test

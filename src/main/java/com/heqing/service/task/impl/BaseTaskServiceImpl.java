@@ -50,7 +50,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     @Autowired
     ColumnService columnService;
 
-    protected Map<String, Object> taskMap;
+    protected Map<String, Object> taskMap = new HashMap<>();
 
     protected SqlSession sqlSession;
 
@@ -58,12 +58,16 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     public void execute(T taskEntity) {
         try {
             LOGGER.info("开始检查数据！");
-            checkParams(taskEntity);
+            if(!checkParams(taskEntity)) {
+                return;
+            }
 
             for(String tableName : taskEntity.getTableNames()) {
-
                 LOGGER.info("开始合成参数！");
-                combileParams(taskEntity, tableName);
+                if(!combileParams(taskEntity, tableName)) {
+                    LOGGER.error(tableName + "生成代码失败，具体原因请查看上一条日志");
+                    continue;
+                }
 
                 LOGGER.info("开始载入生成模板数据！");
                 addMobile(taskEntity);
@@ -83,22 +87,32 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     }
 
     @Override
-    public void checkParams(T taskEntity) {
+    public Boolean checkParams(T taskEntity) {
         try {
             if (taskEntity == null) {
-                throw new Exception("任务的参数信息不能为空！");
+                taskEntity.getErrorMap().put("task", "任务的参数信息不能为空");
+                LOGGER.error("---> 任务的参数信息不能为空！");
+                return false;
             }
             if (taskEntity.getTableNames().size() < 1) {
-                throw new Exception("需求表名不能为空！");
+                taskEntity.getErrorMap().put("task", "需求表名不能为空");
+                LOGGER.error("---> 需求表名不能为空！");
+                return false;
             }
             if (taskEntity.getProjectName() == null || "".equals(taskEntity.getProjectName())) {
-                throw new Exception("项目名不能为空！");
+                taskEntity.getErrorMap().put("task", "项目名不能为空");
+                LOGGER.error("---> 项目名不能为空！");
+                return false;
             }
             if (taskEntity.getPackageName() == null || "".equals(taskEntity.getPackageName())) {
-                throw new Exception("代码存储不能为空！");
+                taskEntity.getErrorMap().put("task", "代码存储不能为空");
+                LOGGER.error("---> 代码存储不能为空！");
+                return false;
             }
             if (taskEntity.getZipPath() == null || "".equals(taskEntity.getZipPath())) {
-                throw new Exception("输出路径不能为空！");
+                taskEntity.getErrorMap().put("task", "输出路径不能为空");
+                LOGGER.error("---> 输出路径不能为空！");
+                return false;
             }
             if (taskEntity.getFrame() == null) {
                 FrameEntity frameEntity = new FrameEntity();
@@ -119,32 +133,39 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
                 }
             }
             if (taskEntity.getDatebase() == null) {
-                throw new Exception("数据库信息不能为空！");
+                taskEntity.getErrorMap().put("task", "数据库信息不能为空");
+                LOGGER.error("---> 数据库信息不能为空！");
+                return false;
             } else {
                 sqlSession = datebaseServiceExt.getSqlSession(taskEntity.getDatebase());
                 if (sqlSession == null) {
-                    throw new Exception("数据库连接失败！");
+                    taskEntity.getErrorMap().put("task", "数据库连接失败");
+                    LOGGER.error("---> 数据库连接失败！");
+                    return false;
                 }
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     @Override
-    public void addMobile(T taskEntity) {
+    public Boolean addMobile(T taskEntity) {
         FrameEnum.addTemplates(taskEntity);
+        return true;
     }
 
     @Override
-    public void combileParams(T taskEntity, String tableName) {
+    public Boolean combileParams(T taskEntity, String tableName) {
         ClassEntity classEntity = new ClassEntity();
 
-        LOGGER.info("合成中 --> 获取表的信息！");
+        LOGGER.info("合成中 --> 获取表的信息！"+tableName);
         Table table = tableService.getTableByName(sqlSession, tableName);
         if(table == null) {
+            taskEntity.getErrorMap().put(tableName, "找不到数据库中对应表的信息");
             LOGGER.error("---> 找不到数据库中对应表的信息");
-            return;
+            return false;
         }
 
         LOGGER.info("合成中 --> 获取表中列的信息！");
@@ -156,10 +177,13 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         Set<Map<String, Object>> noKeyFields = new HashSet<>();
         Set<Map<String, Object>> notNullfields = new HashSet<>();
         for(Column column : columnList) {
+            if(!checkWord(taskEntity, tableName, column.getColumnName())) {
+                return false;
+            }
             FieldEntity field = new FieldEntity();
             field.setColumnName(column.getColumnName());
-            field.setFiledName(specialWord(column.getColumnName()));
-            field.setEntityName(StringUtils.uncapitalize(field.getFiledName()));
+            field.setEntityName(specialWord(column.getColumnName()));
+            field.setFiledName(StringUtils.capitalize(field.getEntityName()));
             field.setFiledDefault(column.getColumnDefault() == null ? "null" : column.getColumnDefault());
             String type = getJavaType(column.getType(), "(");
             try {
@@ -189,8 +213,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         LOGGER.info("合成中 --> 将表的信息转为类！");
         classEntity.setFields(new LinkedList<>(fields));
         classEntity.setClassPackage(taskEntity.getPackageName());
-        classEntity.setClassName(specialWord(tableName));
-        classEntity.setEntityName(StringUtils.uncapitalize(classEntity.getClassName()));
+        classEntity.setEntityName(specialWord(tableName));
+        classEntity.setClassName(StringUtils.capitalize(classEntity.getEntityName()));
         classEntity.setComment(table.getComment()==null ? "" : table.getComment());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         classEntity.setCreateTime(sdf.format(new Date()));
@@ -198,7 +222,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         classEntity.setAuthorEmail(taskEntity.getAuthorEmail()==null ? "" : taskEntity.getAuthorEmail());
 
         LOGGER.info("生成中 --> 将Object转化map格式数据！");
-        taskMap =  ObjectUtil.objToMap(taskEntity);
+        taskMap.putAll(ObjectUtil.objToMap(taskEntity));
         taskMap.putAll(ObjectUtil.objToMap(classEntity));
         taskMap.put("tableName", tableName);
         taskMap.put("repositoryMapper", taskEntity.getPackageName().replace(".","/"));
@@ -217,10 +241,11 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 //            System.out.println("Key = " + key + ", Value = " + value);
 //        }
 //        System.out.println("------------------------------------------");
+        return true;
     }
 
     @Override
-    public void work(T taskEntity, String tableName) {
+    public Boolean work(T taskEntity, String tableName) {
         LOGGER.info("生成中 --> 设置velocity资源加载器！");
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -241,19 +266,46 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
             FileUtil.outputFile(taskEntity.getZipPath(), fileName, sw.toString());
         }
+        return true;
     }
 
     @Override
-    public void deploy(T taskEntity) {
+    public Boolean deploy(T taskEntity) {
 //        FileUtil.zipFile(taskEntity.getProjectName());
+        return true;
     }
 
     @Override
-    public void destroy(T taskEntity) {
+    public Boolean destroy(T taskEntity) {
         if(sqlSession != null) {
             sqlSession.clearCache();
             sqlSession.close();
         }
+        return true;
+    }
+
+    /**
+     * 检查列中命名是否规范
+     *
+     * @param tableName 表名
+     * @param columnName 列名
+     * @return 是否规范
+     */
+    public Boolean checkWord(T taskEntity, String tableName, String columnName){
+        String[] delimiters = new String[]{"(", ")", "/", "\\", "=", "<", ">", "^", "'", " ", "-", "/", "*", "+", "[", "]",  "#", "|", "&", "%", "~"};
+        for(String delimiter : delimiters) {
+            if(columnName.contains(delimiter)) {
+                taskEntity.getErrorMap().put("表："+tableName+"->列："+columnName, " 该列名中存在特殊字符 --> " + delimiter+", 如需分割请使用下划线");
+                LOGGER.error(columnName + " 该列名中存在特殊字符 --> " + delimiter+", 如需分割请使用下划线");
+                return false;
+            }
+        }
+        if(TaskEntity.getSqlKey().contains(columnName.toUpperCase())) {
+            taskEntity.getErrorMap().put("表："+tableName+"->列："+columnName, " 该字段名为SQL保留字");
+            LOGGER.error(columnName + "该字段名为SQL保留字");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -265,14 +317,10 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
     public String specialWord(String word){
         // 清空命名中的空字符串
         word = word.replace(" ", "");
-        // 可能存在的特殊字符
-        String[] delimiters = new String[]{"_", "-", "/", "*", "+"};
-        for(String delimiter : delimiters) {
-            // 转为java命名规范
-            word = toJavaName(word, delimiter);
-        }
+        // 转为java命名规范
+        word = toJavaName(word, "_");
         if(TaskEntity.getJavaKey().contains(word.toLowerCase())) {
-            LOGGER.error("该字段名与java保留关键字相同，增加T以区别");
+            LOGGER.error(word + " 该字段名与java保留关键字相同，增加T以区别");
             word = word+"T";
         }
         return word;

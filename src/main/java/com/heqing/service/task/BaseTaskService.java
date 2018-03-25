@@ -15,45 +15,51 @@ public interface BaseTaskService<T extends TaskEntity> {
      * 检查生成参数
      *
      * @param taskEntity 生成参数信息
+     * @return 是否成功
      */
-    void checkParams(T taskEntity);
+    Boolean checkParams(T taskEntity);
 
     /**
      * 增加模板
      *
      * @param taskEntity 生成参数信息
+     * @return 是否成功
      */
-    void addMobile(T taskEntity);
+    Boolean addMobile(T taskEntity);
 
     /**
      * 合成单个表信息
      *
      * @param taskEntity 生成参数信息
      * @param tableName  表名
+     * @return 是否成功
      */
-    void combileParams(T taskEntity, String tableName);
+    Boolean combileParams(T taskEntity, String tableName);
 
     /**
      * 生成单个表代码信息
      *
      * @param taskEntity 生成参数信息
      * @param tableName  表名
+     * @return 是否成功
      */
-    void work(T taskEntity, String tableName);
+    Boolean work(T taskEntity, String tableName);
 
     /**
      * 打包合成的代码
      *
      * @param taskEntity 生成参数信息
+     * @return 是否成功
      */
-    void deploy(T taskEntity);
+    Boolean deploy(T taskEntity);
 
     /**
      * 销毁无用信息
      *
      * @param taskEntity 生成参数信息
+     * @return 是否成功
      */
-    void destroy(T taskEntity);
+    Boolean destroy(T taskEntity);
 
     /**
      * 执行生成方法

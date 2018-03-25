@@ -59,7 +59,7 @@ public enum FrameEnum {
             taskEntity.getTemplates().add(TemplateEnum.POM);
         }
 
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGE_INFO);
         if(repositoryFrame == MYBATIS) {
             taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);
             taskEntity.getTemplates().add(TemplateEnum.MYBATIS_DAO);

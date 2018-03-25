@@ -2,6 +2,7 @@ package $!{classPackage}.repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * 数据访问基础类

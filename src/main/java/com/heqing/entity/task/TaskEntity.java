@@ -6,7 +6,9 @@ import com.heqing.entity.orm.Datebase;
 import com.heqing.util.FileUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 生成任务的参数信息
@@ -62,15 +64,28 @@ public class TaskEntity {
      */
     private FrameEntity frame;
 
+    /**
+     *  错误信息
+     */
+    public Map<String, Object> errorMap = new HashMap<>();
+
     private static List<String> javaKey;
 
+    private static List<String> sqlKey;
+
     static {
-        String filePath = System.getProperty("user.dir")+"/src/main/resources/keyWord.txt";
-        javaKey = FileUtil.readFile(filePath);
+        String javaFile = System.getProperty("user.dir")+"/src/main/resources/JavaKeyWord.txt";
+        javaKey = FileUtil.readFile(javaFile);
+        String sqlFile = System.getProperty("user.dir")+"/src/main/resources/SqlKeyWord.txt";
+        sqlKey = FileUtil.readFile(sqlFile);
     }
 
     public static List<String> getJavaKey() {
         return javaKey;
+    }
+
+    public static List<String> getSqlKey() {
+        return sqlKey;
     }
 
     public Datebase getDatebase() {
@@ -143,6 +158,14 @@ public class TaskEntity {
 
     public void setFrame(FrameEntity frame) {
         this.frame = frame;
+    }
+
+    public Map<String, Object> getErrorMap() {
+        return errorMap;
+    }
+
+    public void setErrorMap(Map<String, Object> errorMap) {
+        this.errorMap = errorMap;
     }
 
     @Override

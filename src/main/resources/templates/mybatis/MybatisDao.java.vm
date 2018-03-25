@@ -3,6 +3,7 @@ package $!{classPackage}.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.math.BigDecimal;
 
 import $!{classPackage}.entity.$!{className};
 
@@ -56,7 +57,7 @@ public interface $!{className}Repository {
     int delete$!{className}ByParam($!{className} $!{entityName});
 
 #if($keyFields.size() > 0)
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
     /**
      * 根据多个主键批量修改$!{comment}
      *

@@ -93,7 +93,7 @@
     </delete>
 
 #if($keyFields.size() > 0)
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
     <!-- 根据多个主键批量修改$!{comment} -->
     <update id="updateBatch$!{className}ByKey"  parameterType="java.util.List">
 <foreach collection="list" item="item" index="index" open="" close="" separator=";">

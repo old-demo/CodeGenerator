@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import org.apache.log4j.Logger;
 
 #if($keyFields.size() > 1)
@@ -117,7 +118,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int update$!{className}ByKey(List<$!{className}> $!{entityName}List) {
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
         return $!{entityName}Repository.updateBatch$!{className}ByKey($!{entityName}List);
 #else
         int successNum = 0;
@@ -178,7 +179,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
         for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             successNum += delete$!{className}ByKey($!{entityName}PK);
         }
-        return $!{entityName}Repository.deleteBatch$!{className}ByKey();
+        return successNum;
     }
 #end
 

@@ -24,7 +24,7 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-#if($!{frame.controllerFrame} == "SPRINGMVC")
+#if($!{frame.controllerFrame} == "SPRING_MVC")
     <!-- springMVC 启动配置。-->
     <servlet>
         <servlet-name>springMVC</servlet-name>

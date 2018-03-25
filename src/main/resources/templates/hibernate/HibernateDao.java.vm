@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.Date;
+import java.math.BigDecimal;
 
 import $!{classPackage}.entity.$!{className};
 #if($keyFields.size() > 1)

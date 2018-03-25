@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 public class MavenTaskServiceImpl extends BaseTaskServiceImpl<MavenTaskEntity> implements MavenTaskService {
 
     @Override
-    public void combileParams(MavenTaskEntity taskEntity, String tableName) {
-        super.combileParams(taskEntity, tableName);
+    public Boolean combileParams(MavenTaskEntity taskEntity, String tableName) {
         taskMap.put("groupId", taskEntity.getGroupId());
         taskMap.put("artifactId", taskEntity.getArtifactId());
         taskMap.put("version", taskEntity.getVersion());
         taskMap.put("description", taskEntity.getDescription());
+        return super.combileParams(taskEntity, tableName);
     }
 }

@@ -2,6 +2,7 @@ package $!{classPackage}.service;
 
 import java.util.List;
 import java.util.Date;
+import java.math.BigDecimal;
 
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
@@ -32,7 +33,7 @@ public interface $!{className}Service {
      * @param $!{entityName}List 多条$!{comment}实例
      * @return int 成功数量
      */
-    int saveBatch$!{className}(List<$!{className}> $!{entityName}List);
+    int save$!{className}(List<$!{className}> $!{entityName}List);
 
     /**
      * 获取所有$!{comment}实例信息
@@ -94,7 +95,7 @@ public interface $!{className}Service {
      * @param $!{entityName}List 多条$!{comment}实例信息
      * @return int 是否成功
      */
-    int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List);
+    int update$!{className}ByKey(List<$!{className}> $!{entityName}List);
 #end
 
 #if($keyFields.size() > 1)
@@ -128,7 +129,7 @@ public interface $!{className}Service {
      * @param $!{entityName}PKList 主键ID集合
      * @return int 成功数量
      */
-    int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
+    int delete$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList);
 #end
 
 #if($keyFields.size() == 1)
@@ -162,7 +163,7 @@ public interface $!{className}Service {
      * @param $!{keyFields.get(0).entityName}List 主键集合
      * @return int 成功数量
      */
-    int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
+    int delete$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List);
 #end
 
 }

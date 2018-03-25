@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Date;
+import java.math.BigDecimal;
 
 import com.alibaba.fastjson.JSON;
 
@@ -20,7 +21,7 @@ import $!{classPackage}.service.$!{className}Service;
 import $!{classPackage}.util.PageInfoUtil;
 
 import org.springframework.transaction.annotation.Transactional;
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 #elseif($!{frame.serviceFrame} == "SPRING")
@@ -36,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 #elseif($!{frame.serviceFrame} == "SPRING")
@@ -64,8 +65,8 @@ public class $!{className}Test {
         $!{entityName}PK.set$!{field.filedName}(create+0F);
 #elseif($!{field.type} == "Double")
         $!{entityName}PK.set$!{field.filedName}(create+0D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}PK.set$!{field.filedName}(new java.math.BigDecimal(create));
+#elseif($!{field.type} == "BigDecimal")
+        $!{entityName}PK.set$!{field.filedName}(new BigDecimal(create));
 #end
 #end
         return $!{entityName}PK;
@@ -89,8 +90,8 @@ public class $!{className}Test {
         $!{entityName}PK.set$!{field.filedName}(create+0F);
 #elseif($!{field.type} == "Double")
         $!{entityName}PK.set$!{field.filedName}(create+0D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}PK.set$!{field.filedName}(new java.math.BigDecimal(create));
+#elseif($!{field.type} == "BigDecimal")
+        $!{entityName}PK.set$!{field.filedName}(new BigDecimal(create));
 #end
 #end
         $!{entityName}.set$!{className}PK($!{entityName}PK);
@@ -107,8 +108,8 @@ public class $!{className}Test {
         $!{entityName}.set$!{keyFields.get(0).filedName}(create+0F);
 #elseif($!{keyFields.get(0).type} == "Double")
         $!{entityName}.set$!{keyFields.get(0).filedName}(create+0D);
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{keyFields.get(0).filedName}(new java.math.BigDecimal(create));
+#elseif($!{keyFields.get(0).type} == "BigDecimal")
+        $!{entityName}.set$!{keyFields.get(0).filedName}(new BigDecimal(create));
 #end
 #end
 #foreach ($!{field} in $!{noKeyFields})
@@ -124,8 +125,8 @@ public class $!{className}Test {
         $!{entityName}.set$!{field.filedName}(create+0F);
 #elseif($!{field.type} == "Double")
         $!{entityName}.set$!{field.filedName}(create+0D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(create));
+#elseif($!{field.type} == "BigDecimal")
+        $!{entityName}.set$!{field.filedName}(new BigDecimal(create));
 #end
 #end
         return $!{entityName};
@@ -148,8 +149,8 @@ public class $!{className}Test {
         $!{entityName}PK.set$!{field.filedName}(create+0F);
 #elseif($!{field.type} == "Double")
         $!{entityName}PK.set$!{field.filedName}(create+0D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}PK.set$!{field.filedName}(new java.math.BigDecimal(create));
+#elseif($!{field.type} == "BigDecimal")
+        $!{entityName}PK.set$!{field.filedName}(new BigDecimal(create));
 #end
 #end
         $!{entityName}.set$!{className}PK($!{entityName}PK);
@@ -166,8 +167,8 @@ public class $!{className}Test {
         $!{entityName}.set$!{keyFields.get(0).filedName}(create+update+0F);
 #elseif($!{keyFields.get(0).type} == "Double")
         $!{entityName}.set$!{keyFields.get(0).filedName}(create+update+0D);
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{keyFields.get(0).filedName}(new java.math.BigDecimal(create+update));
+#elseif($!{keyFields.get(0).type} == "BigDecimal")
+        $!{entityName}.set$!{keyFields.get(0).filedName}(new BigDecimal(create+update));
 #end
 #end
 #foreach ($!{field} in $!{noKeyFields})
@@ -183,8 +184,8 @@ public class $!{className}Test {
         $!{entityName}.set$!{field.filedName}(create+update+0F);
 #elseif($!{field.type} == "Double")
         $!{entityName}.set$!{field.filedName}(create+update+0D);
-#elseif($!{field.type} == "java.math.BigDecimal")
-        $!{entityName}.set$!{field.filedName}(new java.math.BigDecimal(create+update));
+#elseif($!{field.type} == "BigDecimal")
+        $!{entityName}.set$!{field.filedName}(new BigDecimal(create+update));
 #end
 #end
         return $!{entityName};
@@ -201,7 +202,7 @@ public class $!{className}Test {
         for(int i=2; i<5; i++) {
             $!{entityName}List.add(create$!{className}(i));
         }
-        System.out.println("-->"+$!{entityName}Service.saveBatch$!{className}($!{entityName}List));
+        System.out.println("-->"+$!{entityName}Service.save$!{className}($!{entityName}List));
     }
 
     @Test
@@ -234,8 +235,8 @@ public class $!{className}Test {
             1D
 #elseif($!{field.type} == "Date")
             new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
+#elseif($!{field.type} == "BigDecimal")
+            new BigDecimal(1)
 #end
         ));
     }
@@ -256,8 +257,8 @@ public class $!{className}Test {
             1D
 #elseif($!{field.type} == "Date")
             new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
+#elseif($!{field.type} == "BigDecimal")
+            new BigDecimal(1)
 #end
             , 1, 2));
     }
@@ -277,8 +278,8 @@ public class $!{className}Test {
             1D
 #elseif($!{field.type} == "Date")
             new Date()
-#elseif($!{field.type} == "java.math.BigDecimal")
-            new java.math.BigDecimal(1)
+#elseif($!{field.type} == "BigDecimal")
+            new BigDecimal(1)
 #end
         ));
     }
@@ -297,7 +298,7 @@ public class $!{className}Test {
         for(int i=2; i<5; i++) {
             $!{entityName}List.add(update$!{className}(i, 5));
         }
-        System.out.println("-->"+$!{entityName}Service.updateBatch$!{className}ByKey($!{entityName}List));
+        System.out.println("-->"+$!{entityName}Service.update$!{className}ByKey($!{entityName}List));
     }
 #end
 
@@ -327,7 +328,7 @@ public class $!{className}Test {
         List<$!{className}PK> $!{entityName}PKList = new ArrayList<>();
         $!{entityName}PKList.add(create$!{className}PK(1));
         $!{entityName}PKList.add(create$!{className}PK(2));
-        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKList));
+        System.out.println("-->"+$!{entityName}Service.delete$!{className}ByKey($!{entityName}PKList));
     }
 #end
 
@@ -347,8 +348,8 @@ public class $!{className}Test {
             float $!{entityName}PK = 1F;
         #elseif($!{keyFields.get(0).type} == "Double")
             double $!{entityName}PK = 1D;
-        #elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-            java.math.BigDecimal $!{entityName}PK = new java.math.BigDecimal(1);
+        #elseif($!{keyFields.get(0).type} == "BigDecimal")
+            BigDecimal $!{entityName}PK = new BigDecimal(1);
         #end
         System.out.println("-->"+$!{entityName}Service.get$!{className}ByKey($!{entityName}PK));
     }
@@ -380,10 +381,10 @@ public class $!{className}Test {
         List<Date> $!{entityName}PKs = new ArrayList<>();
         $!{entityName}PKs.add(new Date());
         $!{entityName}PKs.add(new Date());
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> $!{entityName}PKs = new ArrayList<>();
-        $!{entityName}PKs.add( new java.math.BigDecimal(1));
-        $!{entityName}PKs.add( new java.math.BigDecimal(2));
+#elseif($!{keyFields.get(0).type} == "BigDecimal")
+        List<BigDecimal> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add( new BigDecimal(1));
+        $!{entityName}PKs.add( new BigDecimal(2));
 #end
         System.out.println("-->"+$!{entityName}Service.list$!{className}ByKey($!{entityName}PKs));
     }
@@ -402,8 +403,8 @@ public class $!{className}Test {
         float $!{entityName}PK = 1F;
 #elseif($!{keyFields.get(0).type} == "Double")
         double $!{entityName}PK = 1D;
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        java.math.BigDecimal $!{entityName}PK = new java.math.BigDecimal(1);
+#elseif($!{keyFields.get(0).type} == "BigDecimal")
+        BigDecimal $!{entityName}PK = new BigDecimal(1);
 #end
         System.out.println("-->"+$!{entityName}Service.delete$!{className}ByKey($!{entityName}PK));
     }
@@ -434,12 +435,12 @@ public class $!{className}Test {
         List<Date> $!{entityName}PKs = new ArrayList<>();
         $!{entityName}PKs.add(new Date());
         $!{entityName}PKs.add(new Date());
-#elseif($!{keyFields.get(0).type} == "java.math.BigDecimal")
-        List<java.math.BigDecimal> $!{entityName}PKs = new ArrayList<>();
-        $!{entityName}PKs.add( new java.math.BigDecimal(1));
-        $!{entityName}PKs.add( new java.math.BigDecimal(2));
+#elseif($!{keyFields.get(0).type} == "BigDecimal")
+        List<BigDecimal> $!{entityName}PKs = new ArrayList<>();
+        $!{entityName}PKs.add( new BigDecimal(1));
+        $!{entityName}PKs.add( new BigDecimal(2));
 #end
-        System.out.println("-->"+$!{entityName}Service.deleteBatch$!{className}ByKey($!{entityName}PKs));
+        System.out.println("-->"+$!{entityName}Service.delete$!{className}ByKey($!{entityName}PKs));
     }
 #end
 

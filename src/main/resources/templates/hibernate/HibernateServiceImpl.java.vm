@@ -2,7 +2,7 @@ package $!{classPackage}.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
 import org.apache.log4j.Logger;
 
 #if($keyFields.size() > 1)
@@ -48,14 +49,14 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             return 0;
         }
         #end
-        if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
+        if($!{entityName}Repository.save($!{entityName}) != #if($!{frame.serviceFrame} == "SPRING_BOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
             return 1;
         }
         return 0;
     }
 
     @Override
-    public int saveBatch$!{className}(List<$!{className}> $!{entityName}List) {
+    public int save$!{className}(List<$!{className}> $!{entityName}List) {
         int isSuccess = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
             isSuccess += save$!{className}($!{entityName});
@@ -72,7 +73,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public PageInfoUtil<$!{className}> list$!{className}(int pageNum, int pageSize) {
         pageNum = pageNum < 1 ? 1 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findAll(pageable);
         return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
@@ -92,7 +93,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public PageInfoUtil<$!{className}> findBy$!{field.filedName}Contains($!{field.type} $!{field.entityName}, int pageNum, int pageSize) {
         pageNum = pageNum < 1 ? 1 : pageNum;
         pageSize = pageSize < 1 ? 1 : pageSize > 100 ? 100 : pageSize;
-#if($!{frame.serviceFrame} == "SPRINGBOOT")
+#if($!{frame.serviceFrame} == "SPRING_BOOT")
         Pageable pageable = new PageRequest(pageNum-1, pageSize);
         Page<$!{className}> $!{entityName}Page = $!{entityName}Repository.findBy$!{field.filedName}Contains($!{field.entityName}, pageable);
         return new PageInfoUtil($!{entityName}Page.getContent(), pageNum, pageSize, $!{entityName}Page.getTotalElements());
@@ -127,14 +128,14 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             return 0;
         }
 #end
-        if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRINGBOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
+        if($!{entityName}Repository.saveAndFlush($!{entityName}) != #if($!{frame.serviceFrame} == "SPRING_BOOT")null#elseif($!{frame.serviceFrame} == "SPRING")0#end) {
             return 1;
         }
         return 0;
     }
 
     @Override
-    public int updateBatch$!{className}ByKey(List<$!{className}> $!{entityName}List) {
+    public int update$!{className}ByKey(List<$!{className}> $!{entityName}List) {
         int isSuccess = 0;
         for($!{className} $!{entityName} : $!{entityName}List) {
             isSuccess += update$!{className}ByKey($!{entityName});
@@ -173,7 +174,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
+    public int delete$!{className}ByKey(List<$!{className}PK> $!{entityName}PKList) {
         int isSuccess = 0;
         for($!{className}PK $!{entityName}PK : $!{entityName}PKList) {
             isSuccess += delete$!{className}ByKey($!{entityName}PK);
@@ -212,7 +213,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     }
 
     @Override
-    public int deleteBatch$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
+    public int delete$!{className}ByKey(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
         int isSuccess = 0;
         for($!{keyFields.get(0).type} $!{keyFields.get(0).entityName} : $!{keyFields.get(0).entityName}List) {
             isSuccess += delete$!{className}ByKey($!{keyFields.get(0).entityName});
