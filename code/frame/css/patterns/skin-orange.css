@@ -1,0 +1,165 @@
+/* 
+ * #FFCC99   浅橙色
+ * #FF9933   橙 
+ * #FF9966   深橙
+*/
+
+/* 字体、菜单栏样式 */
+.skin-orange .nav-header {
+    background: #FF9966;
+}
+
+.skin-orange #wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #FFCC99;
+}
+
+.skin-orange .sidebar-collapse .nav > li > a {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+}
+
+.skin-orange .nav > li.active > a {
+    color: #ffffff;
+}
+
+.skin-orange .nav-header .text-muted {
+	font-size: 14px;
+    color: #ffffff;
+}
+
+.skin-orange .navbar-default .nav > li > a:hover,
+.skin-orange .navbar-default .nav > li > a:focus {
+    background-color: #FF9933;
+    color: white;
+    font-weight: 800;
+}
+
+.skin-orange .nav .open > a,
+.skin-orange .nav .open > a:hover,
+.skin-orange .nav .open > a:focus {
+    background: #ffffff;
+}
+
+.skin-orange .nav > li.active {
+    border-left: 4px solid #FF9966;
+    background: #FFCC99;
+}
+
+/* 页面标题栏样式 */
+.skin-orange .page-tabs a.active {
+    background: #FF9933;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.skin-orange .page-tabs a.active:hover,
+.skin-orange .page-tabs a.active i:hover {
+    background: #FF9966;
+    color: #ffffff;
+}
+
+.skin-orange .page-tabs a:hover {
+    color: #FFFFFF;
+    background: #FFCC99;
+    cursor: pointer;
+}
+
+.skin-orange .content-tabs .roll-nav:hover {
+	background: #FFCC99;
+    cursor: pointer;
+}
+
+.skin-orange .content-tabs {
+    border-bottom: solid 2px #FF9933;
+}
+
+.skin-orange .dropdown-menu-right > li > a:hover {
+	color: #ffffff;
+	background: #FFCC99;
+	cursor: pointer;
+}
+
+/* 顶部加载样式 */
+.skin-orange .pace .pace-progress {
+    background: #FF9933;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    width: 100%;
+    height: 2px;
+}
+
+/* 主题 */
+.skin-orange .label-primary,
+.skin-orange .badge-primary {
+    background-color: #FFCC99;
+    color: #FFFFFF;
+}
+
+.skin-orange .sidebar-container ul.nav-tabs li a {
+    border: none;
+    padding: 12px 10px;
+    margin: 0;
+    border-radius: 0;
+    background: #FFCC99;
+    color: #fff;
+    text-align: center;
+    border-right: 1px solid #FF9933;
+}
+
+.skin-orange .sidebar-container ul.nav-tabs li.active a {
+    border: none;
+    padding: 12px 10px;
+    margin: 0;
+    border-radius: 0;
+    background: #e7eaec;
+    color: #337ab7;
+    text-align: center;
+    border-right: 1px solid #FF9933;
+}
+
+.skin-orange  .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #FFCC99;
+    border-radius: 3px;
+}
+
+.skin-orange  .onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 7px;
+    background-color: #FFCC99;
+    color: #FFFFFF;
+}
+
+.skin-orange  .onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 7px;
+    background-color: #FFFFFF;
+    color: #919191;
+    text-align: right;
+}
+
+/* 左侧控制 */
+.skin-orange .btn-primary {
+    color: #ffffff;
+    background-color: #FFCC99;
+    border-color: #FF9933;
+}
+
+.skin-orange .btn-primary:hover {
+    color: #ffffff;
+    background-color: #FF9933;
+    border-color: #FF9966;
+}
+
+.skin-orange .btn-primary.focus, 
+.skin-orange .btn-primary:focus {
+    color: #ffffff;
+    background-color: #FF9966;
+    border-color: #FFCC99;
+}

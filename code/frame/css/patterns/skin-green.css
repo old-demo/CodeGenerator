@@ -1,0 +1,165 @@
+/* 
+ * #66cc66   浅绿
+ * #009966   绿 
+ * #339933   深绿
+*/
+
+/* 字体、菜单栏样式 */
+.skin-green .nav-header {
+    background: #339933;
+}
+
+.skin-green #wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #66cc66;
+}
+
+.skin-green .sidebar-collapse .nav > li > a {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+}
+
+.skin-green .nav > li.active > a {
+    color: #ffffff;
+}
+
+.skin-green .nav-header .text-muted {
+	font-size: 14px;
+    color: #ffffff;
+}
+
+.skin-green .navbar-default .nav > li > a:hover,
+.skin-green .navbar-default .nav > li > a:focus {
+    background-color: #009966;
+    color: white;
+    font-weight: 800;
+}
+
+.skin-green .nav .open > a,
+.skin-green .nav .open > a:hover,
+.skin-green .nav .open > a:focus {
+    background: #ffffff;
+}
+
+.skin-green .nav > li.active {
+    border-left: 4px solid #339933;
+    background: #66cc66;
+}
+
+/* 页面标题栏样式 */
+.skin-green .page-tabs a.active {
+    background: #009966;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.skin-green .page-tabs a.active:hover,
+.skin-green .page-tabs a.active i:hover {
+    background: #339933;
+    color: #ffffff;
+}
+
+.skin-green .page-tabs a:hover {
+    color: #FFFFFF;
+    background: #66cc66;
+    cursor: pointer;
+}
+
+.skin-green .content-tabs .roll-nav:hover {
+	background: #66cc66;
+    cursor: pointer;
+}
+
+.skin-green .content-tabs {
+    border-bottom: solid 2px #009966;
+}
+
+.skin-green .dropdown-menu-right > li > a:hover {
+	color: #ffffff;
+	background: #66cc66;
+	cursor: pointer;
+}
+
+/* 顶部加载样式 */
+.skin-green .pace .pace-progress {
+    background: #009966;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    width: 100%;
+    height: 2px;
+}
+
+/* 主题 */
+.skin-green .label-primary,
+.skin-green .badge-primary {
+    background-color: #66cc66;
+    color: #FFFFFF;
+}
+
+.skin-green .sidebar-container ul.nav-tabs li a {
+    border: none;
+    padding: 12px 10px;
+    margin: 0;
+    border-radius: 0;
+    background: #66cc66;
+    color: #fff;
+    text-align: center;
+    border-right: 1px solid #009966;
+}
+
+.skin-green .sidebar-container ul.nav-tabs li.active a {
+    border: none;
+    padding: 12px 10px;
+    margin: 0;
+    border-radius: 0;
+    background: #e7eaec;
+    color: #337ab7;
+    text-align: center;
+    border-right: 1px solid #009966;
+}
+
+.skin-green  .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #66cc66;
+    border-radius: 3px;
+}
+
+.skin-green  .onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 7px;
+    background-color: #66cc66;
+    color: #FFFFFF;
+}
+
+.skin-green  .onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 7px;
+    background-color: #FFFFFF;
+    color: #919191;
+    text-align: right;
+}
+
+/* 左侧控制 */
+.skin-green .btn-primary {
+    color: #ffffff;
+    background-color: #66cc66;
+    border-color: #009966;
+}
+
+.skin-green .btn-primary:hover {
+    color: #ffffff;
+    background-color: #009966;
+    border-color: #339933;
+}
+
+.skin-green .btn-primary.focus,
+.skin-green .btn-primary:focus {
+    color: #ffffff;
+    background-color: #339933;
+    border-color: #66cc66;
+}
