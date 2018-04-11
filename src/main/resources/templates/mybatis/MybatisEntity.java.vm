@@ -18,12 +18,12 @@ public class $!{className} implements Serializable {
     private static final long serialVersionUID = 1L;
 
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} == "String") #set ($vale=$!{field.filedDefault})
-#elseif($!{field.type} == "Integer") #set ($vale=$!{field.filedDefault})
-#elseif($!{field.type} == "Long") #set ($vale=$!{field.filedDefault}+"L")
-#elseif($!{field.type} == "Float") #set ($vale=$!{field.filedDefault}+"F")
-#elseif($!{field.type} == "Double") #set ($vale=$!{field.filedDefault}+"D")
-#elseif($!{field.type} == "BigDecimal") #set ($vale="new BigDecimal($!{field.filedDefault})")
+#if($!{field.type} == "String") #set ($value=$!{field.filedDefault})
+#elseif($!{field.type} == "Integer") #set ($value=$!{field.filedDefault})
+#elseif($!{field.type} == "Long") #set ($value=$!{field.filedDefault}+"L")
+#elseif($!{field.type} == "Float") #set ($value=$!{field.filedDefault}+"F")
+#elseif($!{field.type} == "Double") #set ($value=$!{field.filedDefault}+"D")
+#elseif($!{field.type} == "BigDecimal") #set ($value="new BigDecimal($!{field.filedDefault})")
 #end
     /**
 	 * $!{field.entityName} $!{field.comment}
@@ -33,7 +33,7 @@ public class $!{className} implements Serializable {
 #else
 	@JSONField(name="$!{field.columnName}")
 #end
-	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{vale}"#else$!{vale}#end#end;
+	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{value}"#else$!{value}#end#end;
 
 #end
 #foreach ($!{field} in $!{fields})

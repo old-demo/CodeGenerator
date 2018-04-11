@@ -66,11 +66,18 @@ private static final long serialVersionUID = 1L;
 
 #end
 #foreach ($!{field} in $!{fields})
+#if($!{field.type} == "String") #set ($value=$!{field.filedDefault}) #set($type="String")
+#elseif($!{field.type} == "Integer") #set ($value=$!{field.filedDefault}) #set($type="int")
+#elseif($!{field.type} == "Long") #set ($value=$!{field.filedDefault}+"L") #set($type="long")
+#elseif($!{field.type} == "Float") #set ($value=$!{field.filedDefault}+"F") #set($type="float")
+#elseif($!{field.type} == "Double") #set ($value=$!{field.filedDefault}+"D") #set($type="double")
+#elseif($!{field.type} == "BigDecimal") #set ($value="new BigDecimal($!{field.filedDefault})") #set($type="BigDecimal")
+#end
     /**
      * $!{field.entityName} $!{field.comment}
      */
     @JSONField(name="$!{field.columnName}")
-    private $!{field.type} $!{field.entityName};
+    private $!{type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{value}"#else$!{value}#end#end;
 
 #end
     public int getPageNum() {
