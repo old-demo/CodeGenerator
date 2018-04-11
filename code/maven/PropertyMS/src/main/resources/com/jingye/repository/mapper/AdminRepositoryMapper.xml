@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.AdminRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="adminFields">
+        ad_name
+        , ad_sex
+        , ad_id
+        , ad_note
+        , ad_birthday
+        , ad_password
+        , ad_login
+        , ad_tel
+        , ad_entry_time
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="adminParameterMap" type="com.jingye.entity.Admin">
+        <parameter property="adName"/>
+        <parameter property="adSex"/>
+        <parameter property="adId"/>
+        <parameter property="adNote"/>
+        <parameter property="adBirthday"/>
+        <parameter property="adPassword"/>
+        <parameter property="adLogin"/>
+        <parameter property="adTel"/>
+        <parameter property="adEntryTime"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="adminResultMap" type="com.jingye.entity.Admin">
+        <result property="adName" column="ad_name" />
+        <result property="adSex" column="ad_sex" />
+        <result property="adId" column="ad_id" />
+        <result property="adNote" column="ad_note" />
+        <result property="adBirthday" column="ad_birthday" />
+        <result property="adPassword" column="ad_password" />
+        <result property="adLogin" column="ad_login" />
+        <result property="adTel" column="ad_tel" />
+        <result property="adEntryTime" column="ad_entry_time" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveAdmin" parameterMap="adminParameterMap" keyProperty="ad_id" useGeneratedKeys="true">
+        INSERT INTO
+          admin( <include refid="adminFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchAdmin" parameterType="java.util.List">
+        INSERT INTO
+          admin( <include refid="adminFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.adName}
+              ,#{item.adSex}
+              ,#{item.adId}
+              ,#{item.adNote}
+              ,#{item.adBirthday}
+              ,#{item.adPassword}
+              ,#{item.adLogin}
+              ,#{item.adTel}
+              ,#{item.adEntryTime}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listAdmin" resultMap="adminResultMap">
+        SELECT
+          <include refid="adminFields"/>
+        FROM admin
+        ORDER BY
+           ad_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listAdminByParam" parameterType="java.util.Map" resultMap="adminResultMap">
+        SELECT
+          <include refid="adminFields"/>
+        FROM admin
+        <where>
+           <if test="adName != null and adName != ''"> AND ad_name=#{adName} </if>
+           <if test="adSex != null and adSex != ''"> AND ad_sex=#{adSex} </if>
+           <if test="adId != null and adId != ''"> AND ad_id=#{adId} </if>
+           <if test="adNote != null and adNote != ''"> AND ad_note=#{adNote} </if>
+           <if test="adBirthday != null"> AND date(ad_birthday)=date(#{adBirthday,jdbcType=TIMESTAMP}) </if>
+            <if test="adPassword != null and adPassword != ''"> AND ad_password=#{adPassword} </if>
+           <if test="adLogin != null and adLogin != ''"> AND ad_login=#{adLogin} </if>
+           <if test="adTel != null and adTel != ''"> AND ad_tel=#{adTel} </if>
+           <if test="adEntryTime != null"> AND date(ad_entry_time)=date(#{adEntryTime,jdbcType=TIMESTAMP}) </if>
+         </where>
+        ORDER BY
+           ad_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteAdminByParam" parameterMap="adminParameterMap">
+        DELETE FROM admin
+        <where>
+          <if test="adName != null and adName != ''"> AND ad_name=#{adName} </if>
+          <if test="adSex != null and adSex != ''"> AND ad_sex=#{adSex} </if>
+          <if test="adId != null and adId != ''"> AND ad_id=#{adId} </if>
+          <if test="adNote != null and adNote != ''"> AND ad_note=#{adNote} </if>
+          <if test="adBirthday != null"> AND date(ad_birthday)=date(#{adBirthday,jdbcType=TIMESTAMP}) </if>
+          <if test="adPassword != null and adPassword != ''"> AND ad_password=#{adPassword} </if>
+          <if test="adLogin != null and adLogin != ''"> AND ad_login=#{adLogin} </if>
+          <if test="adTel != null and adTel != ''"> AND ad_tel=#{adTel} </if>
+          <if test="adEntryTime != null"> AND date(ad_entry_time)=date(#{adEntryTime,jdbcType=TIMESTAMP}) </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateAdminByKey" parameterMap="adminParameterMap">
+        UPDATE
+          admin
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="adName != null">, ad_name=#{adName}</if>
+          <if test="adSex != null">, ad_sex=#{adSex}</if>
+          <if test="adId != null">, ad_id=#{adId}</if>
+          <if test="adNote != null">, ad_note=#{adNote}</if>
+          <if test="adBirthday != null">, ad_birthday=#{adBirthday}</if>
+          <if test="adPassword != null">, ad_password=#{adPassword}</if>
+          <if test="adLogin != null">, ad_login=#{adLogin}</if>
+          <if test="adTel != null">, ad_tel=#{adTel}</if>
+          <if test="adEntryTime != null">, ad_entry_time=#{adEntryTime}</if>
+        </trim>
+        <where>
+          AND ad_id=#{adId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getAdminByKey" parameterType="java.util.Map" resultMap="adminResultMap">
+        SELECT
+          <include refid="adminFields"/>
+        FROM admin
+        <where>
+          AND ad_id=#{adId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteAdminByKey" parameterType="java.util.Map">
+        DELETE FROM admin
+        <where>
+          AND ad_id=#{adId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchAdminByKey" parameterType="java.util.List">
+        DELETE FROM admin
+          WHERE ad_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{ad_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listAdminByKey" parameterType="java.util.List" resultMap="adminResultMap">
+        SELECT <include refid="adminFields"/>
+        FROM admin
+        WHERE ad_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{ad_id}
+        </foreach>
+    </select>
+
+</mapper>

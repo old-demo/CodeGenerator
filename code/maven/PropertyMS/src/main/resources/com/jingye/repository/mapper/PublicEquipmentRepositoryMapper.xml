@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.PublicEquipmentRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="publicEquipmentFields">
+        eqp_name
+        , eqp_open_date
+        , eqp_status
+        , id
+        , eqp_bd_id
+        , eqp_id
+        , eqp_specification
+        , eqp_note
+        , eqp_floor
+        , eqp_value
+        , eqp_admin_id
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="publicEquipmentParameterMap" type="com.jingye.entity.PublicEquipment">
+        <parameter property="eqpName"/>
+        <parameter property="eqpOpenDate"/>
+        <parameter property="eqpStatus"/>
+        <parameter property="id"/>
+        <parameter property="eqpBdId"/>
+        <parameter property="eqpId"/>
+        <parameter property="eqpSpecification"/>
+        <parameter property="eqpNote"/>
+        <parameter property="eqpFloor"/>
+        <parameter property="eqpValue"/>
+        <parameter property="eqpAdminId"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="publicEquipmentResultMap" type="com.jingye.entity.PublicEquipment">
+        <result property="eqpName" column="eqp_name" />
+        <result property="eqpOpenDate" column="eqp_open_date" />
+        <result property="eqpStatus" column="eqp_status" />
+        <result property="id" column="id" />
+        <result property="eqpBdId" column="eqp_bd_id" />
+        <result property="eqpId" column="eqp_id" />
+        <result property="eqpSpecification" column="eqp_specification" />
+        <result property="eqpNote" column="eqp_note" />
+        <result property="eqpFloor" column="eqp_floor" />
+        <result property="eqpValue" column="eqp_value" />
+        <result property="eqpAdminId" column="eqp_admin_id" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="savePublicEquipment" parameterMap="publicEquipmentParameterMap" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+          public_equipment( <include refid="publicEquipmentFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchPublicEquipment" parameterType="java.util.List">
+        INSERT INTO
+          public_equipment( <include refid="publicEquipmentFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.eqpName}
+              ,#{item.eqpOpenDate}
+              ,#{item.eqpStatus}
+              ,#{item.id}
+              ,#{item.eqpBdId}
+              ,#{item.eqpId}
+              ,#{item.eqpSpecification}
+              ,#{item.eqpNote}
+              ,#{item.eqpFloor}
+              ,#{item.eqpValue}
+              ,#{item.eqpAdminId}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listPublicEquipment" resultMap="publicEquipmentResultMap">
+        SELECT
+          <include refid="publicEquipmentFields"/>
+        FROM public_equipment
+        ORDER BY
+           id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listPublicEquipmentByParam" parameterType="java.util.Map" resultMap="publicEquipmentResultMap">
+        SELECT
+          <include refid="publicEquipmentFields"/>
+        FROM public_equipment
+        <where>
+           <if test="eqpName != null and eqpName != ''"> AND eqp_name=#{eqpName} </if>
+           <if test="eqpOpenDate != null"> AND date(eqp_open_date)=date(#{eqpOpenDate,jdbcType=TIMESTAMP}) </if>
+            <if test="eqpStatus != null and eqpStatus != ''"> AND eqp_status=#{eqpStatus} </if>
+           <if test="id != null and id != ''"> AND id=#{id} </if>
+           <if test="eqpBdId != null and eqpBdId != ''"> AND eqp_bd_id=#{eqpBdId} </if>
+           <if test="eqpId != null and eqpId != ''"> AND eqp_id=#{eqpId} </if>
+           <if test="eqpSpecification != null and eqpSpecification != ''"> AND eqp_specification=#{eqpSpecification} </if>
+           <if test="eqpNote != null and eqpNote != ''"> AND eqp_note=#{eqpNote} </if>
+           <if test="eqpFloor != null and eqpFloor != ''"> AND eqp_floor=#{eqpFloor} </if>
+           <if test="eqpValue != null and eqpValue != ''"> AND eqp_value=#{eqpValue} </if>
+           <if test="eqpAdminId != null and eqpAdminId != ''"> AND eqp_admin_id=#{eqpAdminId} </if>
+        </where>
+        ORDER BY
+           id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deletePublicEquipmentByParam" parameterMap="publicEquipmentParameterMap">
+        DELETE FROM public_equipment
+        <where>
+          <if test="eqpName != null and eqpName != ''"> AND eqp_name=#{eqpName} </if>
+          <if test="eqpOpenDate != null"> AND date(eqp_open_date)=date(#{eqpOpenDate,jdbcType=TIMESTAMP}) </if>
+          <if test="eqpStatus != null and eqpStatus != ''"> AND eqp_status=#{eqpStatus} </if>
+          <if test="id != null and id != ''"> AND id=#{id} </if>
+          <if test="eqpBdId != null and eqpBdId != ''"> AND eqp_bd_id=#{eqpBdId} </if>
+          <if test="eqpId != null and eqpId != ''"> AND eqp_id=#{eqpId} </if>
+          <if test="eqpSpecification != null and eqpSpecification != ''"> AND eqp_specification=#{eqpSpecification} </if>
+          <if test="eqpNote != null and eqpNote != ''"> AND eqp_note=#{eqpNote} </if>
+          <if test="eqpFloor != null and eqpFloor != ''"> AND eqp_floor=#{eqpFloor} </if>
+          <if test="eqpValue != null and eqpValue != ''"> AND eqp_value=#{eqpValue} </if>
+          <if test="eqpAdminId != null and eqpAdminId != ''"> AND eqp_admin_id=#{eqpAdminId} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updatePublicEquipmentByKey" parameterMap="publicEquipmentParameterMap">
+        UPDATE
+          public_equipment
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="eqpName != null">, eqp_name=#{eqpName}</if>
+          <if test="eqpOpenDate != null">, eqp_open_date=#{eqpOpenDate}</if>
+          <if test="eqpStatus != null">, eqp_status=#{eqpStatus}</if>
+          <if test="id != null">, id=#{id}</if>
+          <if test="eqpBdId != null">, eqp_bd_id=#{eqpBdId}</if>
+          <if test="eqpId != null">, eqp_id=#{eqpId}</if>
+          <if test="eqpSpecification != null">, eqp_specification=#{eqpSpecification}</if>
+          <if test="eqpNote != null">, eqp_note=#{eqpNote}</if>
+          <if test="eqpFloor != null">, eqp_floor=#{eqpFloor}</if>
+          <if test="eqpValue != null">, eqp_value=#{eqpValue}</if>
+          <if test="eqpAdminId != null">, eqp_admin_id=#{eqpAdminId}</if>
+        </trim>
+        <where>
+          AND id=#{id}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getPublicEquipmentByKey" parameterType="java.util.Map" resultMap="publicEquipmentResultMap">
+        SELECT
+          <include refid="publicEquipmentFields"/>
+        FROM public_equipment
+        <where>
+          AND id=#{id}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deletePublicEquipmentByKey" parameterType="java.util.Map">
+        DELETE FROM public_equipment
+        <where>
+          AND id=#{id}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchPublicEquipmentByKey" parameterType="java.util.List">
+        DELETE FROM public_equipment
+          WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listPublicEquipmentByKey" parameterType="java.util.List" resultMap="publicEquipmentResultMap">
+        SELECT <include refid="publicEquipmentFields"/>
+        FROM public_equipment
+        WHERE id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

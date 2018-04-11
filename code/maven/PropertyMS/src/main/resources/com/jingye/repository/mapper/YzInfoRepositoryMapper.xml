@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingye.repository.YzInfoRepository">
+
+    <!-- 数据库字段 -->
+    <sql id="yzInfoFields">
+        yz_password
+        , yz_building_id
+        , yz_note
+        , yz_id
+        , yz_birthday
+        , yz_name
+        , yz_sex
+        , yz_room_id
+        , yz_login
+        , yz_tel
+    </sql>
+
+    <!-- 对象属性 -->
+    <parameterMap id="yzInfoParameterMap" type="com.jingye.entity.YzInfo">
+        <parameter property="yzPassword"/>
+        <parameter property="yzBuildingId"/>
+        <parameter property="yzNote"/>
+        <parameter property="yzId"/>
+        <parameter property="yzBirthday"/>
+        <parameter property="yzName"/>
+        <parameter property="yzSex"/>
+        <parameter property="yzRoomId"/>
+        <parameter property="yzLogin"/>
+        <parameter property="yzTel"/>
+    </parameterMap>
+
+    <!-- 数据库字段与对象属性映射 -->
+    <resultMap id="yzInfoResultMap" type="com.jingye.entity.YzInfo">
+        <result property="yzPassword" column="yz_password" />
+        <result property="yzBuildingId" column="yz_building_id" />
+        <result property="yzNote" column="yz_note" />
+        <result property="yzId" column="yz_id" />
+        <result property="yzBirthday" column="yz_birthday" />
+        <result property="yzName" column="yz_name" />
+        <result property="yzSex" column="yz_sex" />
+        <result property="yzRoomId" column="yz_room_id" />
+        <result property="yzLogin" column="yz_login" />
+        <result property="yzTel" column="yz_tel" />
+    </resultMap>
+
+    <!-- 增加 -->
+    <insert id="saveYzInfo" parameterMap="yzInfoParameterMap" keyProperty="yz_id" useGeneratedKeys="true">
+        INSERT INTO
+          yz_info( <include refid="yzInfoFields"/> )
+        VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ?);
+    </insert>
+
+    <!-- 增加多条 -->
+    <insert id="saveBatchYzInfo" parameterType="java.util.List">
+        INSERT INTO
+          yz_info( <include refid="yzInfoFields"/> )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.yzPassword}
+              ,#{item.yzBuildingId}
+              ,#{item.yzNote}
+              ,#{item.yzId}
+              ,#{item.yzBirthday}
+              ,#{item.yzName}
+              ,#{item.yzSex}
+              ,#{item.yzRoomId}
+              ,#{item.yzLogin}
+              ,#{item.yzTel}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <!-- 获取所有 -->
+    <select id="listYzInfo" resultMap="yzInfoResultMap">
+        SELECT
+          <include refid="yzInfoFields"/>
+        FROM yz_info
+        ORDER BY
+           yz_id DESC    </select>
+
+    <!-- 根据条件获取多条 -->
+    <select id="listYzInfoByParam" parameterType="java.util.Map" resultMap="yzInfoResultMap">
+        SELECT
+          <include refid="yzInfoFields"/>
+        FROM yz_info
+        <where>
+           <if test="yzPassword != null and yzPassword != ''"> AND yz_password=#{yzPassword} </if>
+           <if test="yzBuildingId != null and yzBuildingId != ''"> AND yz_building_id=#{yzBuildingId} </if>
+           <if test="yzNote != null and yzNote != ''"> AND yz_note=#{yzNote} </if>
+           <if test="yzId != null and yzId != ''"> AND yz_id=#{yzId} </if>
+           <if test="yzBirthday != null"> AND date(yz_birthday)=date(#{yzBirthday,jdbcType=TIMESTAMP}) </if>
+            <if test="yzName != null and yzName != ''"> AND yz_name=#{yzName} </if>
+           <if test="yzSex != null and yzSex != ''"> AND yz_sex=#{yzSex} </if>
+           <if test="yzRoomId != null and yzRoomId != ''"> AND yz_room_id=#{yzRoomId} </if>
+           <if test="yzLogin != null and yzLogin != ''"> AND yz_login=#{yzLogin} </if>
+           <if test="yzTel != null and yzTel != ''"> AND yz_tel=#{yzTel} </if>
+        </where>
+        ORDER BY
+           yz_id DESC    </select>
+
+    <!-- 根据条件删除多条 -->
+    <delete id="deleteYzInfoByParam" parameterMap="yzInfoParameterMap">
+        DELETE FROM yz_info
+        <where>
+          <if test="yzPassword != null and yzPassword != ''"> AND yz_password=#{yzPassword} </if>
+          <if test="yzBuildingId != null and yzBuildingId != ''"> AND yz_building_id=#{yzBuildingId} </if>
+          <if test="yzNote != null and yzNote != ''"> AND yz_note=#{yzNote} </if>
+          <if test="yzId != null and yzId != ''"> AND yz_id=#{yzId} </if>
+          <if test="yzBirthday != null"> AND date(yz_birthday)=date(#{yzBirthday,jdbcType=TIMESTAMP}) </if>
+          <if test="yzName != null and yzName != ''"> AND yz_name=#{yzName} </if>
+          <if test="yzSex != null and yzSex != ''"> AND yz_sex=#{yzSex} </if>
+          <if test="yzRoomId != null and yzRoomId != ''"> AND yz_room_id=#{yzRoomId} </if>
+          <if test="yzLogin != null and yzLogin != ''"> AND yz_login=#{yzLogin} </if>
+          <if test="yzTel != null and yzTel != ''"> AND yz_tel=#{yzTel} </if>
+        </where>
+        ;
+    </delete>
+
+
+    <!-- 根据主键修改 -->
+    <update id="updateYzInfoByKey" parameterMap="yzInfoParameterMap">
+        UPDATE
+          yz_info
+        <trim prefix="SET" prefixOverrides=",">
+          <if test="yzPassword != null">, yz_password=#{yzPassword}</if>
+          <if test="yzBuildingId != null">, yz_building_id=#{yzBuildingId}</if>
+          <if test="yzNote != null">, yz_note=#{yzNote}</if>
+          <if test="yzId != null">, yz_id=#{yzId}</if>
+          <if test="yzBirthday != null">, yz_birthday=#{yzBirthday}</if>
+          <if test="yzName != null">, yz_name=#{yzName}</if>
+          <if test="yzSex != null">, yz_sex=#{yzSex}</if>
+          <if test="yzRoomId != null">, yz_room_id=#{yzRoomId}</if>
+          <if test="yzLogin != null">, yz_login=#{yzLogin}</if>
+          <if test="yzTel != null">, yz_tel=#{yzTel}</if>
+        </trim>
+        <where>
+          AND yz_id=#{yzId}
+        </where>
+        ;
+    </update>
+
+    <!-- 根据主键获取 -->
+    <select id="getYzInfoByKey" parameterType="java.util.Map" resultMap="yzInfoResultMap">
+        SELECT
+          <include refid="yzInfoFields"/>
+        FROM yz_info
+        <where>
+          AND yz_id=#{yzId}
+        </where>
+    </select>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteYzInfoByKey" parameterType="java.util.Map">
+        DELETE FROM yz_info
+        <where>
+          AND yz_id=#{yzId}
+        </where>
+        ;
+    </delete>
+
+    <!-- 根据多个主键删除多条 -->
+    <delete id="deleteBatchYzInfoByKey" parameterType="java.util.List">
+        DELETE FROM yz_info
+          WHERE yz_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{yz_id}
+        </foreach>
+        ;
+    </delete>
+
+    <!-- 根据多个主键获取 -->
+    <select id="listYzInfoByKey" parameterType="java.util.List" resultMap="yzInfoResultMap">
+        SELECT <include refid="yzInfoFields"/>
+        FROM yz_info
+        WHERE yz_id IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{yz_id}
+        </foreach>
+    </select>
+
+</mapper>

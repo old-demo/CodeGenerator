@@ -64,7 +64,7 @@ public class TaskTest {
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
         frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setServiceFrame(FrameEnum.SPRING);
-        frameEntity.setRepositoryFrame(FrameEnum.HIBERNATE);
+        frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
     @Test

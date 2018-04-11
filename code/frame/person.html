@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bootstrap Table</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="css/table/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
+    <!--<link href="css/table/bootstrap-table-fixed-columns.css" rel="stylesheet">-->
+
+    <link href="css/index/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/index/animate.css" rel="stylesheet">
+    <link href="css/index/style.css?v=4.1.0" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+                <div class="col-sm-12">
+                    <!-- Example Events -->
+                    <div class="example-wrap">
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-default" title="添加">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="modal" onclick="addData()"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" title="删除" onclick="deleteData()">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" title="搜索">
+                                    <i class="glyphicon glyphicon-search" aria-hidden="true" data-toggle="modal" onclick="searchData()"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" title="导出Excel">
+                                    <i class="glyphicon glyphicon-floppy-save" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <table id="exampleTableEvents" data-height="505" data-mobile-responsive="true" >
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End Example Events -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Panel Other -->
+</div>
+
+<div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="ibox-content">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">姓名：</label>
+                    <div class="col-sm-8">
+                        <input id="person-name" name="person-name" type="text" placeholder="姓名" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">年龄：</label>
+                    <div class="col-sm-8">
+                        <input id="person-age" name="person-age" type="text" placeholder="年龄" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">地址：</label>
+                    <div class="col-sm-8">
+                        <input id="person-address" name="person-address" type="text" placeholder="地址" class="form-control">
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+
+
+<!-- 全局js -->
+<script src="plugins/jquery/jquery.min.js?v=2.1.4"></script>
+<script src="plugins/jquery/layer/layer.min.js?v=2.1.4"></script>
+
+<!-- Bootstrap table -->
+<script src="js/table/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/table/bootstrap-table.min.js"></script>
+<script src="js/table/bootstrap-table-mobile.min.js"></script>
+<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
+<!--<script src="js/table/bootstrap-table-fixed-columns.js?v=3.3.6"></script>-->
+
+<!-- 自定义js -->
+<script src="js/index/content.js?v=1.0.0"></script>
+<script src="js/person.js"></script>
+
+</body>
+
+</html>
