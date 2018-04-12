@@ -22,14 +22,14 @@ window.operateEvents = {
         });
     },
     'click .RoleOfshow': function (e, value, row, index) {
-#foreach ($!{field} in $!{notNullfields})
-        $('#$!{entityName}-$!{field.entityName}').attr("value", row.$!{field.entityName}).attr("disabled","disabled");
+#foreach ($!{field} in $!{fields})
+        $('#$!{entityName}-$!{field.columnName}').attr("value", row.$!{field.columnName}).attr("disabled","disabled");
 #end
         layer.open({
             type: 1 //Page层类型
             ,id: 'show' //设定一个id，防止重复弹出
             ,title: "查看信息" //不显示标题栏   title : false/标题
-            ,area: ['400px', '300px']
+            ,area: ['400px', '600px']
             ,shade: 0.6 //遮罩透明度
             ,maxmin: true //允许全屏最小化
             ,anim: 1 //0-6的动画形式，-1不开启
@@ -37,43 +37,37 @@ window.operateEvents = {
         });
     },
     'click .RoleOfedit': function (e, value, row, index) {
-#foreach ($!{field} in $!{notNullfields})
-        $('#$!{entityName}-$!{field.entityName}').attr("value", row.$!{field.entityName}).removeAttr("disabled");
+#foreach ($!{field} in $!{fields})
+        $('#$!{entityName}-$!{field.columnName}').attr("value", row.$!{field.columnName}).removeAttr("disabled");
 #end
         layer.open({
             type: 1 //Page层类型
             ,id: 'edit' //设定一个id，防止重复弹出
             ,title: "编辑信息" //不显示标题栏   title : false/标题
-            ,area: ['400px', '300px']
+            ,area: ['400px', '600px']
             ,shade: 0.6 //遮罩透明度
             ,maxmin: true //允许全屏最小化
             ,anim: 1 //0-6的动画形式，-1不开启
             ,content: $('#modal-form').html()
             ,btn: ['确定', '取消']
             ,btn1: function(index, layero){
-#foreach ($!{field} in $!{notNullfields})
-                var $!{field.entityName} = $(layero).find('#$!{entityName}-$!{field.entityName}').val();
+#foreach ($!{field} in $!{fields})
+                var $!{field.columnName} = $(layero).find('#$!{entityName}-$!{field.columnName}').val();
 #end
                 var $!{entityName} = {
-#foreach ($!{field} in $!{notNullfields})
-                    var $!{field.entityName} = $(layero).find('#$!{entityName}-$!{field.entityName}').val();
+#foreach ($!{field} in $!{fields})
+                    $!{field.columnName} : $!{field.columnName},
 #end
-                    id : row.id,
-                    name : name,
-                    age : age,
-                    address : address,
                 };
-                console.log($!{entityName});
-                console.log(JSON.stringify($!{entityName}));
                 $.ajax({
                     type: "post",
-                    url: "$!{entityName}/updatePersonByKey",
+                    url: "$!{entityName}/update$!{className}ByKey",
                     contentType: 'application/json;charset=utf-8',
                     data: JSON.stringify($!{entityName}),
                     dataType: "json",
                     success: function(data){
                         if(data.code == 1) {
-                            $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/listPersonByParamAndPage'});
+                            $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/list$!{className}ByParamAndPage'});
                             layer.msg(data.msg, {icon: 6});
                         } else {
                             layer.msg(data.msg, {icon: 5});
@@ -99,24 +93,23 @@ function searchData() {
         type: 1 //Page层类型
         ,id: 'add' //设定一个id，防止重复弹出
         ,title: "查询信息" //不显示标题栏   title : false/标题
-        ,area: ['400px', '300px']
+        ,area: ['400px', '600px']
         ,shade: 0.6 //遮罩透明度
         ,maxmin: true //允许全屏最小化
         ,anim: 1 //0-6的动画形式，-1不开启
         ,content: $('#modal-form').html()
         ,btn: ['确定', '取消']
         ,btn1: function(index, layero){
-            var name = $(layero).find('#$!{entityName}-name').val();
-            var age =  $(layero).find('#$!{entityName}-age').val();
-            var address = $(layero).find('#$!{entityName}-address').val();
-
+#foreach ($!{field} in $!{fields})
+            var $!{field.columnName} = $(layero).find('#$!{entityName}-$!{field.columnName}').val();
+#end
             var opt = {
-                url: "$!{entityName}/listPersonByParamAndPage",
+                url: "$!{entityName}/list$!{className}ByParamAndPage",
                 silent: true,
                 query:{
-                    name:name,
-                    age:age,
-                    address:address
+#foreach ($!{field} in $!{fields})
+                    $!{field.columnName} : $!{field.columnName},
+#end
                 }
             };
             $("#exampleTableEvents").bootstrapTable('refresh', opt);
@@ -131,30 +124,31 @@ function addData() {
         type: 1 //Page层类型
         ,id: 'add' //设定一个id，防止重复弹出
         ,title: "添加信息" //不显示标题栏   title : false/标题
-        ,area: ['400px', '300px']
+        ,area: ['400px', '600px']
         ,shade: 0.6 //遮罩透明度
         ,maxmin: true //允许全屏最小化
         ,anim: 1 //0-6的动画形式，-1不开启
         ,content: $('#modal-form').html()
         ,btn: ['确定', '取消']
         ,btn1: function(index, layero){
-            var name = $(layero).find('#$!{entityName}-name').val();
-            var age =  $(layero).find('#$!{entityName}-age').val();
-            var address = $(layero).find('#$!{entityName}-address').val();
-            var $!{entityName} = {
-                name : name,
-                age : age,
-                address : address,
+#foreach ($!{field} in $!{fields})
+            var $!{field.columnName} = $(layero).find('#$!{entityName}-$!{field.columnName}').val();
+#end
+            var $!{entityName} =
+            {
+#foreach ($!{field} in $!{fields})
+                $!{field.columnName} : $!{field.columnName},
+#end
             };
             $.ajax({
                 type: "post",
-                url: "$!{entityName}/savePerson",
+                url: "$!{entityName}/save$!{className}",
                 contentType: 'application/json;charset=utf-8',
                 data : JSON.stringify($!{entityName}),
                 dataType: "json",
                 success: function(data){
                     if(data.code == 1) {
-                        $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/listPersonByParamAndPage'});
+                        $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/list$!{className}ByParamAndPage'});
                         layer.msg(data.msg, {icon: 6});
                     } else {
                         layer.msg(data.msg, {icon: 5});
@@ -180,13 +174,13 @@ function deleteData() {
             }
             $.ajax({
                 type: "post",
-                url: "$!{entityName}/deleteBatchPersonByKey",
+                url: "$!{entityName}/deleteBatch$!{className}ByKey",
                 contentType: 'application/json;charset=utf-8',
                 data: '{ idList:'+JSON.stringify(idList)+'}',
                 dataType: "json",
                 success: function(data){
                     if(data.code == 1) {
-                        $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/listPersonByParamAndPage'});
+                        $("#exampleTableEvents").bootstrapTable('refresh', {url: '$!{entityName}/list$!{className}ByParamAndPage'});
                         layer.msg(data.msg, {icon: 6});
                     } else {
                         layer.msg(data.msg, {icon: 5});
@@ -205,7 +199,7 @@ function deleteData() {
     (function() {
         $('#exampleTableEvents').bootstrapTable({
             // url: "js/$!{entityName}.json",
-            url: "$!{entityName}/listPersonByParamAndPage", // 请求地址
+            url: "$!{entityName}/list$!{className}ByParamAndPage", // 请求地址
             contentType : "application/json",   // 设置请求类型
             method : 'post',    // 设置请求方式
             dataField : "data",
@@ -243,23 +237,15 @@ function deleteData() {
             columns: [{ //编辑datagrid的列
                 field : 'state',
                 checkbox : true
-            }, {
-                title : 'id',
-                field : 'id',
+            },
+#foreach ($!{field} in $!{fields})
+            {
+                title : '$!{field.comment}',
+                field : '$!{field.columnName}',
                 sortable: true
-            }, {
-                field : 'name',
-                title : '姓名',
-                sortable: true
-            }, {
-                field : 'age',
-                title : '年龄',
-                sortable: true
-            }, {
-                field : 'address',
-                title : '地址',
-                sortable: true
-            }, {
+            },
+#end
+            {
                 field: 'operate',
                 title: '操作',
                 width :170,
@@ -280,8 +266,6 @@ function deleteData() {
                 page_size: params.pageSize,
                 //请求第几页
                 page_num:params.pageNumber,
-                // Name:$('#search_name').val(),
-                // Tel:$('#search_tel').val()
             }
         }
 

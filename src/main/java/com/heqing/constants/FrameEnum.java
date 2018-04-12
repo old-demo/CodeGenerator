@@ -110,6 +110,8 @@ public enum FrameEnum {
             }
             if (controllerFrame == SPRING_MVC) {
                 taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
+                taskEntity.getTemplates().add(TemplateEnum.TABLE_HTML);
+                taskEntity.getTemplates().add(TemplateEnum.TABLE_JS);
                 if(serviceFrame == SPRING) {
                     taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
                 }

@@ -42,3 +42,6 @@ logging.level.$!{packageName}=error
 logging.level.org.springframework.web=error
 logging.level.org.springframework.transaction=error
 
+#if($!{frame.controllerFrame} == "SPRING_MVC")
+spring.resources.staticLocations=classpath:/WEB-INF/
+#end

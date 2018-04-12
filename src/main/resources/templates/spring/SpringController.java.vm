@@ -44,11 +44,11 @@ public class $!{className}Controller {
     @RequestMapping(value = "/update$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil update$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#foreach ($!{field} in $!{notNullfields})
-        if($!{entityName}Request.get$!{field.filedName}() == null) {
-            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
-        }
-#end
+###foreach ($!{field} in $!{notNullfields})
+##        if($!{entityName}Request.get$!{field.filedName}() == null) {
+##            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+##        }
+###end
         $!{className} $!{entityName} = $!{entityName}Request.get$!{className}();
         int result = $!{entityName}Service.update$!{className}ByKey($!{entityName});
         if(result == 1) {
@@ -60,11 +60,11 @@ public class $!{className}Controller {
     @RequestMapping(value = "/delete$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil delete$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#foreach ($!{field} in $!{keyFields})
-        if($!{entityName}Request.get$!{field.filedName}() == null) {
-            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
-        }
-#end
+###foreach ($!{field} in $!{keyFields})
+##        if($!{entityName}Request.get$!{field.filedName}() == null) {
+##            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+##        }
+###end
 #if($keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
 #foreach(${field} in ${keyFields})
@@ -105,11 +105,11 @@ public class $!{className}Controller {
     @RequestMapping(value = "/get$!{className}ByKey", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResponseUtil get$!{className}ByKey(@RequestBody $!{className}Request $!{entityName}Request) {
-#foreach ($!{field} in $!{keyFields})
-        if($!{entityName}Request.get$!{field.filedName}() == null) {
-            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
-        }
-#end
+###foreach ($!{field} in $!{keyFields})
+##        if($!{entityName}Request.get$!{field.filedName}() == null) {
+##            return new ResponseUtil(0, "$!{field.comment}不能为null！", null);
+##        }
+###end
 #if($keyFields.size() > 1)
         $!{className}PK $!{entityName}PK = new $!{className}PK();
 #foreach(${field} in ${keyFields})

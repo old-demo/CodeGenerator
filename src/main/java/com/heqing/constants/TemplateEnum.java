@@ -111,7 +111,13 @@ public enum TemplateEnum {
     HIBERNATE_CONFIG_TEST("hibernateConfigTest", "hibernate/HibernateConfig.xml.vm"),
 
     // web项目配置文件
-    WEB("web", "Web.xml.vm");
+    WEB("web", "Web.xml.vm"),
+
+    // 列表页样式文件
+    TABLE_HTML("tableHtml", "view/Table.html.vm"),
+
+    // 列表页js文件
+    TABLE_JS("tableJs", "view/Table.js.vm");
 
     public static String getFilePath(String projectName, TemplateEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -122,6 +128,7 @@ public enum TemplateEnum {
 
         String mainCode = "src/main/java/", testCode = "src/test/java/";
         String mainConfig = "src/main/resources/", testConfig = "src/test/resources/";
+        String viewFile = "src/main/resources/WEB-INF/";
 
         switch (template) {
             case POM:
@@ -213,6 +220,12 @@ public enum TemplateEnum {
                 break;
             case WEB:
                 filePatch += "src/main/webapp/WEB-INF/web.xml";
+                break;
+            case TABLE_HTML:
+                filePatch += viewFile + className.toLowerCase() + ".html";
+                break;
+            case TABLE_JS:
+                filePatch += viewFile + "/js/" +className.toLowerCase() + ".js";
                 break;
             default: filePatch = "";
         }

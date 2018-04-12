@@ -39,12 +39,12 @@ public class $!{className}ServiceImpl implements $!{className}Service {
             LOGGER.error("--> $!{entityName} 不能为null！" );
             return 0;
         }
-#foreach ($!{field} in $!{notNullfields})
-        if($!{entityName}.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
-            return 0;
-        }
-#end
+###foreach ($!{field} in $!{notNullfields})
+##        if($!{entityName}.get$!{field.filedName}() == null) {
+##            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
+##            return 0;
+##        }
+###end
         return $!{entityName}Repository.save$!{className}($!{entityName});
     }
 
@@ -56,12 +56,12 @@ public class $!{className}ServiceImpl implements $!{className}Service {
                 LOGGER.error("--> $!{entityName} 不能为null！" );
                 continue;
             }
-#foreach ($!{field} in $!{notNullfields})
-            if($!{entityName}.get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
-                continue;
-            }
-#end
+###foreach ($!{field} in $!{notNullfields})
+##            if($!{entityName}.get$!{field.filedName}() == null) {
+##                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
+##                continue;
+##            }
+###end
             temp$!{entityName}List.add($!{entityName});
         }
         return $!{entityName}Repository.saveBatch$!{className}(temp$!{entityName}List);

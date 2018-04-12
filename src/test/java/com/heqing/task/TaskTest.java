@@ -63,7 +63,7 @@ public class TaskTest {
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
         frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
-        frameEntity.setServiceFrame(FrameEnum.SPRING);
+        frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
     }
 
@@ -72,22 +72,22 @@ public class TaskTest {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
         for(Table table : tableList) {
-            if(!"datebase".equals(table.getTableName())) {
+//            if("person".equals(table.getTableName())) {
                 tableNames.add(table.getTableName());
-            }
+//            }
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
-        taskEntity.setGroupId("com.heqing");
-        taskEntity.setArtifactId("Test");
+        taskEntity.setGroupId("com.jingye");
+        taskEntity.setArtifactId("residential");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
-        taskEntity.setDescription("this is test");
+        taskEntity.setDescription("this is residential property ");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("Test");
-        taskEntity.setAuthorName("heqing");
-        taskEntity.setAuthorEmail("975656343@qq.com");
-        taskEntity.setPackageName("com.heqing");
+        taskEntity.setProjectName("Residential");
+        taskEntity.setAuthorName("huangjingye");
+        taskEntity.setAuthorEmail("754300150@qq.com");
+        taskEntity.setPackageName("com.jingye");
 
         taskEntity.setFrame(frameEntity);
         taskEntity.setDatebase(datebase);
