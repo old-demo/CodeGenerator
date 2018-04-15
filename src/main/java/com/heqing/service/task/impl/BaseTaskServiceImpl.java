@@ -196,7 +196,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
             if("PRI".equals(column.getKey())) {
                 Map<String, Object> keyField = ObjectUtil.objToMap(field);
-                keyField.put("isAutoAdd", "");
                 keyFields.add(keyField);
             } else {
                 Map<String, Object> noKeyField = ObjectUtil.objToMap(field);

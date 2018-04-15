@@ -87,7 +87,7 @@
 
 <!-- 自定义js -->
 <script src="js/index/content.js?v=1.0.0"></script>
-<script src="js/$!{tableName}.js"></script>
+<script src="js/$!{className}.js"></script>
 
 </body>
 

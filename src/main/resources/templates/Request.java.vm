@@ -20,7 +20,7 @@ import $!{classPackage}.entity.$!{className}PK;
  */
 public class $!{className}Request implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * pageNum 当前页
@@ -66,18 +66,16 @@ private static final long serialVersionUID = 1L;
 
 #end
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} == "String") #set ($value=$!{field.filedDefault}) #set($type="String")
-#elseif($!{field.type} == "Integer") #set ($value=$!{field.filedDefault}) #set($type="int")
-#elseif($!{field.type} == "Long") #set ($value=$!{field.filedDefault}+"L") #set($type="long")
-#elseif($!{field.type} == "Float") #set ($value=$!{field.filedDefault}+"F") #set($type="float")
-#elseif($!{field.type} == "Double") #set ($value=$!{field.filedDefault}+"D") #set($type="double")
-#elseif($!{field.type} == "BigDecimal") #set ($value="new BigDecimal($!{field.filedDefault})") #set($type="BigDecimal")
-#end
+
     /**
      * $!{field.entityName} $!{field.comment}
      */
+#if($!{field.type} == "Date")
+    @JSONField(name="$!{field.columnName}", format="yyyy-MM-dd HH:mm:ss")
+#else
     @JSONField(name="$!{field.columnName}")
-    private $!{type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{value}"#else$!{value}#end#end;
+#end
+    private $!{field.type} $!{field.entityName};
 
 #end
     public int getPageNum() {
@@ -97,18 +95,11 @@ private static final long serialVersionUID = 1L;
     }
 
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} == "String") #set ($value=$!{field.filedDefault}) #set($type="String")
-#elseif($!{field.type} == "Integer") #set ($value=$!{field.filedDefault}) #set($type="int")
-#elseif($!{field.type} == "Long") #set ($value=$!{field.filedDefault}+"L") #set($type="long")
-#elseif($!{field.type} == "Float") #set ($value=$!{field.filedDefault}+"F") #set($type="float")
-#elseif($!{field.type} == "Double") #set ($value=$!{field.filedDefault}+"D") #set($type="double")
-#elseif($!{field.type} == "BigDecimal") #set ($value="new BigDecimal($!{field.filedDefault})") #set($type="BigDecimal")
-#end
-    public void set$!{field.filedName}($!{type} $!{field.entityName}) {
+    public void set$!{field.filedName}($!{field.type} $!{field.entityName}) {
         this.$!{field.entityName} = $!{field.entityName};
     }
 
-    public $!{type} get$!{field.filedName}() {
+    public $!{field.type} get$!{field.filedName}() {
         return $!{field.entityName};
     }
 
@@ -119,14 +110,11 @@ private static final long serialVersionUID = 1L;
     }
 
     public $!{className} get$!{className}() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         $!{className} $!{entityName} = new $!{className}();
 #if($!{frame.repositoryFrame} == "MYBATIS")
 #foreach ($!{field} in $!{fields})
-#if($!{field.type} == "Date")
-        $!{entityName}.set$!{field.filedName}(new Date());
-#else
         $!{entityName}.set$!{field.filedName}(this.get$!{field.filedName}());
-#end
 #end
 #elseif($!{frame.repositoryFrame} == "HIBERNATE")
 #if($keyFields.size() > 1)

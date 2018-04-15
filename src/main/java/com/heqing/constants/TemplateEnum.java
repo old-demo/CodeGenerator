@@ -222,10 +222,10 @@ public enum TemplateEnum {
                 filePatch += "src/main/webapp/WEB-INF/web.xml";
                 break;
             case TABLE_HTML:
-                filePatch += viewFile + className.toLowerCase() + ".html";
+                filePatch += viewFile + className + ".html";
                 break;
             case TABLE_JS:
-                filePatch += viewFile + "/js/" +className.toLowerCase() + ".js";
+                filePatch += viewFile + "/js/" +className + ".js";
                 break;
             default: filePatch = "";
         }
