@@ -30,10 +30,13 @@ public enum FrameEnum {
     MYBATIS("mybatis"),
 
     // spring_mvc框架
-    SPRING_MVC("SPRING_MVC"),
+    SPRING_MVC("spring_MVC"),
 
     // struts2框架
-    STRUTS2("struts2");
+    STRUTS2("struts2"),
+
+    // bootstrap框架
+    BOOTSTRAP("bootstrap");
 
     public static void addTemplates(TaskEntity taskEntity) {
         taskEntity.getTemplates().clear();
@@ -48,6 +51,8 @@ public enum FrameEnum {
         FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
         // 控制层框架
         FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
+        // 显示层框架
+        FrameEnum h5Frame = taskEntity.getFrame().getH5Frame();
 
         if(keyNum > 1) {
             taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
@@ -110,10 +115,17 @@ public enum FrameEnum {
             }
             if (controllerFrame == SPRING_MVC) {
                 taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
-                taskEntity.getTemplates().add(TemplateEnum.TABLE_HTML);
-                taskEntity.getTemplates().add(TemplateEnum.TABLE_JS);
                 if(serviceFrame == SPRING) {
                     taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
+                }
+            }
+            if(h5Frame == BOOTSTRAP) {
+                if(serviceFrame == SPRING) {
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_HTML);
+                    taskEntity.getTemplates().add(TemplateEnum.SPRING_JS);
+                } else if(serviceFrame == SPRING_BOOT) {
+                    taskEntity.getTemplates().add(TemplateEnum.SPRINGBOOT_HTML);
+                    taskEntity.getTemplates().add(TemplateEnum.SPRINGBOOT_JS);
                 }
             }
         }

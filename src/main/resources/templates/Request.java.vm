@@ -54,6 +54,7 @@ public class $!{className}Request implements Serializable {
     /**
      * $!{keyFields.get(0).entityName}s 主键集合
      */
+    @JSONField(name="$!{keyFields.get(0).columnName}_list")
     List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List = new ArrayList<>();
 
     public void set$!{keyFields.get(0).filedName}List(List<$!{keyFields.get(0).type}> $!{keyFields.get(0).entityName}List) {
@@ -110,7 +111,6 @@ public class $!{className}Request implements Serializable {
     }
 
     public $!{className} get$!{className}() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         $!{className} $!{entityName} = new $!{className}();
 #if($!{frame.repositoryFrame} == "MYBATIS")
 #foreach ($!{field} in $!{fields})

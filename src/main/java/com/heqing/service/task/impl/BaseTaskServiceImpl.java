@@ -54,6 +54,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     protected SqlSession sqlSession;
 
+    StringBuilder li = new StringBuilder();
+
     @Override
     public void execute(T taskEntity) {
         try {
@@ -172,10 +174,10 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         List<Column> columnList = columnService.listColumnByTable(sqlSession, tableName);
 
         LOGGER.info("合成中 --> 将列的信息转为类属性");
-        Set<FieldEntity> fields = new HashSet<>();
-        Set<Map<String, Object>> keyFields = new HashSet<>();
-        Set<Map<String, Object>> noKeyFields = new HashSet<>();
-        Set<Map<String, Object>> notNullfields = new HashSet<>();
+        LinkedList<FieldEntity> fields = new LinkedList<>();
+        LinkedList<Map<String, Object>> keyFields = new LinkedList<>();
+        LinkedList<Map<String, Object>> noKeyFields = new LinkedList<>();
+        LinkedList<Map<String, Object>> notNullfields = new LinkedList<>();
         for(Column column : columnList) {
             if(!checkWord(taskEntity, tableName, column.getColumnName())) {
                 return false;
@@ -210,7 +212,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskEntity.getFrame().setKeyNum(keyFields.size());
 
         LOGGER.info("合成中 --> 将表的信息转为类！");
-        classEntity.setFields(new LinkedList<>(fields));
+        classEntity.setFields(fields);
         classEntity.setClassPackage(taskEntity.getPackageName());
         classEntity.setEntityName(specialWord(tableName));
         classEntity.setClassName(StringUtils.capitalize(classEntity.getEntityName()));
@@ -225,9 +227,9 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         taskMap.putAll(ObjectUtil.objToMap(classEntity));
         taskMap.put("tableName", tableName);
         taskMap.put("repositoryMapper", taskEntity.getPackageName().replace(".","/"));
-        taskMap.put("keyFields", new LinkedList<>(keyFields));
-        taskMap.put("noKeyFields", new LinkedList<>(noKeyFields));
-        taskMap.put("notNullfields", new LinkedList<>(notNullfields));
+        taskMap.put("keyFields", keyFields);
+        taskMap.put("noKeyFields", noKeyFields);
+        taskMap.put("notNullfields", notNullfields);
         taskMap.put("isAutoIncr", table.getAutoIncrement());
 
         // 去掉注释显示嵌入关键字
@@ -240,6 +242,8 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 //            System.out.println("Key = " + key + ", Value = " + value);
 //        }
 //        System.out.println("------------------------------------------");
+
+        li.append("<li><a class='J_menuItem' href='"+classEntity.getClassName()+".html'><i class='fa fa-paperclip'></i>"+table.getComment()+"</a></li>").append("\r\n");
         return true;
     }
 
@@ -270,6 +274,19 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public Boolean deploy(T taskEntity) {
+        FrameEntity frameEntity = taskEntity.getFrame();
+        if(frameEntity.getH5Frame() != null) {
+            String fromPath = System.getProperty("user.dir")+"/code/WEB-INF";
+            String toPath = System.getProperty("user.dir")+"/code/maven/"+taskEntity.getProjectName()+"/src/main/";
+            if(frameEntity.getServiceFrame() == FrameEnum.SPRING_BOOT) {
+                toPath += "resources/WEB-INF";
+            } else if(frameEntity.getServiceFrame() == FrameEnum.SPRING) {
+                toPath += "webapp/WEB-INF";
+            }
+            FileUtil.copyDirectory(fromPath, toPath);
+            FileUtil.replaceFileStr(toPath+"/index.html", "this is temp li content", li.toString());
+        }
+
 //        FileUtil.zipFile(taskEntity.getProjectName());
         return true;
     }

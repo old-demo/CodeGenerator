@@ -114,10 +114,16 @@ public enum TemplateEnum {
     WEB("web", "Web.xml.vm"),
 
     // 列表页样式文件
-    TABLE_HTML("tableHtml", "view/Table.html.vm"),
+    SPRINGBOOT_HTML("springBootHtml", "view/Bootstrap.html.vm"),
 
     // 列表页js文件
-    TABLE_JS("tableJs", "view/Table.js.vm");
+    SPRINGBOOT_JS("springBootJs", "view/Bootstrap.js.vm"),
+
+    // 列表页样式文件
+    SPRING_HTML("springHtml", "view/Bootstrap.html.vm"),
+
+    // 列表页js文件
+    SPRING_JS("springJs", "view/Bootstrap.js.vm");
 
     public static String getFilePath(String projectName, TemplateEnum template, String packageName, String className) {
         String filePatch = projectName+"/";
@@ -221,10 +227,16 @@ public enum TemplateEnum {
             case WEB:
                 filePatch += "src/main/webapp/WEB-INF/web.xml";
                 break;
-            case TABLE_HTML:
+            case SPRING_HTML:
+                filePatch += "src/main/webapp/WEB-INF/" + className + ".html";
+                break;
+            case SPRING_JS:
+                filePatch += "src/main/webapp/WEB-INF/js/" +className + ".js";
+                break;
+            case SPRINGBOOT_HTML:
                 filePatch += viewFile + className + ".html";
                 break;
-            case TABLE_JS:
+            case SPRINGBOOT_JS:
                 filePatch += viewFile + "/js/" +className + ".js";
                 break;
             default: filePatch = "";

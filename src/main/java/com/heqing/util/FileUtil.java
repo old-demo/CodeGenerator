@@ -1,6 +1,7 @@
 package com.heqing.util;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -213,49 +214,6 @@ public class FileUtil {
     }
 
     /**
-     * 复制文件至另一个文件夹下
-     *
-     * @param oldpath 文件旧地址
-     * @param newPath 文件新地址
-     */
-    public static void copyFile(String oldpath, String newPath) {
-        File src = new File(oldpath);
-        File dst = new File(newPath);
-        if (!dst.exists()) {
-            dst.mkdirs();
-        }
-        InputStream in = null;
-        OutputStream out = null;
-        try {
-            in = new BufferedInputStream(new FileInputStream(src));
-            FileOutputStream f = new FileOutputStream(dst + oldpath.substring(oldpath.lastIndexOf("/"), oldpath.length()));
-            out = new BufferedOutputStream(f);
-            byte[] buffer = new byte[16 * 1024];
-            int len = 0;
-            while ((len = in.read(buffer)) > 0) {
-                out.write(buffer, 0, len);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (null != in) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != out) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
      * 将生成的代码压缩
      *
      * @param projectName 项目名称
@@ -301,5 +259,98 @@ public class FileUtil {
             }
         }
         return stringList;
-     }
+    }
+
+    /**
+     * 将文件夹下所有文件复制到另一个目录
+     *
+     * @param fromPath 原始文件目录路径
+     * @param toPath 新的目录路径
+     */
+    public static void copyDirectory(String fromPath, String toPath){
+        File fromFile = new File(fromPath);
+        File toFile = new File(toPath);
+        if(!fromFile.canRead()){
+            return;
+        }else{
+            if (!toFile.exists()) {
+                toFile.mkdirs();
+            }
+            File[] files = fromFile.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile()) {
+                    copyFile(new File(fromPath + File.separator + files[i].getName()), new File(toPath + File.separator + files[i].getName()));
+                } else if (files[i].isDirectory()) {
+                    copyDirectory(fromPath + File.separator + files[i].getName(), toPath + File.separator + files[i].getName());
+                }
+            }
+        }
+    }
+
+    /**
+     * 将文件复制到另一个目录
+     *
+     * @param s 原始文件
+     * @param t 新的文件
+     */
+    public static void copyFile(File s, File t) {
+        FileInputStream fi = null;
+        FileOutputStream fo = null;
+        FileChannel in = null;
+        FileChannel out = null;
+        try {
+            fi = new FileInputStream(s);
+            fo = new FileOutputStream(t);
+            in = fi.getChannel();//得到对应的文件通道
+            out = fo.getChannel();//得到对应的文件通道
+            in.transferTo(0, in.size(), out);//连接两个通道，并且从in通道读取，然后写入out通道
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fi.close();
+                in.close();
+                fo.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * 替换指定文件中的指定内容
+     * @param filepath  文件路径
+     * @param sourceStr 文件需要替换的内容
+     * @param targetStr 替换后的内容
+     * @return 替换成功返回true，否则返回false
+     */
+    public static boolean replaceFileStr(String filepath,String sourceStr,String targetStr){
+        try {
+            FileReader fis = new FileReader(filepath);  // 创建文件输入流
+            BufferedReader br = new BufferedReader(fis);
+            char[] data = new char[1024];               // 创建缓冲字符数组
+            int rn = 0;
+            StringBuilder sb=new StringBuilder();       // 创建字符串构建器
+            //fis.read(data)：将字符读入数组。在某个输入可用、发生 I/O 错误或者已到达流的末尾前，此方法一直阻塞。读取的字符数，如果已到达流的末尾，则返回 -1
+            while ((rn = fis.read(data)) > 0) {         // 读取文件内容到字符串构建器
+                String str=String.valueOf(data,0,rn);//把数组转换成字符串
+                sb.append(str);
+            }
+            fis.close();// 关闭输入流
+            // 从构建器中生成字符串，并替换搜索文本
+            String str = sb.toString().replace(sourceStr, targetStr);
+            FileWriter fout = new FileWriter(filepath);// 创建文件输出流
+            fout.write(str.toCharArray());// 把替换完成的字符串写入文件内
+            fout.close();// 关闭输出流
+
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

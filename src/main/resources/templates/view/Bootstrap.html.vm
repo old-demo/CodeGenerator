@@ -6,16 +6,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Bootstrap Table</title>
+    <title>$!{comment} Table</title>
 
     <link rel="shortcut icon" href="favicon.ico">
 
-    <link href="css/table/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
-    <!--<link href="css/table/bootstrap-table-fixed-columns.css" rel="stylesheet">-->
+    <link href="plugins/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="plugins/bootstrap/bootstrap-table.min.css" rel="stylesheet">
+    <link href="plugins/bootstrap/bootstrap-table-fixed-columns.css" rel="stylesheet">
+    <link href="plugins/animate/animate.css" rel="stylesheet">
 
     <link href="css/index/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="css/index/animate.css" rel="stylesheet">
     <link href="css/index/style.css?v=4.1.0" rel="stylesheet">
 </head>
 
@@ -35,9 +35,11 @@
                                 <button type="button" class="btn btn-outline btn-default" title="添加">
                                     <i class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="modal" onclick="addData()"></i>
                                 </button>
+#if($keyFields.size() == 1)
                                 <button type="button" class="btn btn-outline btn-default" title="删除" onclick="deleteData()">
                                     <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                 </button>
+#end
                                 <button type="button" class="btn btn-outline btn-default" title="搜索">
                                     <i class="glyphicon glyphicon-search" aria-hidden="true" data-toggle="modal" onclick="searchData()"></i>
                                 </button>
@@ -59,28 +61,18 @@
 </div>
 
 <div id="modal-form" class="modal fade" aria-hidden="true">
-        <div class="ibox-content">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">姓名：</label>
-                    <div class="col-sm-8">
-                        <input id="person-name" name="person-name" type="text" placeholder="姓名" class="form-control">
-                    </div>
+    <div class="ibox-content">
+        <form class="form-horizontal">
+#foreach ($!{field} in $!{fields})
+            <div class="form-group">
+                <label class="col-sm-3 control-label">$!{field.comment}：</label>
+                <div class="col-sm-8">
+                    <input id="$!{tableName}-$!{field.columnName}" name="$!{tableName}-$!{field.columnName}" type="text" placeholder="$!{field.comment}" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">年龄：</label>
-                    <div class="col-sm-8">
-                        <input id="person-age" name="person-age" type="text" placeholder="年龄" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">地址：</label>
-                    <div class="col-sm-8">
-                        <input id="person-address" name="person-address" type="text" placeholder="地址" class="form-control">
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+#end
+        </form>
+    </div>
 </div>
 
 
@@ -89,15 +81,15 @@
 <script src="plugins/jquery/layer/layer.min.js?v=2.1.4"></script>
 
 <!-- Bootstrap table -->
-<script src="js/table/bootstrap.min.js?v=3.3.6"></script>
-<script src="js/table/bootstrap-table.min.js"></script>
-<script src="js/table/bootstrap-table-mobile.min.js"></script>
-<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
-<!--<script src="js/table/bootstrap-table-fixed-columns.js?v=3.3.6"></script>-->
+<script src="plugins/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+<script src="plugins/bootstrap/bootstrap-table.min.js"></script>
+<script src="plugins/bootstrap/bootstrap-table-mobile.min.js"></script>
+<script src="plugins/bootstrap/bootstrap-table-zh-CN.min.js"></script>
+<script src="plugins/bootstrap/bootstrap-table-fixed-columns.js?v=3.3.6"></script>
 
 <!-- 自定义js -->
 <script src="js/index/content.js?v=1.0.0"></script>
-<script src="js/person.js"></script>
+<script src="js/$!{className}.js"></script>
 
 </body>
 

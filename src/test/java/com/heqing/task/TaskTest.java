@@ -62,9 +62,10 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
-        frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+        frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
+        frameEntity.setH5Frame(FrameEnum.BOOTSTRAP);
     }
 
     @Test
@@ -72,7 +73,7 @@ public class TaskTest {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
         for(Table table : tableList) {
-//            if("person".equals(table.getTableName())) {
+//            if("admin".equals(table.getTableName())) {
                 tableNames.add(table.getTableName());
 //            }
         }
