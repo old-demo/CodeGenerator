@@ -62,7 +62,7 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
-        frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
+        frameEntity.setServiceFrame(FrameEnum.SPRING);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
         frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setH5Frame(FrameEnum.BOOTSTRAP);

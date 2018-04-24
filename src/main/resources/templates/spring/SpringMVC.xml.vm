@@ -12,6 +12,7 @@
     <context:component-scan base-package="$!{classPackage}.controller" />
 
     <!-- 静态资源 -->
+    <mvc:resources mapping="/**" location="/WEB-INF/" />
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
     <mvc:resources mapping="/plugins/**" location="/WEB-INF/plugins/" />
     <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />

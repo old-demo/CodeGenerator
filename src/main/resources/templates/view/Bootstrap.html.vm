@@ -67,7 +67,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">$!{field.comment}：</label>
                 <div class="col-sm-8">
-                    <input id="$!{tableName}-$!{field.columnName}" name="$!{tableName}-$!{field.columnName}" type="text" placeholder="$!{field.comment}" class="form-control">
+                    <input id="$!{entityName}-$!{field.columnName}" name="$!{entityName}-$!{field.columnName}" type="text" placeholder="$!{field.comment}" class="form-control">
                 </div>
             </div>
 #end

@@ -83,11 +83,13 @@ window.operateEvents = {
 
 function operateFormatter(value, row, index) {
     return [
+        '<div style="min-width:160px;">',
         '<button type="button" class="RoleOfshow btn btn-primary  btn-sm" style="margin-right:15px;">查看</button>',
         '<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>',
 #if($keyFields.size() == 1)
-        '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>'
+        '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>',
 #end
+        '</div>'
     ].join('');
 }
 
