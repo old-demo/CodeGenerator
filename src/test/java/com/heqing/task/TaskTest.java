@@ -35,8 +35,6 @@ public class TaskTest {
     @Autowired
     TableService tableService;
 
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("application");
-
     Datebase datebase = new Datebase();
 
     FrameEntity frameEntity = new FrameEntity();
@@ -47,12 +45,12 @@ public class TaskTest {
 
     @Before
     public void createDateBase() {
-        String driver = BUNDLE.getString("db.driver");
-        String url = BUNDLE.getString("db.url");
-        int port = Integer.parseInt(BUNDLE.getString("db.port"));
-        String dbName = BUNDLE.getString("db.dbName");
-        String userName = BUNDLE.getString("db.username");
-        String password = BUNDLE.getString("db.password");
+        String driver = "com.mysql.jdbc.Driver";
+        String url = "localhost";
+        int port = 7306;
+        String dbName = "yzadmin";
+        String userName = "root";
+        String password = "246512";
 
         datebase.setDriver(driver);
         datebase.setUrl(url);
@@ -73,22 +71,20 @@ public class TaskTest {
         List<Table> tableList = tableService.listTable(datebaseServiceExt.getSqlSession(datebase));
         List<String> tableNames = new ArrayList<>();
         for(Table table : tableList) {
-//            if("admin".equals(table.getTableName())) {
-                tableNames.add(table.getTableName());
-//            }
+            tableNames.add(table.getTableName());
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
-        taskEntity.setGroupId("com.jingye");
-        taskEntity.setArtifactId("residential");
+        taskEntity.setGroupId("com.yyw");
+        taskEntity.setArtifactId("yztest");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
-        taskEntity.setDescription("this is residential property ");
+        taskEntity.setDescription("这是 1诊测试 数据测试项目");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("Residential");
-        taskEntity.setAuthorName("huangjingye");
-        taskEntity.setAuthorEmail("754300150@qq.com");
-        taskEntity.setPackageName("com.jingye");
+        taskEntity.setProjectName("yztest");
+        taskEntity.setAuthorName("heqing");
+        taskEntity.setAuthorEmail("975656343@qq.com");
+        taskEntity.setPackageName("com.yz");
 
         taskEntity.setFrame(frameEntity);
         taskEntity.setDatebase(datebase);

@@ -1,6 +1,5 @@
 package $!{classPackage}.repository;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.math.BigDecimal;
@@ -14,7 +13,6 @@ import $!{classPackage}.entity.$!{className};
  * @email  $!{authorEmail}
  * @date   $!{createTime}
  */
-@Mapper
 public interface $!{className}Repository {
 
     /**
