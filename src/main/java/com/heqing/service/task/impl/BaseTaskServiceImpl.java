@@ -67,7 +67,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             for(String tableName : taskEntity.getTableNames()) {
                 LOGGER.info("开始合成参数！");
                 if(!combileParams(taskEntity, tableName)) {
-                    LOGGER.error(tableName + "生成代码失败，具体原因请查看上一条日志");
                     continue;
                 }
 
@@ -318,7 +317,6 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         }
         if(TaskEntity.getSqlKey().contains(columnName.toUpperCase())) {
             taskEntity.getErrorMap().put("表："+tableName+"->列："+columnName, " 该字段名为SQL保留字");
-            LOGGER.error(columnName + "该字段名为SQL保留字");
             return false;
         }
         return true;

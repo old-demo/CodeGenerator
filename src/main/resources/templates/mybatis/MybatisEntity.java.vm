@@ -33,7 +33,7 @@ public class $!{className} implements Serializable {
 #else
 	@JSONField(name="$!{field.columnName}")
 #end
-	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{value}"#else$!{value}#end#end;
+	private $!{field.type} $!{field.entityName}#if($!{field.filedDefault} != "null") = #if($!{field.type} == "String")"$!{value}"#elseif($!{field.type} == "Date")new Date()#else$!{value}#end#end;
 
 #end
 #foreach ($!{field} in $!{fields})

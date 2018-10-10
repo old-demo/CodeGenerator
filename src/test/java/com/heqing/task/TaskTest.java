@@ -47,7 +47,7 @@ public class TaskTest {
     public void createDateBase() {
         String driver = "com.mysql.jdbc.Driver";
         String url = "localhost";
-        int port = 7306;
+        int port = 3306;
         String dbName = "yzadmin";
         String userName = "root";
         String password = "246512";
@@ -75,13 +75,13 @@ public class TaskTest {
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
         taskEntity.setGroupId("com.yyw");
-        taskEntity.setArtifactId("yztest");
+        taskEntity.setArtifactId("test");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("这是 1诊测试 数据测试项目");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("yztest");
+        taskEntity.setProjectName("test");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.yz");

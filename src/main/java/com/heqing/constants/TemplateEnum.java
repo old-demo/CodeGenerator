@@ -14,8 +14,14 @@ public enum TemplateEnum {
     // maven项目pom文件
     POM("pom", "pom.xml.vm"),
 
+    // 日志
+    LOG("log", "log4j.properties.vm"),
+
     // 分页工具类
     UTIL_PAGE_INFO("pageInfoUtil", "util/PageInfoUtil.java.vm"),
+
+    // 入参校验工具类
+    UTIL_VALIDATE("validateUtil", "util/ValidateUtil.java.vm"),
 
     // 返回数据封装类
     UTIL_RESPONSE("responseUtil", "util/ResponseUtil.java.vm"),
@@ -139,6 +145,12 @@ public enum TemplateEnum {
         switch (template) {
             case POM:
                 filePatch += "pom.xml";
+                break;
+            case LOG:
+                filePatch += mainConfig + "/log4j.properties";
+                break;
+            case UTIL_VALIDATE:
+                filePatch += mainCode + packagePath + "/util/ValidateUtil.java";
                 break;
             case UTIL_RESPONSE:
                 filePatch += mainCode + packagePath + "/util/ResponseUtil.java";

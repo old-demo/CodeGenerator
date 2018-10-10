@@ -60,10 +60,12 @@ public enum FrameEnum {
             return ;
         }
 
+        taskEntity.getTemplates().add(TemplateEnum.LOG);
         if(projectFrame == MAVEN) {
             taskEntity.getTemplates().add(TemplateEnum.POM);
         }
 
+        taskEntity.getTemplates().add(TemplateEnum.UTIL_VALIDATE);
         taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGE_INFO);
         if(repositoryFrame == MYBATIS) {
             taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);

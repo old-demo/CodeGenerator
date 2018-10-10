@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.ArrayList;
 import java.math.BigDecimal;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 #if($keyFields.size() > 1)
 import $!{classPackage}.entity.$!{className}PK;
@@ -17,6 +18,7 @@ import $!{classPackage}.entity.$!{className};
 import $!{classPackage}.repository.$!{className}Repository;
 import $!{classPackage}.service.$!{className}Service;
 import $!{classPackage}.util.PageInfoUtil;
+import $!{classPackage}.util.ValidateUtil;
 
 /**
  * $!{comment}业务逻辑实现类
@@ -28,23 +30,17 @@ import $!{classPackage}.util.PageInfoUtil;
 @Service("$!{entityName}Service")
 public class $!{className}ServiceImpl implements $!{className}Service {
 
-    private static final Logger LOGGER = Logger.getLogger($!{className}ServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger($!{className}ServiceImpl.class);
 
 	@Autowired
 	private $!{className}Repository $!{entityName}Repository;
 
     @Override
     public int save$!{className}($!{className} $!{entityName}) {
-        if($!{entityName} == null) {
-            LOGGER.error("--> $!{entityName} 不能为null！" );
+        boolean param = ValidateUtil.validateParameter($!{entityName}#foreach ($!{field} in $!{notNullfields}), "$!{field.entityName}"#end);
+        if(!param) {
             return 0;
         }
-#foreach ($!{field} in $!{notNullfields})
-        if($!{entityName}.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
-            return 0;
-        }
-#end
         return $!{entityName}Repository.save$!{className}($!{entityName});
     }
 
@@ -52,17 +48,10 @@ public class $!{className}ServiceImpl implements $!{className}Service {
     public int save$!{className}(List<$!{className}> $!{entityName}List) {
         List<$!{className}> temp$!{entityName}List = new ArrayList<>();
         for($!{className} $!{entityName} : $!{entityName}List) {
-            if($!{entityName} == null) {
-                LOGGER.error("--> $!{entityName} 不能为null！" );
-                continue;
+            boolean param = ValidateUtil.validateParameter($!{entityName}#foreach ($!{field} in $!{notNullfields}), "$!{field.entityName}"#end);
+            if(param) {
+                temp$!{entityName}List.add($!{entityName});
             }
-#foreach ($!{field} in $!{notNullfields})
-            if($!{entityName}.get$!{field.filedName}() == null) {
-                LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
-                continue;
-            }
-#end
-            temp$!{entityName}List.add($!{entityName});
         }
         return $!{entityName}Repository.saveBatch$!{className}(temp$!{entityName}List);
     }
@@ -103,16 +92,10 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #if($keyFields.size() > 0)
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
-        if($!{entityName} == null) {
-            LOGGER.error("--> $!{entityName} 不能为null！" );
+        boolean param = ValidateUtil.validateParameter($!{entityName}#foreach ($!{field} in $!{notNullfields}), "$!{field.entityName}"#end);
+        if(!param) {
             return 0;
         }
-#foreach ($!{field} in $!{notNullfields})
-        if($!{entityName}.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{entityName} $!{field.comment} 不能为null！"  + $!{entityName});
-            return 0;
-        }
-#end
         return $!{entityName}Repository.update$!{className}ByKey($!{entityName});
     }
 
@@ -133,16 +116,10 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #if($keyFields.size() > 1)
     @Override
     public $!{className} get$!{className}ByKey($!{className}PK $!{entityName}PK) {
-        if($!{entityName}PK == null) {
-            LOGGER.error("--> $!{entityName}PK 不能为null！" );
+        boolean param = ValidateUtil.validateParameter($!{entityName}PK,#foreach ($!{field} in $!{keyFields}) #if($velocityCount == 1)#else, #end"$!{field.entityName}"#end);
+        if(!param) {
             return null;
         }
-#foreach ($!{field} in $!{keyFields})
-        if($!{entityName}PK.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{entityName}PK $!{field.comment} 不能为null！" + $!{entityName}PK);
-            return null;
-        }
-#end
         return $!{entityName}Repository.get$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
     }
 
@@ -160,16 +137,10 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 
     @Override
     public int delete$!{className}ByKey($!{className}PK $!{entityName}PK) {
-        if($!{entityName}PK == null) {
-            LOGGER.error("--> $!{entityName}PK 不能为null！" );
+        boolean param = ValidateUtil.validateParameter($!{entityName}PK,#foreach ($!{field} in $!{keyFields}) #if($velocityCount == 1)#else, #end"$!{field.entityName}"#end);
+        if(!param) {
             return 0;
         }
-#foreach ($!{field} in $!{keyFields})
-        if($!{entityName}PK.get$!{field.filedName}() == null) {
-            LOGGER.error("--> $!{entityName}PK $!{field.comment} 不能为null！" + $!{entityName}PK);
-            return 0;
-        }
-#end
         return $!{entityName}Repository.delete$!{className}ByKey(#foreach(${field} in ${keyFields})#if($velocityCount != 1) ,#end$!{entityName}PK.get$!{field.filedName}()#end);
     }
 
