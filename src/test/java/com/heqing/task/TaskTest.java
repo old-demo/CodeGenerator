@@ -60,7 +60,7 @@ public class TaskTest {
         datebase.setPassword(password);
 
         frameEntity.setProjectFrame(FrameEnum.MAVEN);
-        frameEntity.setServiceFrame(FrameEnum.SPRING);
+        frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
         frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
         frameEntity.setControllerFrame(FrameEnum.SPRING_MVC);
         frameEntity.setH5Frame(FrameEnum.BOOTSTRAP);
@@ -74,14 +74,14 @@ public class TaskTest {
             tableNames.add(table.getTableName());
         }
         MavenTaskEntity taskEntity = new MavenTaskEntity();
-        taskEntity.setGroupId("com.yyw");
-        taskEntity.setArtifactId("test");
+        taskEntity.setGroupId("com.yz");
+        taskEntity.setArtifactId("yzDateTest");
         taskEntity.setVersion("0.0.1-SNAPSHOT");
         taskEntity.setDescription("这是 1诊测试 数据测试项目");
 
         taskEntity.setTableNames(tableNames);
         taskEntity.setZipPath(zipPath+"maven/");
-        taskEntity.setProjectName("test");
+        taskEntity.setProjectName("YzDateTest");
         taskEntity.setAuthorName("heqing");
         taskEntity.setAuthorEmail("975656343@qq.com");
         taskEntity.setPackageName("com.yz");
