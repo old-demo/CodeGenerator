@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 
 /**
@@ -17,6 +18,9 @@ import org.springframework.http.converter.HttpMessageConverter;
  * @date 2018/01/02
  */
 @SpringBootApplication
+@PropertySource(value={
+		"classpath:config/mybatis.properties"
+},encoding="utf-8")
 public class CodeGeneratorApplication {
 
 	@Bean
