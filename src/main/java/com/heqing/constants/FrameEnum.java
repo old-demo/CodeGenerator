@@ -1,142 +1,67 @@
 package com.heqing.constants;
 
-import com.heqing.entity.task.TaskEntity;
-
 /**
- * 根据配置，添加需要的代码模板
- *
+ * 项目框架
  * @author heqing
  * @email 975656343@qq.com
  * @date 2018/03/12
  */
-public enum FrameEnum {
+public interface FrameEnum {
 
-    // 普通java项目
-    JAR("jar"),
-
-    // maven项目
-    MAVEN("maven"),
-
-    // Spring框架
-    SPRING("spring"),
-
-    // springBoot框架
-    SPRING_BOOT("spring_Boot"),
-
-    // hibernate框架
-    HIBERNATE("hibernate"),
-
-    // mybatis框架
-    MYBATIS("mybatis"),
-
-    // spring_mvc框架
-    SPRING_MVC("spring_MVC"),
-
-    // struts2框架
-    STRUTS2("struts2"),
-
-    // bootstrap框架
-    BOOTSTRAP("bootstrap");
-
-    public static void addTemplates(TaskEntity taskEntity) {
-        taskEntity.getTemplates().clear();
-
-        // 表中主键数量
-        int keyNum = taskEntity.getFrame().getKeyNum();
-        // 项目框架
-        FrameEnum projectFrame = taskEntity.getFrame().getProjectFrame();
-        // 底层框架
-        FrameEnum serviceFrame = taskEntity.getFrame().getServiceFrame();
-        // 数据访问层框架
-        FrameEnum repositoryFrame = taskEntity.getFrame().getRepositoryFrame();
-        // 控制层框架
-        FrameEnum controllerFrame = taskEntity.getFrame().getControllerFrame();
-        // 显示层框架
-        FrameEnum h5Frame = taskEntity.getFrame().getH5Frame();
-
-        if(keyNum > 1) {
-            taskEntity.getTemplates().add(TemplateEnum.ENTITY_PK);
-        } else if(keyNum < 1 && repositoryFrame == HIBERNATE) {
-            return ;
-        }
-
-        taskEntity.getTemplates().add(TemplateEnum.LOG);
-        if(projectFrame == MAVEN) {
-            taskEntity.getTemplates().add(TemplateEnum.POM);
-        }
-
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_VALIDATE);
-        taskEntity.getTemplates().add(TemplateEnum.UTIL_PAGE_INFO);
-        if(repositoryFrame == MYBATIS) {
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_ENTITY);
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_DAO);
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_MAPPER);
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE);
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_SERVICE_IMPL);
-            taskEntity.getTemplates().add(TemplateEnum.MYBATIS_TEST);
-        } else if(repositoryFrame == HIBERNATE) {
-            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ENTITY);
-            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE);
-            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_SERVICE_IMPL);
-            taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_TEST);
-        }
-
-        if(serviceFrame == SPRING) {
-            taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG_TEST);
-            if(repositoryFrame == MYBATIS) {
-                taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG_TEST);
-            }else if(repositoryFrame == HIBERNATE) {
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_CONFIG_TEST);
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ABSTRACT);
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_ABSTRACT_IMPL);
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_REPOSITORY);
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_REPOSITORY_IMPL);
-            }
-        } else if(serviceFrame == SPRING_BOOT) {
-            if(repositoryFrame == HIBERNATE) {
-                taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_DAO);
-            }
-            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_TEST);
-            taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES_TEST);
-        }
-
-        if(controllerFrame != null) {
-            taskEntity.getTemplates().add(TemplateEnum.REQUEST);
-            taskEntity.getTemplates().add(TemplateEnum.UTIL_RESPONSE);
-            if(serviceFrame == SPRING) {
-                taskEntity.getTemplates().add(TemplateEnum.WEB);
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONFIG);
-                if(repositoryFrame == MYBATIS) {
-                    taskEntity.getTemplates().add(TemplateEnum.MYBATIS_CONFIG);
-                }else if(repositoryFrame == HIBERNATE) {
-                    taskEntity.getTemplates().add(TemplateEnum.HIBERNATE_CONFIG);
-                }
-            }else if(serviceFrame == SPRING_BOOT) {
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION);
-                taskEntity.getTemplates().add(TemplateEnum.APPLICATION_PROPERTIES);
-            }
-            if (controllerFrame == SPRING_MVC) {
-                taskEntity.getTemplates().add(TemplateEnum.SPRING_CONTROLLER);
-                if(serviceFrame == SPRING) {
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_MVC);
-                }
-            }
-            if(h5Frame == BOOTSTRAP) {
-                if(serviceFrame == SPRING) {
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_HTML);
-                    taskEntity.getTemplates().add(TemplateEnum.SPRING_JS);
-                } else if(serviceFrame == SPRING_BOOT) {
-                    taskEntity.getTemplates().add(TemplateEnum.SPRINGBOOT_HTML);
-                    taskEntity.getTemplates().add(TemplateEnum.SPRINGBOOT_JS);
-                }
-            }
-        }
+    /**
+     * 构建工具
+     */
+    enum Project implements FrameEnum {
+        // 普通引用jar包方式。
+        JAR,
+        // 以project object model (POM)概念来管理项目。
+        MAVEN,
+        // Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的项目管理工具软件。
+        GRADLE;
     }
 
-    String frame;
+    /**
+     * 设计层面框架
+     */
+    enum Service implements FrameEnum {
+        // 解决的是业务逻辑层和其他各层的松耦合问题。
+        SPRING,
+        // 简化新Spring应用的初始搭建以及开发过程。
+        SPRING_BOOT;
+    }
 
-    FrameEnum(String frame) {
-        this.frame = frame;
+    /**
+     * 数据层框架
+     */
+    enum Dao implements FrameEnum {
+        // 对象关系映射框架，自动生成SQL。
+        HIBERNATE,
+        // 使用简单的 XML 或注解来配置和映射原生信息。
+        MYBATIS;
+    }
+
+    /**
+     * 页面控制层框架
+     */
+    enum Controller implements FrameEnum {
+        // 构建 Web 应用程序的全功能 MVC 模块。
+        SPRING_MVC,
+        // 建立模型与视图的数据交互，本质上相当于一个servlet。
+        STRUTS_2;
+    }
+
+    /**
+     * 页面展示层框架
+     */
+    enum Web implements FrameEnum {
+        // 基于HTML、CSS、JavaScript 开发的简洁、直观、强悍的前端开发框架。
+        BOOTSTRAP,
+        // 最为核心的是：MVW（Model-View-Whatever）、模块化、自动化双向数据绑定、语义化标签、依赖注入等等。
+        ANGULAR,
+        // 特点：声明式设计、高效、灵活等等。
+        REACT,
+        // 构建用户界面的渐进式框架。通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件。
+        VUE;
     }
 
 }

@@ -117,20 +117,20 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
             }
             if (taskEntity.getFrame() == null) {
                 FrameEntity frameEntity = new FrameEntity();
-                frameEntity.setProjectFrame(FrameEnum.MAVEN);
-                frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
-                frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+                frameEntity.setProjectFrame(FrameEnum.Project.MAVEN);
+                frameEntity.setServiceFrame(FrameEnum.Service.SPRING_BOOT);
+                frameEntity.setRepositoryFrame(FrameEnum.Dao.MYBATIS);
                 taskEntity.setFrame(frameEntity);
             } else {
                 FrameEntity frameEntity = taskEntity.getFrame();
                 if(frameEntity.getProjectFrame() == null) {
-                    frameEntity.setProjectFrame(FrameEnum.MAVEN);
+                    frameEntity.setProjectFrame(FrameEnum.Project.MAVEN);
                 }
                 if(frameEntity.getServiceFrame() == null) {
-                    frameEntity.setServiceFrame(FrameEnum.SPRING_BOOT);
+                    frameEntity.setServiceFrame(FrameEnum.Service.SPRING_BOOT);
                 }
                 if(frameEntity.getRepositoryFrame() == null) {
-                    frameEntity.setRepositoryFrame(FrameEnum.MYBATIS);
+                    frameEntity.setRepositoryFrame(FrameEnum.Dao.MYBATIS);
                 }
             }
             if (taskEntity.getDatebase() == null) {
@@ -153,7 +153,7 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
 
     @Override
     public Boolean addMobile(T taskEntity) {
-        FrameEnum.addTemplates(taskEntity);
+        FrameEntity.addTemplates(taskEntity);
         return true;
     }
 
@@ -277,9 +277,9 @@ public abstract class BaseTaskServiceImpl<T extends TaskEntity> implements BaseT
         if(frameEntity.getH5Frame() != null) {
             String fromPath = System.getProperty("user.dir")+"/code/WEB-INF";
             String toPath = System.getProperty("user.dir")+"/code/maven/"+taskEntity.getProjectName()+"/src/main/";
-            if(frameEntity.getServiceFrame() == FrameEnum.SPRING_BOOT) {
+            if(frameEntity.getServiceFrame() == FrameEnum.Service.SPRING_BOOT) {
                 toPath += "resources/WEB-INF";
-            } else if(frameEntity.getServiceFrame() == FrameEnum.SPRING) {
+            } else if(frameEntity.getServiceFrame() == FrameEnum.Service.SPRING) {
                 toPath += "webapp/WEB-INF";
             }
             FileUtil.copyDirectory(fromPath, toPath);
