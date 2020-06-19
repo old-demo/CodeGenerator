@@ -100,7 +100,7 @@
         UPDATE $!{tableName}
         <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-          <if test="item.$!{field.entityName} != null ">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
+          <if test="item.$!{field.entityName} != null  #if($!{field.type} == "Date") #else and item.$!{field.entityName} !='' #end">, $!{field.columnName}=#{item.$!{field.entityName}}</if>
 #end
         </trim>
         <where>
@@ -118,7 +118,7 @@
           $!{tableName}
         <trim prefix="SET" prefixOverrides=",">
 #foreach ($!{field} in $!{fields})
-          <if test="$!{field.entityName} != null">, $!{field.columnName}=#{$!{field.entityName}}</if>
+          <if test="$!{field.entityName} != null #if($!{field.type} == "Date") #else and item.$!{field.entityName} !='' #end">, $!{field.columnName}=#{$!{field.entityName}}</if>
 #end
         </trim>
         <where>

@@ -92,7 +92,7 @@ public class $!{className}ServiceImpl implements $!{className}Service {
 #if($keyFields.size() > 0)
     @Override
     public int update$!{className}ByKey($!{className} $!{entityName}) {
-        boolean param = ValidateUtil.validateParameter($!{entityName}#foreach ($!{field} in $!{notNullfields}), "$!{field.entityName}"#end);
+        boolean param = ValidateUtil.validateParameter($!{entityName}#foreach ($!{field} in $!{keyFields}), "$!{field.entityName}"#end);
         if(!param) {
             return 0;
         }
